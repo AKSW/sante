@@ -144,11 +144,11 @@ Run ```mvn package``` at the ```sante.smile``` base directory:
 mvn package
 ...
 [INFO] Packaging webapp
-[INFO] Assembling webapp [sante.smile] in [D:\emarx\repositories\sante\sante.smile\target\sante.smile-0.0.1-SNAPSHOT]
+[INFO] Assembling webapp [sante.smile] in [...\sante.smile\target\sante.smile-0.0.1-SNAPSHOT]
 [INFO] Processing war project
-[INFO] Copying webapp resources [D:\emarx\repositories\sante\sante.smile\src\main\webapp]
+[INFO] Copying webapp resources [...\sante.smile\src\main\webapp]
 [INFO] Webapp assembled in [356 msecs]
-[INFO] Building war: D:\emarx\repositories\sante\sante.smile\target\sante.smile-0.0.1-SNAPSHOT.war
+[INFO] Building war: ...\sante.smile\target\sante.smile-0.0.1-SNAPSHOT.war
 [INFO] WEB-INF\web.xml already added, skipping
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
