@@ -36,8 +36,10 @@ To create the index you will first need to index your data in a triple store of 
 java -jar sante.jar index -endpoint <endpoint> -path <path>
 ```
 whereas:
-   <endpoint> is the sparql endpoint.
-	 <path>	target index directory.
+  
+  <endpoint> stands for the sparql endpoint.
+	 
+  <path>     stands for the target index directory.
 
 ### Running SANTé
 1) Download one of the availabes SANTé runnable jar file.
@@ -50,11 +52,11 @@ java -jar sante.jar server -war <smile.war> -path <path> [-port <port>]
 ```
 whereas:
 
-      <war> stands for smile war file
+      <war>  stands for smile war file.
 	
-      <path> stands for the target index directory
+      <path> stands for the target index directory.
  
-      <port> stands for the server publishing port (default 8080)
+      <port> stands for the server publishing port (default 8080).
 
 
 ### Starting sante.smile using Jetty
