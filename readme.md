@@ -34,7 +34,7 @@ Download the jar here [https://github.com/AKSW/KBox/releases](https://github.com
 and run the following command:
 
 ```
-java -jar kbox-v0.0.1-alpha3-RC16.jar -server -kb "http://xmlns.com/foaf/0.1,https://www.w3.org/2000/01/rdf-schema,https://www.w3.org/2000/01/rdf-schema,http://www.w3.org/2002/07/owl,http://www.w3.org/1999/02/22-rdf-syntax-ns" -install
+java -jar kbox-v0.0.1-alpha3-RC16.jar -server -kb "http://xmlns.com/foaf/0.1,https://www.w3.org/2000/01/rdf-schema,http://www.w3.org/2002/07/owl,http://www.w3.org/1999/02/22-rdf-syntax-ns" -install
 Loading Model...
 Publishing service on http://localhost:8080/kbox/query
 Service up and running ;-) ...
