@@ -118,7 +118,7 @@ mvn jetty:run
 [WARNING] The POM for commons-collections:commons-collections:jar:3.2.2 is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details
 ```
 
-### Create sante.main runnable jar file 
+### Creating SANTé runnable jar file 
 
 Run ```mvn package``` at the ```sante.main``` base directory:
 ```
@@ -137,7 +137,7 @@ mvn package
 ```
 The runnable jar file will be generated at ```sante.main/target/sante.main-0.0.1-SNAPSHOT-jar-with-dependencies.jar```
 
-### Create sante.smile WAR file 
+### Creating SANTé smile WAR file 
 
 Run ```mvn package``` at the ```sante.smile``` base directory:
 ```
