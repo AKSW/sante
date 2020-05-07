@@ -136,3 +136,25 @@ mvn package
 [INFO] ------------------------------------------------------------------------
 ```
 The runnable jar file will be generated at ```sante.main/target/sante.main-0.0.1-SNAPSHOT-jar-with-dependencies.jar```
+
+### Create sante.smile WAR file 
+
+Run ```mvn package``` at the ```sante.smile``` base directory:
+```
+mvn package
+...
+[INFO] Packaging webapp
+[INFO] Assembling webapp [sante.smile] in [D:\emarx\repositories\sante\sante.smile\target\sante.smile-0.0.1-SNAPSHOT]
+[INFO] Processing war project
+[INFO] Copying webapp resources [D:\emarx\repositories\sante\sante.smile\src\main\webapp]
+[INFO] Webapp assembled in [356 msecs]
+[INFO] Building war: D:\emarx\repositories\sante\sante.smile\target\sante.smile-0.0.1-SNAPSHOT.war
+[INFO] WEB-INF\web.xml already added, skipping
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  5.772 s
+[INFO] Finished at: 2020-05-07T23:42:36+02:00
+[INFO] ------------------------------------------------------------------------
+```
+The smile WAR file will be generated at ```sante.smile/target/sante.smile-0.0.1-SNAPSHOT.war```
