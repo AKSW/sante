@@ -62,7 +62,7 @@ Download the WAR here [https://github.com/AKSW/sante/releases][https://github.co
 java -jar sante.jar server -war smile.war -path \foaf_kg
 ```
 
-If you executed all the steps above correctly, now you should be able to access SANTé at [http://localhost:8080][http://localhost:8080].
+If you executed all the steps above correctly, now you should be able to access SANTé at [http://localhost:8080](http://localhost:8080).
 
 ### Creating an index
 Creating an index is pretty much streigh forward, you can do it via code or command line.
