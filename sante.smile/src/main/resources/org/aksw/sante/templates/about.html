@@ -1,0 +1,61 @@
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+	 <!-- import Google font -->
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'/>
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	
+    <title>Hello, world!</title>
+  </head>
+  <body>
+		<div class="panel panel-default" style="margin-bottom: 0px;">
+			<div class="panel-body">				
+				  <div style="font-size:8px;"><a href="${entity.uri}" target="_blank">${entity.uri}</a></div>
+				  <div class="caption">
+					<h3>${entity.label}</h3>
+					<p>${entity.description}</p>
+				  </div>
+				  <div>
+					<table class="table table-snippet">
+						<tr>
+							<td class="label-column-result">Repository:</td>
+							<td class="value-column-result">
+								<a href="${entity.repo}" target="_blank">${entity.repo}</a>
+							</td>
+						</tr>
+						<tr>
+							<td class="label-column-result">Author:</td>
+							<td class="value-column-result">
+								<a href="${entity.author}" target="_blank">${entity.author}</a>
+							</td>
+						</tr>
+						<tr>
+							<td class="label-column-result">License:</td>
+							<td class="value-column-result">
+								<a href="${entity.license}" target="_blank">${entity.license}</a>
+							</td>
+						</tr>
+						<tr>
+							<td class="label-column-result">Issues:</td>
+							<td class="value-column-result">
+								<a href="${entity.issues}" target="_blank">${entity.issues}</a>
+							</td>
+						</tr>
+						<tr>
+							<td class="label-column-result">Twitter:</td>
+							<td class="value-column-result">
+								<a href="${entity.twitter}" target="_blank">${entity.twitter}</a>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		 </div>						
+  </body>
+</html>

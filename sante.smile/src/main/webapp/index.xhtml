@@ -1,0 +1,319 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:f="http://java.sun.com/jsf/core"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:p="http://primefaces.org/ui"
+xmlns:pe="http://primefaces.org/ui/extensions"
+>
+<h:head>
+    <title>SANTé</title>
+
+     <!-- Required meta tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    
+    <!-- import Google font -->
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'/>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+	<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+	
+	<!-- to top buttom -->
+	<link type="text/css" rel="stylesheet" href="./resources/style.css"/>
+	
+	<script data-pace-options='{ "ajax": true }' src="./resources/pace.js"></script>
+	
+	<script src="./resources/masonry.pkgd.min.js"></script>
+	
+	<script src="./resources/jquery.scrollToTop.js"></script>
+	
+	<script src="./resources/smile.js"></script>
+</h:head>
+<h:body>
+  <div class="modal fade" 
+    	id="basicExampleModal" 
+    	tabindex="-1" 
+    	role="dialog" 
+    	aria-labelledby="exampleModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-fluid" role="document">
+			<div class="modal-content">
+				<h:panelGroup id="itemDetailPanel">
+			    	<div class="modal-header no-border no-padding-bottom" 
+			    		style="box-shadow: 0 1px 1px rgba(0,0,0,.05);
+			    		padding-bottom: 0px;
+    					padding-top: 6px;">
+			    		<button type="button" class="close" data-dismiss="modal" style="margin-right:10px; float:right; font-size:32px;" aria-label="Close">
+			    			<i class="material-icons" style="font-size: 32px;">&#xe5cd;</i>
+			    		</button>
+			    		<button type="button" class="close" data-dismiss="modal" style="margin-right:10px; float:left; font-size:30px;" aria-label="Close">
+			    			<i class="material-icons" style="font-size: 32px;">&#xe5c4;</i>
+			    		</button>
+			    		<div style="text-align: center;font-size: x-small;">
+			    			<div>#{searchViewController.selectedEntry.uri}</div>
+			    			<div>#{searchViewController.selectedEntry.label}</div>
+			    		</div>				     	
+			      	</div>
+			      	<ol class="breadcrumb" style="margin: 4px 0px 4px 0px;font-size:smaller;border-radius: 0px;">
+				        	<ui:repeat var="entity" value="#{searchViewController.openEntities}">
+				        		<h:panelGroup rendered="#{entity.id != searchViewController.selectedEntryId}">
+									 <li>
+									 	<button type="button" class="btn btn-default btn-xs info-button" onclick="openEntry([{name:'id', value:'#{entity.id}'}])">#{entity.label}</button>
+									 </li>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{entity.id == searchViewController.selectedEntryId}">
+								 	<li class="active">#{entity.label}</li>
+								</h:panelGroup>
+							</ui:repeat>
+					</ol>
+					<div class="modal-body no-padding-bottom no-padding-top">
+						<div class="panel panel-default info-panel">
+							<div class="panel-body">
+								<h4 class="media-heading">#{searchViewController.selectedEntry.label}</h4>
+								<h6 class="media-heading"><a target="_blank" href="#{searchViewController.selectedEntry.uri}">#{searchViewController.selectedEntry.uri}</a></h6>
+								<h:panelGroup rendered="#{searchViewController.selectedEntry.available}">
+									<table class="table table-borderless">
+									  <tbody>
+									  	<tr>
+						  					<th colspan="2">
+						  						<div class="media">
+													<div class="media-body">
+														#{searchViewController.selectedEntry.description}
+													</div>
+													<h:panelGroup rendered="#{searchViewController.selectedEntry.hasImage}">					
+														<div class="media-right">
+															<img class="media-object"  
+    															src="#{searchViewController.selectedEntry.image}"
+    															alt="#{searchViewController.selectedEntry.label}"/>
+														</div>
+													</h:panelGroup>
+												</div>
+						  					</th>
+						  				</tr>
+									  	<ui:repeat var="literalProperty" value="#{searchViewController.selectedEntry.literalProperties}">
+									  	    <tr>
+										      <td class="label-column">
+										      		<button type="button" 
+										      		class="btn btn-default btn-xs info-button"
+										      		onclick="openEntry([{name:'id', value:'#{literalProperty.id}'}])">#{literalProperty.label}</button>:
+										      </td>
+										      <td class="value-column">
+										      	<ui:repeat var="object" value="#{literalProperty.objects}">
+											      	<h:panelGroup rendered="#{object.literal}">
+												      	<table>
+											  				<tbody>
+											  					<tr>
+											  						<td>		  							
+													      				#{object.label}								      				
+													      			</td>
+													      		</tr>
+													      	</tbody>
+													    </table>
+												    </h:panelGroup>
+												    <h:panelGroup  rendered="#{!object.literal &amp;&amp; object.id != searchViewController.selectedEntry.id}">
+								      					<button type="button"
+								      					class="btn btn-default btn-xs info-button"
+								      					onclick="openEntry([{name:'id', value:'#{object.id}'}])">#{object.label}</button>
+								      				</h:panelGroup>
+								      				<h:panelGroup rendered="#{!object.literal &amp;&amp; object.id == searchViewController.selectedEntry.id}">
+								      					<button type="button"
+								      					disabled="true"
+								      					class="btn btn-default btn-xs info-button"
+								      					onclick="openEntry([{name:'id', value:'#{object.id}'}])">#{object.label}</button>
+								      				</h:panelGroup>
+							      				</ui:repeat>
+										      </td>
+										    </tr>
+									    </ui:repeat>
+									  </tbody>
+									</table>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{!searchViewController.selectedEntry.available}">
+									<h1>Content not available :-(</h1>
+									<img style="width: 80%; max-width: 400px;" src="./resources/not_available.gif"/>
+								</h:panelGroup>
+			      			</div>
+			      		</div>
+			      </div>
+			      <div class="modal-footer no-border no-padding-top">
+			        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			      </div>
+				</h:panelGroup>
+			</div>
+		</div>
+	</div>
+  <nav class="navbar navbar-default no-margin-bottom no-border">
+  		  <h:panelGroup id="searchBar" styleClass="search-panel">		  
+				<p:inputText id="searchInputQuery" widgetVar="searchInputQuery"
+					value="#{searchViewController.inputTextQuery}"					
+					styleClass="form-control search-bar"
+					autocomplete="off"
+					style="
+						font-size: inherit;
+						height: inherit;
+						width: 100%;						
+						padding: 0px;
+						padding-left:85px;
+						margin: 0px;
+					    border-top: 0px;
+					    border-left: 0px;
+					    border-right: 0px;
+					 	background: white;
+					 	border-radius:0px;
+					 	padding-bottom: 15px;
+					 	padding-right: 110px;
+					 	padding-top:15px;">
+					<p:ajax
+						event="keyup"
+					    partialSubmit="true"
+						oncomplete="searchKeyUp(event);"/>
+				</p:inputText>
+				<p:watermark for="searchInputQuery" value="start typing... ;-)"/>
+				<p:focus for="searchInputQuery"/>					
+				<span class="glyphicon glyphicon-search" aria-hidden="true" style="margin: 20px 20px; position: absolute;color:darkcyan;"></span>
+				<h:panelGroup id="cleanToggle" style="position: absolute;
+    					right: 10px;
+    					top: 0px;">
+					<h:panelGroup rendered="#{!searchViewController.queryEmpty}">
+						<span class="badge" style="position: absolute; top:45px; right: 45px">#{searchViewController.totalHits} hits</span>
+							<p:commandButton partialSubmit="true" styleClass="glyphicon 
+							glyphicon-remove-circle 
+							cleanButton"
+									action="#{searchViewController.resetInputTextQuery}"
+									oncomplete="refresh();"
+									value=""
+									style="margin: 15px -70px;
+									position: absolute;
+									width: 30px;
+	   								height: 30px;
+									color:darksalmon;
+									background-color: transparent;
+									border: none;
+									border-radius: 50px;"
+									aria-hidden="true" 
+									update="searchBar"/>
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>
+		  <div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+			  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			  </button>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="navbar-collapse">
+			  <ul id="content-navbar" class="nav navbar-nav">
+				<li class="active"><a onclick="filter([{name:'id', value:'none'}]);refresh();">All<span class="sr-only">(current)</span></a></li>
+				<li><a onclick="filter([{name:'content', value:'entity'}]);refresh(); return false;">Entities</a></li>
+				<li><a onclick="filter([{name:'content', value:'ontology'}]);refresh(); return false;">Ontologies</a></li>
+				<li><a onclick="filter([{name:'content', value:'class'}]);refresh(); return false;">Classes</a></li>
+				<li><a onclick="filter([{name:'content', value:'property'}]);refresh(); return false;">Properties</a></li>
+			  </ul>
+			  <ul class="nav navbar-nav navbar-right">
+			  	<li id="content-about"><a onclick="display('about', !isActive('content-about'))">About</a></li>
+				<!-- li class="dropdown">
+				  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">English<span class="caret"></span></a>
+				  <ul class="dropdown-menu">
+					<li><a href="#">English</a></li>
+					<li><a href="#">German</a></li>
+					<li><a href="#">Latin</a></li>
+				  </ul>
+				</li-->
+			  </ul>
+			</div><!-- /.navbar-collapse -->
+		  </div><!-- /.container-fluid -->
+		</nav>
+		<div id="content" class="well content" style="border:0px; 
+						border-radius:0px;
+						margin-bottom:0px;
+						padding-top: 5px;
+						">
+			<div style="text-align:right;">
+				<div class="btn-group btn-group-toggle" data-toggle="buttons">
+				  <label class="btn btn-secondary active" onclick="layoutItems('masonry')">
+				    <input type="radio" name="options" id="option1" autocomplete="off"/>
+				    <span class="glyphicon glyphicon-th" aria-hidden="true"></span>
+				  </label>
+				  <label class="btn btn-secondary" onclick="layoutItems('line')">
+				    <input type="radio" name="options" id="option2" autocomplete="off"/>
+				    <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
+				  </label>
+				</div>
+			</div>
+			<div id="about" class="grid-item" style="display:none; max-width: 90%;">
+				<h:outputText value="#{searchViewController.about.snippet}" escape="false" />
+			</div>
+			<div id="container">
+				<div class="grid-sizer"></div>					  				
+			</div>
+			<div style="text-align:center;padding-top: 40px;">
+				<button type="button" id="loadMore" 
+				class="btn btn-default btn-sm" 
+				onclick="loadNewContent()" style="width:80%;
+				display:none;height: 40px;border-radius: 30px;">More</button>
+			</div>
+		</div>
+		<div style="padding: 30px;text-align:center;flex-direction: row;box-sizing: border-box;display: flex;">
+			<div style="width: 30%;">
+				<p>We would love to hear from you.</p>
+				<p>Contact Us.</p>
+				<div>
+					<a class="fa fa-github" href="https://github.com/AKSW/sante" target="_blank"></a>
+					<a class="fa fa-twitter" href="https://twitter.com/edgardmarx" target="_blank"></a>
+				</div>
+			</div>
+			<div style="width: 70%;">
+				<p>Made with love by <a href="http://emarx.org" target="_blank">Edgard Marx</a>.</p>
+				<p>License Creative Commons Attribution-NonCommercial-NoDerivs (CC BY-NC-ND)</p>
+				<p>SANTé 2020 all right reserved.</p>
+			</div> 
+		</div>
+		<h:panelGroup id="newContent" style="display:none;">
+			<ui:repeat var="entry" value="#{searchViewController.entityLazyModel}">
+		  		<div class="grid-item">
+					<h:outputText value="#{entry.snippet}" escape="false" />
+				</div>
+			</ui:repeat>
+	    </h:panelGroup>
+		<h:form style="display:none;">
+			<p:remoteCommand name="showEntry" 
+				actionListener="#{searchViewController.selectEntry}"
+				process=":itemDetailPanel" 
+				update=":itemDetailPanel"/>
+			<p:remoteCommand name="loadNewContent"
+				actionListener="#{searchViewController.nextPage}"
+				process=":newContent" update=":newContent"
+                oncomplete="handleLoadStop()"/> 
+			<p:remoteCommand name="openEntry"
+				actionListener="#{searchViewController.openEntry}" 
+				process=":itemDetailPanel"
+				update=":itemDetailPanel" />
+			<p:remoteCommand  name="resetPage"
+				actionListener="#{searchViewController.resetPage}"
+				process="@this"
+				update="@none"/>
+			<p:remoteCommand name="loadContent"
+				actionListener="#{searchViewController.loadContent}"
+				process=":newContent"
+				async="false"
+				oncomplete="handleLoadStop()"
+				update=":newContent"/>
+			<p:remoteCommand id="updateSearchBar" name="updateSearchBar" 
+				update=":cleanToggle"/>
+			<p:remoteCommand name="filter"
+			    process="@this"
+			    update="@none"
+				actionListener="#{searchViewController.filterContent}"
+				oncomplete="updateSearchBar();"/>/>
+		</h:form>
+</h:body>
+</html>

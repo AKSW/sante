@@ -1,0 +1,50 @@
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+	 <!-- import Google font -->
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'/>
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<script src="microbar.js"></script>
+    <title>Hello, world!</title>
+  </head>
+  <body>
+		<div class="panel selectable-item" 
+			onclick="showEntry([{name:'id', value:'${entity.id}'}])" 
+			data-toggle="modal" 
+			data-target="#basicExampleModal">
+			<div class="snippet-heading">
+				<div style="font-size:8px;"><a href="${entity.uri}" target="_blank">${entity.uri}</a></div>
+				<div>${entity.label}</div>			
+			</div>
+			<div>
+				<table class="table table-snippet">
+					<#list entity.literalProperties as property>
+						<tr>
+							<td class="label-column-result">${property.snippet}:</td>
+							<td class="value-column-result">
+								<#list property.objects as object>
+									<table>
+										<tbody>
+											<tr>
+												<td>				
+													${object.snippet}
+												</td>
+											</tr>			      		
+										</tbody>
+									</table>
+								</#list>
+							</td>
+						</tr>
+					</#list>
+				</table>
+			</div>
+			<div class="panel-footer snippet-footer"><a href="https://github.com/AKSW/sante/issues" target="_blank">report</a></div>
+		</div>						
+  </body>
+</html>

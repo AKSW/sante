@@ -1,0 +1,110 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>sante.smile</artifactId>
+  <packaging>war</packaging>
+  
+  <parent>
+    <groupId>org.aksw.sante</groupId>
+    <artifactId>parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+
+  <name>sante.smile</name>
+  <url>https://github.com/AKSW/sante</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.version>1.8</java.version>
+
+    <servlet.version>3.1.0</servlet.version>
+    <jsf.version>2.3.5</jsf.version>
+    <primefaces.version>7.0</primefaces.version>
+
+    <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+    <jetty-maven-plugin.version>9.4.8.v20171121</jetty-maven-plugin.version>
+  </properties>
+
+  <dependencies>
+    <!-- Servlet -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>${servlet.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <!-- JSF -->
+    <dependency>
+    <groupId>org.apache.myfaces.core</groupId>
+    <artifactId>myfaces-api</artifactId>
+    <version>${jsf.version}</version>
+	</dependency>
+    <dependency>
+	    <groupId>org.apache.myfaces.core</groupId>
+	    <artifactId>myfaces-impl</artifactId>
+	    <version>${jsf.version}</version>
+	</dependency>
+    <!-- PrimeFaces -->
+    <dependency>
+      <groupId>org.primefaces</groupId>
+      <artifactId>primefaces</artifactId>
+      <version>${primefaces.version}</version>
+    </dependency>
+    <!-- Sante -->
+    <dependency>
+	    <groupId>org.freemarker</groupId>
+	    <artifactId>freemarker</artifactId>
+	    <version>2.3.30</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.aksw.sante</groupId>
+	    <artifactId>sante.lucene</artifactId>
+	    <version>0.0.1-SNAPSHOT</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.aksw.sante</groupId>
+	    <artifactId>sante.core</artifactId>
+	    <version>0.0.1-SNAPSHOT</version>
+	</dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven-compiler-plugin.version}</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <!-- jetty-maven-plugin -->
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-maven-plugin</artifactId>
+        <version>${jetty-maven-plugin.version}</version>
+        <configuration>
+          <httpConnector>
+            <port>9090</port>
+          </httpConnector>
+          <webApp>
+            <contextPath>/</contextPath>
+          </webApp>
+        </configuration>
+      </plugin>
+    </plugins>    
+  </build>
+  <repositories>
+  	<repository>
+	    <id>Local Repository</id>
+	    <releases>
+	        <enabled>true</enabled>
+	        <checksumPolicy>ignore</checksumPolicy>
+	    </releases>
+	    <snapshots>
+	        <enabled>true</enabled>
+	        <checksumPolicy>ignore</checksumPolicy>
+	    </snapshots>
+	    <url>file://${project.basedir}/repo</url>
+	</repository>
+  </repositories>
+</project>
