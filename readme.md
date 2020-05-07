@@ -44,7 +44,7 @@ In case the SPARQL endpoint does not contain all necessary informaiton, SANTé w
 
 2) Download one of the availabes SANTé runnable jar files.
 
-Download the jar here [https://github.com/AKSW/sante/releases][https://github.com/AKSW/sante/releases] 
+Download the jar here [https://github.com/AKSW/sante/releases](https://github.com/AKSW/sante/releases)
 
 3) Create the index.
 
@@ -55,7 +55,7 @@ java -jar sante.jar index -endpoint http://localhost:8080/kbox/query -path \foaf
 
 4) Download one of the available smile WAR files (same version as the step 2).
 
-Download the WAR here [https://github.com/AKSW/sante/releases][https://github.com/AKSW/sante/releases] 
+Download the WAR here [https://github.com/AKSW/sante/releases](https://github.com/AKSW/sante/releases)
 
 5) Instatiate smile
 ```
