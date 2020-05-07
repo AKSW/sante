@@ -49,9 +49,12 @@ whereas:
 java -jar sante.jar server -war <smile.war> -path <path> [-port <port>]
 ```
 whereas:
-   <war> smile war file
-	 <path> target index directory
-	 <port> server publishing port (default 8080)
+
+      <war> stands for smile war file
+	
+      <path> stands for the target index directory
+ 
+      <port> stands for the server publishing port (default 8080)
 
 
 ### Starting sante.smile using Jetty
