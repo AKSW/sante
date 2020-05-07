@@ -21,7 +21,7 @@ You can use SANTé via command line or via a Web Interface available in our proj
 Following we discuss some of the basic functionalities to help you to instatiate your own SANTé instance in few steps.
 
 - [Creating an index](https://github.com/AKSW/sante#creating-an-index)
-- [Running SANTé](https://github.com/AKSW/sante#running-sante)
+- [Running SANTé](https://github.com/AKSW/sante/blob/master/readme.md#running-sant%C3%A9)
 
 ### Creating an index
 Creating an index is pretty much streigh forward, you can do it via code or command line.
