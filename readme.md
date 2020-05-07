@@ -34,11 +34,12 @@ Download the jar here [https://github.com/AKSW/KBox/releases](https://github.com
 and run the following command:
 
 ```
-java -jar kbox-v0.0.1-alpha3-RC16.jar -server -kb "http://xmlns.com/foaf/0.1,https://www.w3.org/2000/01/rdf-schema,http://www.w3.org/2002/07/owl,http://www.w3.org/1999/02/22-rdf-syntax-ns" -install
+java -jar kbox-vXXXX.jar -server -kb "http://xmlns.com/foaf/0.1,https://www.w3.org/2000/01/rdf-schema,http://www.w3.org/2002/07/owl,http://www.w3.org/1999/02/22-rdf-syntax-ns" -install
 Loading Model...
 Publishing service on http://localhost:8080/kbox/query
 Service up and running ;-) ...
 ```
+You can now access and query your knowledge graph at [http://localhost:8080](http://localhost:8080).
 Notice that in the example above we also include RDFS, RDF and OWL ontologies, that's because we need their information for correctly instatiate FOAF ontology.
 In case the SPARQL endpoint does not contain all necessary informaiton, SANTé will not be capable of retrieving or searching for it and will display the information as ```Unavailable```.
 
@@ -50,7 +51,7 @@ Download the jar here [https://github.com/AKSW/sante/releases](https://github.co
 
 Assuming that you successfully performed step 1, 
 ```
-java -jar sante.jar index -endpoint http://localhost:8080/kbox/query -path \foaf_kg
+java -jar sante-vXXX.jar index -endpoint http://localhost:8080/kbox/query -path \foaf_kg
 ```
 
 4) Download one of the available smile WAR files (same version as the step 2).
@@ -59,7 +60,7 @@ Download the WAR here [https://github.com/AKSW/sante/releases](https://github.co
 
 5) Instatiate smile
 ```
-java -jar sante.jar server -war smile.war -path \foaf_kg
+java -jar sante-vXXX.jar server -war sante-vXXX.war -path \foaf_kg
 ```
 
 If you correctly executed all the steps above, now you should be able to access SANTé at [http://localhost:8080](http://localhost:8080).
