@@ -101,7 +101,7 @@ where:
     <port> stands for the server publishing port (default 8080).
 
 
-### Starting sante.smile using Jetty
+### Starting ssmil using Jetty
 Run the following command at sante.smile base directory (the directory where the project pom is).
 Do not forget to point ```sante.smile``` to your index by changing the indexDir property locate at ```config.properties``` file in ```sante.smile/src/main/resources/``` directory.
 
