@@ -20,8 +20,49 @@ You can use SANTé via command line or via SANTé Web Interface (smile).
 
 Following we discuss some of the basic functionalities to help you to instatiate your own SANTé instance in few steps.
 
+- [SANTé in 5 minutes](https://github.com/AKSW/sante/blob/master/readme.md#running-sant%C3%A9)
 - [Creating an index](https://github.com/AKSW/sante#creating-an-index)
 - [Running SANTé](https://github.com/AKSW/sante/blob/master/readme.md#running-sant%C3%A9)
+
+### SANTé in 5 minutes 
+
+In this 5 minutes tutorial we will help you to instatiate your first knowledge base search engine over FOAF ontology using KBox [1][https://github.com/AKSW/KBox].
+
+1) Download KBox and instatiate the FOAF knowledge graph.
+
+Download the jar here [https://github.com/AKSW/KBox/releases][https://github.com/AKSW/KBox/releases] 
+and run the following command:
+
+```
+java -jar kbox-v0.0.1-alpha3-RC16.jar -server -kb "http://xmlns.com/foaf/0.1,https://www.w3.org/2000/01/rdf-schema,https://www.w3.org/2000/01/rdf-schema,http://www.w3.org/2002/07/owl,http://www.w3.org/1999/02/22-rdf-syntax-ns" -install
+Loading Model...
+Publishing service on http://localhost:8080/kbox/query
+Service up and running ;-) ...
+```
+Notice that in the example above we also include RDFS, RDF and OWL ontologies, that's because we need their information for correctly instatiate FOAF ontology.
+In case the SPARQL endpoint does not contain all necessary informaiton, SANTé will not be capable of retrieving or searching for it and will display the information as ```Unavailable```.
+
+2) Download one of the availabes SANTé runnable jar files.
+
+Download the jar here [https://github.com/AKSW/sante/releases][https://github.com/AKSW/sante/releases] 
+
+3) Create the index.
+
+Assuming that you successfully performed step 1, 
+```
+java -jar sante.jar index -endpoint http://localhost:8080/kbox/query -path \foaf_kg
+```
+
+4) Download one of the available smile WAR files (same version as the step 2).
+
+Download the WAR here [https://github.com/AKSW/sante/releases][https://github.com/AKSW/sante/releases] 
+
+5) Instatiate smile
+```
+java -jar sante.jar server -war smile.war -path \foaf_kg
+```
+
+If you executed all the steps above correctly, now you should be able to access SANTé at [http://localhost:8080][http://localhost:8080].
 
 ### Creating an index
 Creating an index is pretty much streigh forward, you can do it via code or command line.
@@ -35,7 +76,7 @@ To create the index you will first need to index your data in a triple store of 
 ```
 java -jar sante.jar index -endpoint <endpoint> -path <path>
 ```
-whereas:
+where:
   
     <endpoint> stands for the sparql endpoint.
 	 
@@ -50,7 +91,7 @@ whereas:
 ```
 java -jar sante.jar server -war <smile.war> -path <path> [-port <port>]
 ```
-whereas:
+where:
 
     <war>  stands for smile war file.
 	
