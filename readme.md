@@ -1,9 +1,7 @@
 
 
 ```
-@inproceedings{marx/starpath/smart/mtsr/2016,
-  added-at = {2020-05-04T15:15:21.000+0200},
-  address = {Cham},
+@inproceedings{marx/starpath/sante/mtsr/2016,
   author = {Marx, Edgard and H{\"o}ffner, Konrad and Shekarpour, Saeedeh and Ngomo, Axel-Cyrille Ngonga and Lehmann, Jens and Auer, S{\"o}ren},
   booktitle = {Metadata and Semantics Research: 10th International Conference, MTSR 2016, G{\"o}ttingen, Germany, November 22-25, 2016, Proceedings},
   doi = {10.1007/978-3-319-49157-8_22},
