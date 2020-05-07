@@ -117,3 +117,22 @@ mvn jetty:run
 [INFO] >>> jetty-maven-plugin:9.4.8.v20171121:run (default-cli) > test-compile @ sante.smile >>>
 [WARNING] The POM for commons-collections:commons-collections:jar:3.2.2 is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details
 ```
+
+### Create sante.main runnable jar file 
+
+Run ```mvn package``` at the ```sante.main``` base directory:
+```
+mvn package
+...
+[INFO] org/apache/lucene/analysis/ already added, skipping
+[INFO] org/apache/lucene/analysis/standard/ already added, skipping
+[INFO] META-INF/LICENSE.txt already added, skipping
+[INFO] META-INF/NOTICE.txt already added, skipping
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  43.329 s
+[INFO] Finished at: 2020-05-07T23:31:50+02:00
+[INFO] ------------------------------------------------------------------------
+```
+The runnable jar file will be generated at ```sante.main/target/sante.main-0.0.1-SNAPSHOT-jar-with-dependencies.jar```
