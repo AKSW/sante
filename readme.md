@@ -61,6 +61,13 @@ Download the WAR here [https://github.com/AKSW/sante/releases](https://github.co
 5) Instatiate smile
 ```
 java -jar sante-vXXX.jar server -war sante-vXXX.war -path \foaf_kg -port 9090
+[main] INFO org.eclipse.jetty.util.log - Logging initialized @150ms to org.eclipse.jetty.util.log.Slf4jLog
+[main] INFO org.eclipse.jetty.server.Server - jetty-9.4.z-SNAPSHOT, build timestamp: 2017-11-21T22:27:37+01:00, git hash: 82b8fb23f757335bb3329d540ce37a2a2615f0a8
+[main] INFO org.eclipse.jetty.server.session - DefaultSessionIdManager workerName=node0
+[main] INFO org.eclipse.jetty.server.session - No SessionScavenger set, using defaults
+[main] INFO org.eclipse.jetty.server.session - Scavenging every 660000ms
+May 09, 2020 9:25:16 AM org.apache.myfaces.config.DefaultFacesConfigurationProvider getStandardFacesConfig
+...
 ```
 
 If you correctly executed all the steps above, now you should be able to access SANTé at [http://localhost:9090](http://localhost:9090).
@@ -100,24 +107,6 @@ where:
  
     <port> stands for the server publishing port (default 8080).
 
-
-### Starting smile using Jetty
-Run the following command at sante.smile base directory (the directory where the project pom is).
-Do not forget to point ```sante.smile``` to your index by changing the indexDir property locate at ```config.properties``` file in ```sante.smile/src/main/resources/``` directory.
-
-```
-mvn jetty:run
-
-[INFO] Scanning for projects...
-[INFO]
-[INFO] ---------------------< org.aksw.sante:sante.smile >---------------------
-[INFO] Building sante.smile 0.0.1-SNAPSHOT
-[INFO] --------------------------------[ war ]---------------------------------
-[INFO]
-[INFO] >>> jetty-maven-plugin:9.4.8.v20171121:run (default-cli) > test-compile @ sante.smile >>>
-[WARNING] The POM for commons-collections:commons-collections:jar:3.2.2 is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details
-```
-
 ### Creating SANTé runnable jar file 
 
 Run ```mvn package``` at the ```sante.main``` base directory:
@@ -139,7 +128,7 @@ The runnable jar file will be generated at ```sante.main/target/sante.main-0.0.1
 
 ### Creating SANTé smile WAR file 
 
-Run ```mvn package``` at the ```sante.smile``` base directory:
+Run ```mvn war:war``` at the ```sante.smile``` base directory:
 ```
 mvn package
 ...
