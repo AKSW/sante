@@ -6,12 +6,14 @@ import org.aksw.sante.entity.Entity;
 import org.aksw.sante.entity.Literal;
 import org.aksw.sante.entity.LiteralObject;
 import org.aksw.sante.entity.Property;
+import org.apache.jena.query.ARQ;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.sparql.engine.http.QueryEngineHTTP;
+import org.apache.jena.sys.JenaSystem;
 
 public class SPARQLResultSetEntityIterator {
 	
@@ -25,6 +27,8 @@ public class SPARQLResultSetEntityIterator {
 		this.query = query;
 		this.graph = graph;
 		this.limit = limit;
+		JenaSystem.init(); // Jena needs to be initialized before being used
+		ARQ.init();
 	}
 	
 	public void accept(ResultSetVisitor<Entity> visitor) {

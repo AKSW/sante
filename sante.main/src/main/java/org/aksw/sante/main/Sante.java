@@ -1,11 +1,15 @@
 package org.aksw.sante.main;
 
+import org.apache.log4j.BasicConfigurator;
+
 public class Sante {
 	public static void main(String[] args) throws Exception {
+		BasicConfigurator.configure();
 		Command measuresOption = new IndexCommand();
-		Command datasetsOption = new SearchCommand();
+		Command searchOption = new SearchCommand();
+		Command serverOption = new ServerCommand();
 		CommandFactory factory = new CommandFactory(measuresOption, 
-				datasetsOption);
+				searchOption, serverOption);
 		Command option = factory.getCommand(args);
 		if(option == null) {
 			help();
