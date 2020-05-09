@@ -41,18 +41,9 @@
       </plugin>
     </plugins>
   </build>
-
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
   <modules>
-    <module>sante.main</module>
+  	<module>sante.core</module>
 	<module>sante.smile</module>
-	<module>sante.core</module>
+	<module>sante.main</module>
   </modules>
 </project>
