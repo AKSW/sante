@@ -111,7 +111,7 @@ where:
 
 Run ```mvn package``` at the ```sante.main``` base directory:
 ```
-mvn package
+...\sante.main\mvn package
 ...
 [INFO] org/apache/lucene/analysis/ already added, skipping
 [INFO] org/apache/lucene/analysis/standard/ already added, skipping
@@ -130,7 +130,7 @@ The runnable jar file will be generated at ```sante.main/target/sante.main-0.0.1
 
 Run ```mvn war:war``` at the ```sante.smile``` base directory:
 ```
-mvn package
+...\sante.smile\mvn war:war
 ...
 [INFO] Packaging webapp
 [INFO] Assembling webapp [sante.smile] in [...\sante.smile\target\sante.smile-0.0.1-SNAPSHOT]
