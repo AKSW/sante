@@ -67,7 +67,7 @@ public class IndexedEntityWrapper extends AbstractEntityWrapper implements Seria
 	
 	public String getLabel() {
 		if(label == null) {
-			label = entity.getPropertyObjectValue(labelingProperties, "Undefined");
+			label = entity.getPropertyObjectValue(labelingProperties, entity.getURI());
 		}
 		return label;
 	}
@@ -122,7 +122,7 @@ public class IndexedEntityWrapper extends AbstractEntityWrapper implements Seria
 		for(String propertyURI : entity.getPropertyURIs()) {
 			if(!hidePropertyList.contains(propertyURI)) {
 				List<Property> properties = entity.getProperties(propertyURI);
-				PropertyWrapper propertyWrapper = new PropertyWrapper(properties, "Undefined", "", "en", null);
+				PropertyWrapper propertyWrapper = new PropertyWrapper(properties, propertyURI, "", "en", null);
 				relProperties.add(propertyWrapper);
 			}
 		}

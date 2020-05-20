@@ -19,7 +19,7 @@ public class PropertyWrapper extends ResourceWrapper implements Serializable {
 	private Set<Literal> labels = null;
 
 	public PropertyWrapper(Property[] properties, String defaultLabel, String... langs) {
-		super(properties[0].getURI(), properties[0].getLabel(langs, defaultLabel));
+		super(properties[0].getURI(), properties[0].getLabel(langs, properties[0].getURI()));
 		this.labels = properties[0].getLabels();
 		this.objects = new ArrayList<ObjectWrapper>();
 		for(Property property : properties) {

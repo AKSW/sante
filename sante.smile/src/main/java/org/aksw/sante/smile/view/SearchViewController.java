@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -26,6 +27,7 @@ import org.aksw.sante.smile.core.ResourceWrapper;
 import org.aksw.sante.smile.core.SmileParams;
 import org.aksw.sante.smile.core.StructuredSnippetGeneartor;
 import org.aksw.sante.smile.core.UnavailableEntityWrapper;
+import org.primefaces.json.JSONArray;
 import org.sante.lucene.EntityVisitor;
 import org.sante.lucene.ResultSet;
 import org.sante.lucene.SanteEngine;
@@ -38,36 +40,41 @@ public class SearchViewController implements Serializable {
 	
 	/**
 	 * 
-	 */
-	private String[] labelingProperties = new String[]{"http://www.w3.org/2000/01/rdf-schema#label", "http://purl.org/dc/elements/1.1/title"};
-	private String[] imageProperties = new String[]{"http://xmlns.com/foaf/0.1/Image"};
-	private String[] abstractProperties = new String[]{"http://www.w3.org/2000/01/rdf-schema#comment"};
-	private String[] relevancePropertyOrder = new String[]{""};
-	private String[] hideProperties = new String[]{""};
-	
-	
+	 */	
 	private static final long serialVersionUID = -2173739028408143306L;
+	
 	private Map<String, AbstractEntityWrapper> resultEntityMap = new HashMap<String, AbstractEntityWrapper>();
 	private Map<String, ResourceWrapper> detailResourceMap = new HashMap<String, ResourceWrapper>();
 	private List<AbstractEntityWrapper> entities = new ArrayList<AbstractEntityWrapper>();
+	
+	
+	private String[] labelingProperties = null;
+	private String[] imageProperties = null;
+	private String[] abstractProperties = null;
+	private String[] relevancePropertyOrder = null;
+	private String[] hidenProperties = null;
+	private String[] graphs = null;
+	
 	private long totalHits = 0;
-
 	private String inputTextQuery = "";
 	private int pageSize = 10;
 	private int page = 0;
-	private String indexDir;
+	private String indexDir = null;
 	private String selectedEntryId = "";
 	private String contentFilter = null;
 	private AbstractEntityWrapper selectedEntry = null;
 	private List<AbstractEntityWrapper> openEntities = new ArrayList<AbstractEntityWrapper>();
-	private Map<String, String> classMap = new HashMap<String, String>();
-	{
+	private Map<String, String> classMap = new HashMap<String, String>(); {
 		classMap.put("class", "CLASS");
 		classMap.put("entity", "ENTITY");
 		classMap.put("ontology", "ONTOLOGY");
 		classMap.put("property", "PROPERTY");
 	}
 
+	public SearchViewController() {
+		loadProperties();
+	}
+	
 	public String getInputTextQuery() {
 		return inputTextQuery;
 	}
@@ -96,7 +103,7 @@ public class SearchViewController implements Serializable {
 	}
 	
 	public AbstractEntityWrapper getAbout() throws IOException, 
-								TemplateException, 
+								TemplateException,
 								URISyntaxException {
 		SanteEngine searchEngine = new SanteEngine();
 		StructuredSnippetGeneartor snippetGenerator = new StructuredSnippetGeneartor();
@@ -106,9 +113,10 @@ public class SearchViewController implements Serializable {
 				imageProperties,
 				abstractProperties,
 				relevancePropertyOrder,
-				hideProperties);
+				hidenProperties);
 		About aboutWrapper = new About(about);
-		entityWrapper.setSnippet(snippetGenerator.generate(inputTextQuery, aboutWrapper));
+		entityWrapper.setSnippet(snippetGenerator.generate(inputTextQuery,
+				aboutWrapper));
 		return entityWrapper;
 	}
 
@@ -121,7 +129,6 @@ public class SearchViewController implements Serializable {
 		entities.clear();
 		try {
 			int offset = page * pageSize;
-			indexDir = getIndexDir();
 			File index = new File(indexDir);
 			Path indexPath = index.toPath();
 			try {
@@ -129,6 +136,9 @@ public class SearchViewController implements Serializable {
 				ArrayList<String> filters = new ArrayList<String>();
 				if(contentFilter != null) {
 					filters.add(contentFilter);
+				}
+				for(String graph : graphs) {
+					filters.add(graph);
 				}
 				StructuredSnippetGeneartor snippetGenerator = new StructuredSnippetGeneartor();
 				try(ResultSet result = searchEngine.search(inputTextQuery, offset, pageSize, filters);) {
@@ -141,7 +151,7 @@ public class SearchViewController implements Serializable {
 									imageProperties,
 									abstractProperties,
 									relevancePropertyOrder,
-									hideProperties);
+									hidenProperties);
 							entities.add(entityWrapper);
 							resultEntityMap.put(entityWrapper.getId(), entityWrapper);
 							entityWrapper.setSnippet(snippetGenerator.generate(inputTextQuery, entityWrapper));
@@ -210,12 +220,12 @@ public class SearchViewController implements Serializable {
 				Entity entity = searchEngine.getEntity(openEntryId);
 				if(entity != null) {
 					openEntry = new IndexedEntityWrapper(entity, 
-								labelingProperties,
-								imageProperties,
-								abstractProperties,
-								relevancePropertyOrder,
-								hideProperties
-							);
+						labelingProperties,
+						imageProperties,
+						abstractProperties,
+						relevancePropertyOrder,
+						hidenProperties
+					);
 					loadResources(openEntry);
 				} else {
 					ResourceWrapper resource = detailResourceMap.get(openEntryId);
@@ -248,6 +258,37 @@ public class SearchViewController implements Serializable {
 	public List<AbstractEntityWrapper> getOpenEntities() {
 		return openEntities;
 	}
+	
+	public void loadProperties() {
+		Properties properties = new Properties();
+		try (InputStream is = SearchViewController.class.getResourceAsStream("/config.properties");) {
+			properties.load(is);
+			indexDir = SmileParams.index;
+			if(indexDir == null) {
+				indexDir = properties.getProperty("index.dir");
+			}
+			hidenProperties = loadJSONArray("properties.hidden", properties);
+			imageProperties = loadJSONArray("properties.image", properties);
+			labelingProperties = loadJSONArray("properties.labeling", properties);
+			abstractProperties = loadJSONArray("properties.abstract", properties);
+			graphs = loadJSONArray("graphs", properties);
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	private String[] loadJSONArray(String property, Properties properties) {
+		String value = properties.getProperty(property);
+		if(value == null || value.isEmpty()) {
+			return new String[]{};
+		}
+		JSONArray valueArray = new JSONArray(value);
+		List<String> entries = new ArrayList<String>();
+		for(Object v : valueArray) {
+			entries.add(v.toString());
+		}
+		return entries.toArray(new String[entries.size()]);
+	}
 
 	public String getIndexDir() {
 		String indexPath = SmileParams.index; 
@@ -257,7 +298,7 @@ public class SearchViewController implements Serializable {
 				// load a properties file
 				prop.load(is);
 				// get the property value and print it out
-				indexPath = prop.getProperty("indexDir");
+				indexPath = prop.getProperty("index.dir");
 			} catch (IOException ex) {
 				ex.printStackTrace();
 			}
