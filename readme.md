@@ -1,5 +1,7 @@
 
 
+<img src="https://github.com/AKSW/sante/raw/master/sante.gif" width="600" height="420" />
+
 ```
 @inproceedings{marx/starpath/sante/mtsr/2016,
   author = {Marx, Edgard and H{\"o}ffner, Konrad and Shekarpour, Saeedeh and Ngomo, Axel-Cyrille Ngonga and Lehmann, Jens and Auer, S{\"o}ren},
