@@ -22,9 +22,14 @@ You can use SANTé via command line or via SANTé Web Interface (smile).
 
 Following we discuss some of the basic functionalities to help you to instatiate your own SANTé instance in few steps.
 
+- [Showcases](https://github.com/AKSW/sante/blob/master/readme.md#showcases)
 - [SANTé in 5 minutes](https://github.com/AKSW/sante/blob/master/readme.md#sant%C3%A9-in-5-minutes)
 - [Creating an index](https://github.com/AKSW/sante#creating-an-index)
 - [Running SANTé](https://github.com/AKSW/sante/blob/master/readme.md#running-sant%C3%A9)
+
+### Showcases
+
+#### FOAF Ontology: http://141.57.11.86:9090/
 
 ### SANTé in 5 minutes 
 
