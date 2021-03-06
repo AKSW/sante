@@ -7,36 +7,88 @@
     <artifactId>parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-
+  <packaging>war</packaging>
   <name>sante.smile</name>
   <url>https://github.com/AKSW/sante</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.8</java.version>
-
-    <servlet.version>3.1.0</servlet.version>
+    <servlet.version>4.0.1</servlet.version>
     <jsf.version>2.3.5</jsf.version>
-    <primefaces.version>7.0</primefaces.version>
-
+    <primefaces.version>8.0</primefaces.version>
+    <open-pdf.version>1.3.14</open-pdf.version>
+    <owb.version>2.0.18</owb.version>
+    <hibernate-validator.version>6.1.1.Final</hibernate-validator.version>
     <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
-    <jetty-maven-plugin.version>9.4.8.v20171121</jetty-maven-plugin.version>
+    <jetty-maven-plugin.version>9.4.34.v20201102</jetty-maven-plugin.version>
   </properties>
-
   <dependencies>
     <!-- Servlet -->
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <version>${servlet.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-        <groupId>javax.websocket</groupId>
-        <artifactId>javax.websocket-api</artifactId>
-        <version>1.1</version>
-    </dependency>
-    <!-- JSF -->
+     <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>javax.el-api</artifactId>
+            <version>3.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.3.3</version>
+        </dependency>
+
+        <!-- JEE dependencies -->
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate-validator.version}</version>
+        </dependency>
+
+        <!-- CDI required APIs -->
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-atinject_1.0_spec</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-jcdi_2.0_spec</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-interceptor_1.2_spec</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-annotation_1.3_spec</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <!-- CDI Impl -->
+        <dependency>
+            <groupId>org.apache.openwebbeans</groupId>
+            <artifactId>openwebbeans-impl</artifactId>
+            <version>${owb.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.openwebbeans</groupId>
+            <artifactId>openwebbeans-web</artifactId>
+            <version>${owb.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.openwebbeans</groupId>
+            <artifactId>openwebbeans-jsf</artifactId>
+            <version>${owb.version}</version>
+        </dependency>
+    
     <dependency>
     <groupId>org.apache.myfaces.core</groupId>
     <artifactId>myfaces-api</artifactId>
@@ -54,6 +106,11 @@
       <version>${primefaces.version}</version>
     </dependency>
     <!-- Sante -->
+    <dependency>
+	    <groupId>org.json</groupId>
+	    <artifactId>json</artifactId>
+	    <version>20200518</version>
+	</dependency>
     <dependency>
 	    <groupId>org.freemarker</groupId>
 	    <artifactId>freemarker</artifactId>
@@ -88,17 +145,17 @@
         <version>${jetty-maven-plugin.version}</version>
         <configuration>
           <httpConnector>
-            <port>9090</port>
+            <port>9100</port>
           </httpConnector>
-          <webApp>
-            <contextPath>/</contextPath>
-          </webApp>
         </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
         <version>3.2.3</version>
+        <configuration>
+          <attachClasses>true</attachClasses>
+        </configuration>
       </plugin>
     </plugins>
   </build>

@@ -37,4 +37,19 @@ public class Property extends Resource implements Serializable {
 	public Object getObject() {
 		return value;
 	}
+	
+	public String asTriple(String subject) {
+		String triple =  escape(subject) + " " 
+				+ escape(getURI()) + " ";
+		if(this.value.isLiteral()) {
+			triple += this.value.getURI();
+		} else {
+			triple += escape(this.value.getURI()); 
+		}
+		return triple;
+	}
+	
+	private String escape(String uri) {
+		return "<" + uri + ">";
+	}
 }

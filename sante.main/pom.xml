@@ -33,6 +33,7 @@
 	    <groupId>org.aksw.sante</groupId>
 	    <artifactId>sante.smile</artifactId>
 	    <version>0.0.1-SNAPSHOT</version>
+	    <classifier>classes</classifier>
    </dependency>
   </dependencies>
   <build>

@@ -14,13 +14,16 @@ public class Entity extends Resource implements Serializable {
 
 	private HashMap<String, List<Property>> properties = new HashMap<String, List<Property>>();
 	private HashMap<String, Property> propertyObject = new HashMap<String, Property>();
-	
-	public Entity() {
-		super(null, null);
-	}
+	private Set<String> labelingProperties = null;
+	private static final String tripleEnding = " .";
 	
 	public Entity(String uri) {
 		super(uri);
+	}
+		
+	public Entity(String uri, Set<String> labelingProperties) {
+		super(uri);
+		this.labelingProperties = labelingProperties;
 	}
 	
 	public Entity(String uri, List<Literal> labels) {
@@ -49,6 +52,18 @@ public class Entity extends Resource implements Serializable {
 			}
 			uriProperties.add(p);
 			propertyObject.put(pObjectId, p);
+		}
+		if(labelingProperties != null && 
+				labelingProperties.contains(p.getURI())) {
+			o.accept(new ObjectVisitor() {				
+				@Override
+				public void visit(URIObject uriObject) {
+				}	
+				@Override
+				public void visit(Literal literalObject) {
+					addLabel(literalObject);
+				}
+			});
 		}
 	}
 
@@ -93,18 +108,48 @@ public class Entity extends Resource implements Serializable {
 		if(properties.containsKey(uri)) {
 			List<Property> properties = getProperties(uri);
 			Property p = properties.get(0);
-			LiteralObject object = (LiteralObject) p.getObject();
-			return object.getValue();
+			Object object = p.getObject();
+			if(object.isLiteral()) {
+				LiteralObject literal = (LiteralObject) object;
+				return literal.getValue();
+			} else {
+				return object.getURI();
+			}
 		}
 		return null;
 	}
 
 	public String getPropertyObjectValue(String[] uris, String defaultValue) {
-		for(String uri : uris) {
-			if(properties.containsKey(uri)) {
-				return getPropertyObjectValue(uri);
+		if(uris != null) {
+			for(String uri : uris) {
+				if(properties.containsKey(uri)) {
+					return getPropertyObjectValue(uri);
+				}
 			}
 		}
 		return defaultValue;
+	}
+	
+	public String asTriples() {
+		StringBuilder tripleBuilder = new StringBuilder();
+		List<Property> properties = getAllProperties();
+		for(Property p : properties) {
+			String triple = p.asTriple(getURI());
+			tripleBuilder.append(triple);
+			tripleBuilder.append(tripleEnding);
+			tripleBuilder.append(System.lineSeparator());
+		}
+		return tripleBuilder.toString();
+	}
+	
+	public String asJSON() {
+		StringBuilder tripleBuilder = new StringBuilder();
+		List<Property> properties = getAllProperties();
+		for(Property p : properties) {
+			String triple = p.asTriple(getURI());
+			tripleBuilder.append(triple);
+			tripleBuilder.append(System.lineSeparator());
+		}
+		return tripleBuilder.toString();
 	}
 }

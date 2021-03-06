@@ -24,7 +24,7 @@ public class Server extends org.eclipse.jetty.server.Server {
 	    context.setThrowUnavailableOnStartupException(true);
 	    context.setConfigurationDiscovered(true);
 	    context.setClassLoader(Thread.currentThread().getContextClassLoader());
-	    SmileParams.index = indexPath;
+	    SmileParams.getInstance().indexPath = indexPath;
 	    context.setWar(warPath);
 	    setHandler(context);
 	    start();

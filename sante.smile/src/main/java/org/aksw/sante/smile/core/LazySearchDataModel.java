@@ -3,6 +3,7 @@ package org.aksw.sante.smile.core;
 import java.util.List;
 import java.util.Map;
 
+import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
  
@@ -33,16 +34,28 @@ public class LazySearchDataModel extends LazyDataModel<AbstractEntityWrapper> {
     }
     
     @Override
-    public List<AbstractEntityWrapper> load(int first, int pageSize, String sortField,
-    		SortOrder sortOrder, Map<String, Object> filters) {
+    public List<AbstractEntityWrapper> load(int first, int pageSize, String sortField, SortOrder sortOrder,
+    		Map<String, FilterMeta> filters) {
     	try {
     		List<AbstractEntityWrapper> entities = model.load(first, pageSize, inputTextFilter, sortField, sortOrder, filters);
 			return entities;
 		} catch (Exception e) {
 			e.printStackTrace();
-		}    	
+		}
     	return null;
     }
+    
+//    @Override
+//    public List<AbstractEntityWrapper> load(int first, int pageSize, String sortField,
+//    		SortOrder sortOrder, Map<String, Object> filters) {
+//    	try {
+//    		List<AbstractEntityWrapper> entities = model.load(first, pageSize, inputTextFilter, sortField, sortOrder, filters);
+//			return entities;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}    	
+//    	return null;
+//    }
     
     public String getInputSearchText() {
 		return inputTextFilter;

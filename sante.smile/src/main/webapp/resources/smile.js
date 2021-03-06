@@ -56,7 +56,16 @@ $(document).ready(function() {
    	contentAbout.addEventListener('click', aboutToggle);
    	refresh();
    	//enableInfinityScroll();
+   	$('#sidebarCollapse').on('click', function () {
+        $('#sidebar').toggleClass('active');
+    });
 });
+
+function init() {
+	if(PF('searchInputQuery').input.val() == '') {
+		hide($("#cleanToggle"));
+	}
+}
 
 function cleanInputText() {
 	searchInputQuery = '';
@@ -128,7 +137,51 @@ function equal(str1, str2) {
 
 function searchKeyUp(event) {
 	if(validKeyEntry(event.keyCode)) {
-		refresh();
-		updateSearchBar();
+		updateContainer(event);
 	}
+}
+
+function immediate(event) {
+	event.stopPropagation();
+}
+
+function autocompleteKeyUp(component, event, validKeyCode) {
+	if(component.input.val() == '') {
+		cleanQuery();
+		hide($("#cleanToggle"));
+	} else {
+		show($("#cleanToggle"));
+	}
+	if(event.keyCode == validKeyCode) {
+		component.close();
+		refresh();
+		updateStats();
+	}
+}
+
+function autocompleteClear() {
+	PF('searchInputQuery').input.val('');
+	cleanQuery();
+	refresh();
+	updateStats();
+	hide($("#cleanToggle"));
+}
+
+function itemSelect() {
+	show($("#cleanToggle"));
+	refresh();
+	updateStats();
+}
+
+function hide(component) {
+	component.addClass('hide');
+}
+
+function show(component) {
+	component.removeClass('hide');
+}
+
+function updateContainer(event) {
+	refresh();
+	updateSearchBar();
 }

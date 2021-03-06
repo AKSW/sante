@@ -9,7 +9,7 @@ import org.sante.lucene.EntityVisitor;
 
 public class SystemOutTriplesResult implements EntityVisitor {
 	@Override
-	public boolean visit(Entity entity) {
+	public boolean visit(Entity entity, float score) {
 		for(Property p: entity.getAllProperties()) {
 			for(Literal pLabel : p.getLabels()) {
 				if(p.getObject().isLiteral()) {

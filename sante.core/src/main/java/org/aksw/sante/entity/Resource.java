@@ -26,6 +26,11 @@ public class Resource implements Serializable {
 		this.uri = uri;
 	}
 	
+	public Resource(String uri, Set<Literal> labels) {
+		this.labels = labels;
+		this.uri = uri;
+	}
+	
 	private void init() {
 		if(this.labels == null) {
 			this.labels = new HashSet<Literal>();

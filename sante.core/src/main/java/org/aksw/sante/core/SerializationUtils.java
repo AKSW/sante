@@ -8,7 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 
-public class EntitySerializationUtil {
+public class SerializationUtils {
 	public static <T> byte[] write(T object) throws IOException {
 		try (ByteArrayOutputStream bos = new ByteArrayOutputStream();){
 			ObjectOutput out = new ObjectOutputStream(bos);

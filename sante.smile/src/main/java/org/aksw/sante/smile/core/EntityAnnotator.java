@@ -1,17 +1,29 @@
 package org.aksw.sante.smile.core;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import org.aksw.sante.entity.Literal;
+import org.aksw.sante.entity.LiteralObject;
+import org.aksw.sante.entity.Property;
 import org.apache.lucene.analysis.Analyzer;
 
 public class EntityAnnotator extends Annotation<EntityAnnotator.TermAnnotation> {
 	
 	public Set<PropertyObjectAnnotation> annotate(AbstractEntityWrapper e, String query, Analyzer analyzer) {
 		Set<PropertyObjectAnnotation> annotations = new HashSet<PropertyObjectAnnotation>();
-		for(PropertyWrapper p : e.getProperties()) {
-			PropertyObjectAnnotation pAnnotation = new PropertyObjectAnnotation(p, analyzer);
+		List<PropertyWrapper> propertyWrappers = new ArrayList<>(e.getProperties());
+		Property p = new Property("URI", 
+				new Literal("URI"), new LiteralObject(new Literal(e.getURI())));
+		List<Property> properties = new ArrayList<>();
+		properties.add(p);
+		PropertyWrapper uriWrapper = new PropertyWrapper(properties, "URI", "", "en", null);
+		propertyWrappers.add(uriWrapper);
+		for(PropertyWrapper pWrapper : propertyWrappers) {
+			PropertyObjectAnnotation pAnnotation = new PropertyObjectAnnotation(pWrapper, analyzer);
 			try {
 				pAnnotation.annotate(query);
 				for(String term : pAnnotation.getTerms()) {

@@ -2,6 +2,8 @@ package org.aksw.sante.entity;
 
 import java.io.Serializable;
 
+import org.apache.commons.text.StringEscapeUtils;
+
 public class Literal implements Serializable {
 	/**
 	 * 
@@ -12,7 +14,6 @@ public class Literal implements Serializable {
 	private String type;
 	
 	public Literal() {
-		
 	}
 	
 	public Literal(Literal l) {
@@ -22,12 +23,12 @@ public class Literal implements Serializable {
 	}
 	
 	public Literal(String literal, String lang) {
-		this.value = literal;
-		this.lang = lang;
+		this.setLang(lang);
+		this.setValue(literal);
 	}
 		
 	public Literal(String literal) {
-		this.value = literal;
+		this.setValue(literal);
 	}
 
 	public String getValue() {
@@ -55,18 +56,17 @@ public class Literal implements Serializable {
 	}
 	
 	public String getURI() {
-		if(type == null 
-				&& value == null 
+		if(type == null
+				&& value == null
 				&& lang == null) {
 			return "";
+		} else if((type == null || type.isEmpty()) 
+				&& (lang == null || lang.isEmpty())) {
+			return "\"" + StringEscapeUtils.escapeJava(value) + "\"";
+		} else if (lang == null || lang.isEmpty()) {
+			return "\"" + value + "\"^^"  + type;
 		}
-		else if(type == null 
-				&& lang == null) {
-			return "\"" + value + "\"";
-		} else if (type != null) {
-			return "\"" + value + "\"" + "^^"  + type;
-		}
-		return "\"" + value + "\"" + "@"  + lang;
+		return "\"" + value + "\"@"  + lang;
 	}
 	
 	@Override

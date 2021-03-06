@@ -31,8 +31,34 @@ xmlns:pe="http://primefaces.org/ui/extensions"
 	<script src="./resources/jquery.scrollToTop.js"></script>
 	
 	<script src="./resources/smile.js"></script>
+	<style>
+		.wrapper {
+		    display: flex;
+		    width: 100%;
+		    align-items: stretch;
+		}
+		
+		.wrapper {
+		    display: flex;
+		    align-items: stretch;
+		}
+		
+		#sidebar.active {
+			display: block;
+		}
+		
+		#sidebar {
+		    min-width: 250px;
+		    width: 40%;
+		    display: none;
+		    min-height: 100vh;
+		    background-color: #eee;
+		}
+				
+	
+	</style>
 </h:head>
-<h:body>
+<h:body onload="init();">
   <div class="modal fade" 
     	id="basicExampleModal" 
     	tabindex="-1" 
@@ -87,9 +113,8 @@ xmlns:pe="http://primefaces.org/ui/extensions"
 														<div class="media-right">
 															<img class="media-object"  
     															src="#{searchViewController.selectedEntry.image}"
-    															alt="#{searchViewController.selectedEntry.label}"
-    															onerror="this.style.display='none';"
-    															/>
+    															alt="#{searchViewController.selectedEntry.label}" 
+    															onerror="this.style.display='none';"/>
 														</div>
 													</h:panelGroup>
 												</div>
@@ -147,60 +172,74 @@ xmlns:pe="http://primefaces.org/ui/extensions"
 			</div>
 		</div>
 	</div>
-  <nav class="navbar navbar-default no-margin-bottom no-border">
+    <nav class="navbar navbar-default no-margin-bottom no-border">
+  		<h:form prependId="false" >
   		  <h:panelGroup id="searchBar" styleClass="search-panel">
-				<p:inputText id="searchInputQuery"
-					widgetVar="searchInputQuery"
-					value="#{searchViewController.inputTextQuery}"	
-					styleClass="form-control search-bar"
-					autocomplete="off"
-					style="
-						font-size: inherit;
-						height: inherit;
-						width: 100%;
-						padding: 0px;
-						padding-left:85px;
-						margin: 0px;
-					    border-top: 0px;
-					    border-left: 0px;
-					    border-right: 0px;
-					 	background: white;
-					 	border-radius:0px;
-					 	padding-bottom: 15px;
-					 	padding-right: 110px;
-					 	padding-top:15px;">
-					<p:ajax
-						event="keyup"
-					    partialSubmit="true"
-						oncomplete="searchKeyUp(event);"/>
-				</p:inputText>
-				<p:watermark for="searchInputQuery" value="start typing... ;-)"/>
-				<p:focus for="searchInputQuery"/>					
-				<span class="glyphicon glyphicon-search" aria-hidden="true" style="margin: 20px 20px; position: absolute;color:darkcyan;"></span>
-				<h:panelGroup id="cleanToggle" style="position: absolute;
-    					right: 10px;
-    					top: 0px;">
-					<h:panelGroup rendered="#{!searchViewController.queryEmpty}">
-						<span class="badge" style="position: absolute; top:45px; right: 45px">#{searchViewController.totalHits} hits</span>
-							<p:commandButton partialSubmit="true" styleClass="glyphicon 
-								glyphicon-remove-circle 
-								cleanButton"
-									action="#{searchViewController.resetInputTextQuery}"
-									oncomplete="refresh();"
-									value=""
-									style="margin: 15px -70px;
-									position: absolute;
-									width: 30px;
-	   								height: 30px;
-									color:darksalmon;
-									background-color: transparent;
-									border: none;
-									border-radius: 50px;"
-									aria-hidden="true" 
-									update="searchBar"/>
-					</h:panelGroup>
-				</h:panelGroup>
+					<p:autoComplete id="searchInputQuery"
+						widgetVar="searchInputQuery"
+						converter="#{suggestionConverter}"
+						value="#{searchViewController.selectedQueryItem}"
+						styleClass="form-control search-bar"
+						completeMethod="#{searchViewController.suggest}"
+						itemStyleClass="autocomplete-item-style"
+						autoSelection="false"
+						autoHighlight="false"
+						var="suggestion"
+						itemValue="#{suggestion}"
+						itemLabel="#{suggestion.query}"
+						style="
+							font-size: inherit;
+							height: inherit;
+							width: 100%;
+							padding: 0px;
+							padding-left:85px;
+							margin: 0px;
+						    border-top: 0px;
+						    border-left: 0px;
+						    border-right: 0px;
+						 	background: white;
+						 	border-radius:0px;
+						 	padding-right: 110px;"
+						 	panelStyleClass="autocomplete-panel-style"
+							inputStyle="
+								padding-top:30px;
+								padding-bottom: 30px;
+							    box-shadow: none;
+								font-size: 15px;
+								height: inherit;
+								width: 100%;
+								margin: 0px;
+							    border: none;
+							    ">
+						<p:ajax
+							process="@this"
+							event="keyup"
+							oncomplete="autocompleteKeyUp(PF('searchInputQuery'), event, 13);"/>
+						<p:ajax event="itemSelect" 
+							partialSubmit="true"
+							oncomplete="itemSelect();"/>
+						<p:column style="border: none; padding:10px;">
+			                <h:outputText value="#{suggestion.html}" escape="false"/>
+			            </p:column>
+					</p:autoComplete>
+					<p:watermark for="searchInputQuery" value="start typing... ;-)"/>
+					<p:focus for="searchInputQuery"/>
+				<span class="glyphicon glyphicon-search" aria-hidden="true" style="margin: 25px 0px 0px 20px; position: absolute;color:darkcyan;"></span>
+				<span
+						id="cleanToggle"
+						onclick="autocompleteClear();"
+						class="glyphicon glyphicon-remove-circle clickable"
+						style="
+						right: 20px;
+						margin: 25px 0px 0px -70px;
+						position: absolute;
+						color:darksalmon;
+						background-color: transparent;
+						border: none;
+						border-radius: 50px;"
+						aria-hidden="true"/>
 			</h:panelGroup>
+		  </h:form>
 		  <div class="container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
@@ -235,34 +274,143 @@ xmlns:pe="http://primefaces.org/ui/extensions"
 			</div><!-- /.navbar-collapse -->
 		  </div><!-- /.container-fluid -->
 		</nav>
-		<div id="content" class="well content" style="border:0px; 
-						border-radius:0px;
-						margin-bottom:0px;
-						padding-top: 5px;
-						">
-			<div style="text-align:right;">
-				<div class="btn-group btn-group-toggle" data-toggle="buttons">
-				  <label class="btn btn-secondary active" onclick="layoutItems('masonry')">
-				    <input type="radio" name="options" id="option1" autocomplete="off"/>
-				    <span class="glyphicon glyphicon-th" aria-hidden="true"></span>
-				  </label>
-				  <label class="btn btn-secondary" onclick="layoutItems('line')">
-				    <input type="radio" name="options" id="option2" autocomplete="off"/>
-				    <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
-				  </label>
+		<div class="wrapper">
+		    <!-- Sidebar -->
+		    <nav id="sidebar" class="deactive">
+		         <div class="panel panel-default sidebar-upper-panel sidebar-tag-panel no-padding-bottom">
+			  		<div class="panel-body no-padding-bottom">
+			    		<p:dataList id="activeTagList" 
+			    			value="#{filterViewController.selectedTags}" emptyMessage="" 
+			    			styleClass="tag-list" itemStyleClass="" style="border: none;" var="suggestion" type="definition">
+			    			<div class="clickable" style="
+			    					padding-left: 15px;
+   									padding-right: 15px;
+			    					margin: 5px;
+			    					font-size: 12px;
+			    					font-weight: 500;
+			    					color: lightslategrey;
+								    background: #F3F6FF;
+								    border-radius: 30px;"
+								    onclick="unselectTag([{name:'id', value:'#{suggestion.id}'}]);refresh();updateStats();"
+								    >
+							    <div class="inline-component">
+			    					<div><h:outputText escape="false" value="${suggestion.title}"/></div>
+									<div style="font-size:8px;"><h:outputText escape="false" value="${suggestion.subtitle}"/></div>
+								</div>
+								<div class="inline-component xxsmall-font lightgray-color">
+									<span class="glyphicon glyphicon-minus"/>
+							    </div>
+							</div>
+					    </p:dataList>
+			  		</div>
+				 </div>
+		         <div class="panel panel-default sidebar-upper-panel">
+			  		<div class="panel-body">
+			  			 <h:form>
+				    		 <p:inputText
+				    		 	class="form-control"
+				    		 	placeholder="Add filter"
+				    		 	value="#{filterViewController.inputTextQuery}">
+				    		 	<p:ajax
+									event="keyup"
+									process="@this"
+									update=":tagList"
+							  	/>
+				    		 </p:inputText>
+			    		 </h:form>
+		        		 <div class="btn-group btn-group-toggle" data-toggle="buttons">
+			              <label class="btn btn-secondary btn-sm active" onclick="filterTags([{name:'id', value:'none'}]); return false;">
+						    <input type="radio" name="options" id="all" autocomplete="off"/>
+						    <span aria-hidden="true">All</span>
+						  </label>
+						  <label class="btn btn-secondary btn-sm" onclick="filterTags([{name:'content', value:'entity'}]); return false;">
+						    <input type="radio" name="options" id="entity" autocomplete="off"/>
+						    <span aria-hidden="true">Entity</span>
+						  </label>
+						  <label class="btn btn-secondary btn-sm" onclick="filterTags([{name:'content', value:'class'}]); return false;">
+						    <input type="radio" name="options" id="class" autocomplete="off"/>
+						    <span aria-hidden="true">Class</span>
+						  </label>
+						  <label class="btn btn-secondary btn-sm" onclick="filterTags([{name:'content', value:'property'}]); return false;">
+						    <input type="radio" name="options" id="property" autocomplete="off"/>
+						    <span aria-hidden="true">Property</span>
+						  </label>
+						</div>
+			  		</div>
 				</div>
-			</div>
-			<div id="about" class="grid-item" style="display:none; max-width: 90%;">
-				<h:outputText value="#{searchViewController.about.snippet}" escape="false" />
-			</div>
-			<div id="container">
-				<div class="grid-sizer"></div>					  				
-			</div>
-			<div style="text-align:center;padding-top: 40px;">
-				<button type="button" id="loadMore" 
-				class="btn btn-default btn-sm" 
-				onclick="loadNewContent()" style="width:80%;
-				display:none;height: 40px;border-radius: 30px;">More</button>
+		        <div class="panel panel-default">
+			  		<div class="panel-body">
+			    		<p:dataList id="tagList" value="#{filterViewController.resources}" 
+			    				styleClass="tag-list" 
+			    				itemStyleClass="" 
+			    				style="border: none;"
+			    				var="suggestion" 
+			    				type="definition">
+			    			<div class="clickable"
+			    					style="
+			    					padding-left: 15px;
+   									padding-right: 15px;
+			    					margin: 5px;
+			    					font-size: 12px;
+			    					font-weight: 500;
+			    					color: lightslategrey;
+								    background: #f5f5f5;
+								    border-radius: 30px;"
+								    onclick="selectTag([{name:'id', value:'#{suggestion.id}'}]);refresh();updateStats();">
+								<div class="inline-component inline-component-left">
+				    				<div><h:outputText escape="false" value="${suggestion.title}"/></div>
+									<div style="font-size:8px;"><h:outputText escape="false" value="${suggestion.subtitle}"/></div>
+								</div>
+								<div class="inline-component xxsmall-font lightgray-color">
+									<span class="glyphicon glyphicon-plus"/>
+							    </div>
+							</div>
+					    </p:dataList>
+			  		</div>
+				</div>
+		    </nav>		
+		    <!-- Page Content -->
+	   		<div id="content" class="well content" 
+	   			style="border:0px; 
+				border-radius:0px;
+				margin-bottom:0px;
+				padding-top: 5px;
+				width: 100%;">
+				<div style="text-align:left;position: absolute;">
+					<button type="button" id="sidebarCollapse" class="btn btn-secondary btn-sm" data-toggle="button" aria-pressed="false" autocomplete="off">
+		                <span>Filters</span>
+		            </button>
+	            </div>
+				<div style="text-align:right;">
+					<p:outputPanel id="searchStats" style="display: initial;">
+						<div style="text-align:right;
+									padding-right: 20px;
+									display: initial;
+	    							font-size: xx-small;">About #{searchViewController.totalHits} results in #{searchViewController.queryTime}s</div>
+    				</p:outputPanel>
+					<div class="btn-group btn-group-toggle" data-toggle="buttons">
+					  <label class="btn btn-secondary active" onclick="layoutItems('masonry')">
+					    <input type="radio" name="options" id="option1" autocomplete="off"/>
+					    <span class="glyphicon glyphicon-th" aria-hidden="true"></span>
+					  </label>
+					  <label class="btn btn-secondary" onclick="layoutItems('line')">
+					    <input type="radio" name="options" id="option2" autocomplete="off"/>
+					    <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
+					  </label>
+					</div>
+				</div>
+				<div id="about" class="grid-item" style="display:none; max-width: 90%;">
+					<h:outputText value="#{searchViewController.about.snippet}" escape="false" />
+				</div>
+				<div id="container">
+					<div class="grid-sizer"></div>					  				
+				</div>
+				<div style="text-align:center;padding-top: 40px;">
+					<button type="button" id="loadMore" 
+					class="btn btn-default btn-sm" 
+					onclick="loadNewContent()" style="width:80%;
+					display:none;height: 40px;border-radius: 30px;">More</button>
+				</div>
 			</div>
 		</div>
 		<div style="padding: 30px;text-align:center;flex-direction: row;box-sizing: border-box;display: flex;">
@@ -304,19 +452,35 @@ xmlns:pe="http://primefaces.org/ui/extensions"
 				actionListener="#{searchViewController.resetPage}"
 				process="@this"
 				update="@none"/>
+			<p:remoteCommand  name="cleanQuery"
+				actionListener="#{searchViewController.cleanQuery}"
+				process="@this"
+				update="@none"/>
 			<p:remoteCommand name="loadContent"
 				actionListener="#{searchViewController.loadContent}"
 				process=":newContent"
 				async="false"
 				oncomplete="handleLoadStop()"
 				update=":newContent"/>
-			<p:remoteCommand id="updateSearchBar" name="updateSearchBar" 
-				update=":cleanToggle"/>
+			<p:remoteCommand name="filterTags"
+			    process="@this"
+			    update=":tagList"
+				actionListener="#{filterViewController.filterTags}"/>
+			<p:remoteCommand name="selectTag"
+			    process="@this"
+			    update=":tagList :activeTagList"
+				actionListener="#{filterViewController.selectTag}"/>
+			<p:remoteCommand name="unselectTag"
+			    process="@this"
+			    update=":tagList :activeTagList"
+				actionListener="#{filterViewController.unselectTag}"/>
 			<p:remoteCommand name="filter"
 			    process="@this"
 			    update="@none"
-				actionListener="#{searchViewController.filterContent}"
-				oncomplete="updateSearchBar();"/>/>
+				actionListener="#{searchViewController.filterContent}"/>
+			<p:remoteCommand name="updateStats"
+			    process="@this"
+			    update=":searchStats"/>
 		</h:form>
 </h:body>
 </html>

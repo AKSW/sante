@@ -12,22 +12,6 @@
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   </head>
   <body>
-		<div class="panel panel-default selectable-item" 
-				onclick="showEntry([{name:'id', value:'${entity.id}'}])" 
-				data-toggle="modal" 
-				data-target="#basicExampleModal">
-			<div class="panel-body">
-				
-				  <div style="font-size:8px;" onclick="immediate(event);"><a id="panelItemURI" href="${entity.uri}" target="_blank">${entity.uri}</a></div>
-				
-			      <#if entity.image?has_content>
-					 <img src="${entity.image}" alt="${entity.label}" onerror="this.style.display='none'; fixLayout();">
-				  </#if>
-				  <div class="caption">
-					<h3>${entity.label}</h3>
-					<p>${entity.description}</p>
-				  </div>
-			</div>
-		 </div>						
+	<div>${suggestion.title}</div>
   </body>
 </html>

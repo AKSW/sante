@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.aksw.sante.entity.Entity;
+import org.aksw.sante.entity.Literal;
+import org.aksw.sante.entity.LiteralObject;
 import org.aksw.sante.entity.Property;
 
 public class IndexedEntityWrapper extends AbstractEntityWrapper implements Serializable {
@@ -79,7 +81,7 @@ public class IndexedEntityWrapper extends AbstractEntityWrapper implements Seria
 	}
 	
 	private void loadAbstract() {
-		if(description == null) {
+		if(description == null && abstractProperties != null) {
 			description = entity.getPropertyObjectValue(abstractProperties, "");
 		}
 	}
@@ -118,9 +120,13 @@ public class IndexedEntityWrapper extends AbstractEntityWrapper implements Seria
 	private List<PropertyWrapper> extractRelevantProperties(List<Property> entityProperties,
 			String[] hideProperties) {
 		List<PropertyWrapper> relProperties = new ArrayList<PropertyWrapper>();
-		List<String> hidePropertyList = Arrays.asList(hideProperties);
+		List<String> hidePropertyList = null;
+		if(hideProperties != null) {
+			hidePropertyList = Arrays.asList(hideProperties);
+		}
 		for(String propertyURI : entity.getPropertyURIs()) {
-			if(!hidePropertyList.contains(propertyURI)) {
+			if(hidePropertyList == null || 
+					!hidePropertyList.contains(propertyURI)) {
 				List<Property> properties = entity.getProperties(propertyURI);
 				PropertyWrapper propertyWrapper = new PropertyWrapper(properties, propertyURI, "", "en", null);
 				relProperties.add(propertyWrapper);
