@@ -30,6 +30,7 @@ Following we discuss some of the basic functionalities to help you to instatiate
 ### Showcases
 
 #### FOAF Ontology: http://141.57.11.86:9090/
+In this showcase, users can query and browse the FOAF ontology.
 
 ### SANTé in 5 minutes 
 
