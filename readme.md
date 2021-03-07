@@ -32,7 +32,7 @@ Following we discuss some of the basic functionalities to help you to instatiate
 #### FOAF Ontology: http://foaf.aksw.org
 In this showcase, users can query and browse the FOAF ontology.
 
-<img src="https://github.com/AKSW/sante/raw/master/sante_simple_foaf.png" width="600" height="420" />
+<img src="https://github.com/AKSW/sante/raw/master/sante_simple_foaf.png" width="936" height="356" />
 
 ### SANTé in 5 minutes 
 
