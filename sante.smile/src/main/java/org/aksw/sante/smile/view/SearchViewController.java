@@ -416,6 +416,10 @@ public class SearchViewController implements Serializable {
 	public void setSuggestionList(SuggestionList suggestionList) {
 		this.suggestionList = suggestionList;
 	}
+	
+	public void setFilterViewController (FilterViewController filterViewController) {
+		this.filterViewController = filterViewController;
+	}
 
 	public void cleanQuery() {
 		this.inputTextQuery = null;

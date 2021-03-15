@@ -6,7 +6,7 @@ import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
-@Named
+@Named(value="suggestionList")
 @SessionScoped
 public class SuggestionList implements Serializable {
 	

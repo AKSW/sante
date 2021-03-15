@@ -1,11 +1,14 @@
 package org.aksw.sante.smile.view;
 
+import java.io.Serializable;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
+import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -13,8 +16,16 @@ import org.apache.commons.lang3.StringUtils;
 
 @ApplicationScoped
 @Named
-public class SuggestionConverter implements Converter<AbstractSuggestionView> {
+@FacesConverter(value = "suggestionConverter", managed = true)
+public class SuggestionConverter implements Converter<AbstractSuggestionView>, Serializable {
  
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1019896021432984596L;
+	/**
+	 * 
+	 */
 	@Inject
     private SuggestionList suggestionList;
 	
