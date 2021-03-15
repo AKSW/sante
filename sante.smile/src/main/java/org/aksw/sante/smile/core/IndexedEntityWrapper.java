@@ -6,8 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.aksw.sante.entity.Entity;
-import org.aksw.sante.entity.Literal;
-import org.aksw.sante.entity.LiteralObject;
 import org.aksw.sante.entity.Property;
 
 public class IndexedEntityWrapper extends AbstractEntityWrapper implements Serializable {
