@@ -18,12 +18,13 @@ public class Server extends org.eclipse.jetty.server.Server {
 	    context.setContextPath("/");
 	    
 	    //for jsp support
+	    context.setResourceAlias("/WEB-INF/classes/", "/classes/");
 	    context.addBean(new JettyJspParser(context));
 	    context.getServletContext().setExtendedListenerTypes(true);
 	    context.setParentLoaderPriority(true);
 	    context.setThrowUnavailableOnStartupException(true);
 	    context.setConfigurationDiscovered(true);
-	    context.setClassLoader(Thread.currentThread().getContextClassLoader());
+//	    context.setClassLoader(Thread.currentThread().getContextClassLoader());
 	    SmileParams.getInstance().indexPath = indexPath;
 	    context.setWar(warPath);
 	    setHandler(context);
@@ -44,13 +45,13 @@ public class Server extends org.eclipse.jetty.server.Server {
 
         @Override
         protected void doStart() throws Exception {
-            ClassLoader old = Thread.currentThread().getContextClassLoader();
-            Thread.currentThread().setContextClassLoader(context.getClassLoader());
+//            ClassLoader old = Thread.currentThread().getContextClassLoader();
+//            Thread.currentThread().setContextClassLoader(context.getClassLoader());
             try {
                 jasperInitializer.onStartup(null, context.getServletContext());
                 super.doStart();
             } finally {
-                Thread.currentThread().setContextClassLoader(old);
+//                Thread.currentThread().setContextClassLoader(old);
             }
         }
 
