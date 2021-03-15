@@ -1,5 +1,7 @@
 
 
+<img src="https://github.com/AKSW/sante/raw/master/sante.gif" width="600" height="420" />
+
 ```
 @inproceedings{marx/starpath/sante/mtsr/2016,
   author = {Marx, Edgard and H{\"o}ffner, Konrad and Shekarpour, Saeedeh and Ngomo, Axel-Cyrille Ngonga and Lehmann, Jens and Auer, S{\"o}ren},
@@ -20,9 +22,17 @@ You can use SANTé via command line or via SANTé Web Interface (smile).
 
 Following we discuss some of the basic functionalities to help you to instatiate your own SANTé instance in few steps.
 
+- [Showcases](https://github.com/AKSW/sante/blob/master/readme.md#showcases)
 - [SANTé in 5 minutes](https://github.com/AKSW/sante/blob/master/readme.md#sant%C3%A9-in-5-minutes)
 - [Creating an index](https://github.com/AKSW/sante#creating-an-index)
 - [Running SANTé](https://github.com/AKSW/sante/blob/master/readme.md#running-sant%C3%A9)
+
+### Showcases
+
+#### FOAF Ontology: http://foaf.aksw.org
+In this showcase, users can query and browse the FOAF ontology.
+
+<img src="https://github.com/AKSW/sante/raw/master/sante_simple_foaf.png" width="709" height="275" />
 
 ### SANTé in 5 minutes 
 
@@ -34,7 +44,7 @@ Download the jar here [https://github.com/AKSW/KBox/releases](https://github.com
 and run the following command:
 
 ```
-java -jar kbox-vXXXX.jar -server -kb "http://xmlns.com/foaf/0.1,https://www.w3.org/2000/01/rdf-schema,http://www.w3.org/2002/07/owl,http://www.w3.org/1999/02/22-rdf-syntax-ns" -install
+java -jar kbox-vXXXX.jar -server -kb "http://xmlns.com/foaf/0.1,https://www.w3.org/2000/01/rdf-schema,http://www.w3.org/2002/07/owl,http://www.w3.org/1999/02/22-rdf-syntax-ns,http://purl.org/dc/elements/1.1/,http://purl.org/dc/terms/,http://purl.org/dc/dcam/,http://purl.org/dc/dcmitype/" -install
 Loading Model...
 Publishing service on http://localhost:8080/kbox/query
 Service up and running ;-) ...
