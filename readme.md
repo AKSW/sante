@@ -34,7 +34,7 @@ In this showcase, users can query and browse the FOAF ontology.
 
 <img src="https://github.com/AKSW/sante/raw/master/sante_simple_foaf.png" width="709" height="275" />
 
-#### Pokemon dataset: http://141.57.11.86:9080/
+#### Pokemon dataset: http://pokemon.aksw.org/
 
 <img src="https://github.com/AKSW/sante/raw/master/sante_full_pokemon.png" width="709" height="275" />
 
