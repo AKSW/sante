@@ -34,6 +34,10 @@ In this showcase, users can query and browse the FOAF ontology.
 
 <img src="https://github.com/AKSW/sante/raw/master/sante_simple_foaf.png" width="709" height="275" />
 
+#### Pokemon dataset: http://141.57.11.86:9080/
+
+<img src="https://github.com/AKSW/sante/raw/master/sante_full_pokemon.png" width="709" height="275" />
+
 ### SANTé in 5 minutes 
 
 In this 5 minutes tutorial we will help you to instatiate your first knowledge base search engine over FOAF ontology using KBox [https://github.com/AKSW/KBox](https://github.com/AKSW/KBox).
