@@ -30,13 +30,14 @@ Following we discuss some of the basic functionalities to help you to instatiate
 ### Showcases
 
 #### FOAF Ontology: http://foaf.aksw.org
-In this showcase, users can query and browse the FOAF ontology.
+In this showcase we demonstrate SANTé with basic functionalities (search and data browser) using the foaf ontology. 
 
-<img src="https://github.com/AKSW/sante/raw/master/sante_simple_foaf.png" width="709" height="275" />
+[<img src="https://github.com/AKSW/sante/raw/master/sante_simple_foaf.png" width="709" height="275" />](http://foaf.aksw.org)
 
 #### Pokemon dataset: http://pokemon.aksw.org/
+In this showcase we demonstrate SANTé with full functionalities (search, APIs, filters and data browser) using the Pokemon dataset.
 
-<img src="https://github.com/AKSW/sante/raw/master/sante_full_pokemon.png" width="709" height="275" />
+[<img src="https://github.com/AKSW/sante/raw/master/sante_full_pokemon.png"/>](http://pokemon.aksw.org)
 
 ### SANTé in 5 minutes 
 
