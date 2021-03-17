@@ -168,13 +168,13 @@ The smile WAR file will be generated at ```sante.smile/target/sante.smile-0.0.1-
 
 SANTé implements the following APIs:
 
-#### API/search e.g. 
+#### API/search
 
 Example 1: search for all occurrences of the work "pokemon":
 
 [http://pokemon.aksw.org/API/search?q=%22pokemon%22](http://pokemon.aksw.org/API/search?q=%22pokemon%22) 
 
-#### API/suggest e.g. 
+#### API/suggest
 
 Example 1: suggest using the word "pokemon": 
 
