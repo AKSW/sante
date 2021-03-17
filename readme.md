@@ -26,6 +26,7 @@ Following we discuss some of the basic functionalities to help you to instatiate
 - [SANTé in 5 minutes](https://github.com/AKSW/sante/blob/master/readme.md#sant%C3%A9-in-5-minutes)
 - [Creating an index](https://github.com/AKSW/sante#creating-an-index)
 - [Running SANTé](https://github.com/AKSW/sante/blob/master/readme.md#running-sant%C3%A9)
+- [APIs](https://github.com/AKSW/sante/blob/master/readme.md#apis)
 
 ### Showcases
 
