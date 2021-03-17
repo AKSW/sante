@@ -162,3 +162,31 @@ Run ```mvn war:war``` at the ```sante.smile``` base directory:
 [INFO] ------------------------------------------------------------------------
 ```
 The smile WAR file will be generated at ```sante.smile/target/sante.smile-0.0.1-SNAPSHOT.war```
+
+### APIs
+
+SANTé implements the following APIs, we exemplify all of them using the work pokemon with an example:
+
+#### API/search e.g. 
+
+Example 1: search for all occurrences of the work "pokemon":
+
+[http://pokemon.aksw.org/API/search?q=%22pokemon%22](http://pokemon.aksw.org/API/search?q=%22pokemon%22) 
+
+#### API/suggest e.g. 
+
+Example 1: suggest using the word "pokemon": 
+
+[http://pokemon.aksw.org/API/suggest?q=%22pokemon%22](http://pokemon.aksw.org/API/suggest?q=%22pokemon%22) 
+
+#### API/dbpedialookup 
+
+Example 1: looking for all occurrences of the word "pokemon": 
+
+[http://pokemon.aksw.org/API/dbpedialookup?MaxHits=5&QueryString=pokemon](http://pokemon.aksw.org/API/dbpedialookup?MaxHits=5&QueryString=pokemon) 
+
+#### API/reconcile 
+
+Example 1: looking for all occurrences of the word "pokemon": 
+
+[http://pokemon.aksw.org/API/reconcile?search={%20%22q%22:%20{%20%22query%22:%20%22pokemon%22%20}}](http://pokemon.aksw.org/API/reconcile?search={%20%22q%22:%20{%20%22query%22:%20%22pokemon%22%20}}) 
