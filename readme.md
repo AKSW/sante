@@ -166,7 +166,7 @@ The smile WAR file will be generated at ```sante.smile/target/sante.smile-0.0.1-
 
 ### APIs
 
-SANTé implements the following APIs, we exemplify all of them using the work pokemon with an example:
+SANTé implements the following APIs:
 
 #### API/search e.g. 
 
