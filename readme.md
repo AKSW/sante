@@ -20,7 +20,7 @@ SANTé stands for Semantic Search Engine and is designed to simplify RDF data ac
 SANTé covers different aspects of search engines such as indexing, ranking as well as interaction.
 You can use SANTé via command line or via SANTé Web Interface (smile).
 
-Following we discuss some of the basic functionalities to help you to instatiate your own SANTé instance in few steps.
+Following we discuss some of the basic functionalities to help you to instantiate your own SANTé instance in few steps.
 
 - [Showcases](https://github.com/AKSW/sante/blob/master/readme.md#showcases)
 - [SANTé in 5 minutes](https://github.com/AKSW/sante/blob/master/readme.md#sant%C3%A9-in-5-minutes)
@@ -42,9 +42,9 @@ In this showcase we demonstrate SANTé with full functionalities (search, APIs, 
 
 ### SANTé in 5 minutes 
 
-In this 5 minutes tutorial we will help you to instatiate your first knowledge base search engine over FOAF ontology using KBox [https://github.com/AKSW/KBox](https://github.com/AKSW/KBox).
+In this 5 minutes tutorial we will help you to instantiate your first knowledge base search engine over FOAF ontology using KBox [https://github.com/AKSW/KBox](https://github.com/AKSW/KBox).
 
-1) Download KBox and instatiate the FOAF knowledge graph.
+1) Download KBox and instantiate the FOAF knowledge graph.
 
 Download the jar here [https://github.com/AKSW/KBox/releases](https://github.com/AKSW/KBox/releases)
 and run the following command:
@@ -56,10 +56,10 @@ Publishing service on http://localhost:8080/kbox/query
 Service up and running ;-) ...
 ```
 You can now access and query your knowledge graph at [http://localhost:8080](http://localhost:8080).
-Notice that in the example above we also include RDFS, RDF and OWL ontologies, that's because we need their information for correctly instatiate FOAF ontology.
-In case the SPARQL endpoint does not contain all necessary informaiton, SANTé will not be capable of retrieving or searching for it and will display the information as ```Unavailable```.
+Notice that in the example above we also include RDFS, RDF and OWL ontologies, that's because we need their information for correctly instantiate FOAF ontology.
+In case the SPARQL endpoint does not contain all necessary information, SANTé will not be capable of retrieving or searching for it and will display the information as ```Unavailable```.
 
-2) Download one of the availabes SANTé runnable jar files.
+2) Download one of the available SANTé runnable jar files.
 
 Download the jar here [https://github.com/AKSW/sante/releases](https://github.com/AKSW/sante/releases)
 
@@ -74,7 +74,7 @@ java -jar sante-vXXX.jar index -endpoint http://localhost:8080/kbox/query -path 
 
 Download the WAR here [https://github.com/AKSW/sante/releases](https://github.com/AKSW/sante/releases)
 
-5) Instatiate smile
+5) Instantiate smile
 ```
 java -jar sante-vXXX.jar server -war sante-vXXX.war -path \foaf_kg -port 9090
 [main] INFO org.eclipse.jetty.util.log - Logging initialized @150ms to org.eclipse.jetty.util.log.Slf4jLog
@@ -89,10 +89,10 @@ May 09, 2020 9:25:16 AM org.apache.myfaces.config.DefaultFacesConfigurationProvi
 If you correctly executed all the steps above, now you should be able to access SANTé at [http://localhost:9090](http://localhost:9090).
 
 ### Creating an index
-Creating an index is pretty much streigh forward, you can do it via code or command line.
+Creating an index is pretty much straightforward, you can do it via code or command line.
 However, SANté uses triple stores to feed data to the index.
-That's usefull for performing reasoning over the target knowledge graph.
-To create the index you will first need to index your data in a triple store of your preference.
+That's useful for performing reasoning over the target knowledge graph.
+To create the index, you will first need to index your data in a triple store of your preference.
 
 1) Download one of the availabes SANTé runnable jar file.
 
@@ -170,7 +170,7 @@ SANTé implements the following APIs:
 
 #### API/search
 
-Example 1: search for all occurrences of the work "pokemon":
+Example 1: search for all occurrences of the word "pokemon":
 
 [http://pokemon.aksw.org/API/search?q=%22pokemon%22](http://pokemon.aksw.org/API/search?q=%22pokemon%22) 
 
