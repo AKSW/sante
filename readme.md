@@ -1,4 +1,5 @@
 
+<img src="https://github.com/AKSW/sante/raw/master/sante.png"/>
 
 <img src="https://github.com/AKSW/sante/raw/master/sante.gif" width="600" height="420" />
 
