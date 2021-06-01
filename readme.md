@@ -200,7 +200,7 @@ Example 1: looking for all occurrences of the word "pokemon":
 There many issues with blank nodes that are takle differently in different triple stores implementation.
 If your dataset contains blank nodes, you should perform a canonization.
 Use the query below to perform the canonization changing according to your needs.
-This query assign an URI with the prefix 'blanknode://' to every blank node of your dataset.
+This query assigns an URI with the prefix 'blanknode://' to every blank node of your dataset.
 
 ```
 DELETE {?s ?p ?o}
