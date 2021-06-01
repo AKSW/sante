@@ -193,7 +193,7 @@ Example 1: looking for all occurrences of the word "pokemon":
 
 [http://pokemon.aksw.org/API/reconcile?search={%20%22q%22:%20{%20%22query%22:%20%22pokemon%22%20}}](http://pokemon.aksw.org/API/reconcile?search={%20%22q%22:%20{%20%22query%22:%20%22pokemon%22%20}}) 
 
-### Known Problems
+### Known Issues
 
 #### Blank Nodes
 
