@@ -192,3 +192,32 @@ Example 1: looking for all occurrences of the word "pokemon":
 Example 1: looking for all occurrences of the word "pokemon": 
 
 [http://pokemon.aksw.org/API/reconcile?search={%20%22q%22:%20{%20%22query%22:%20%22pokemon%22%20}}](http://pokemon.aksw.org/API/reconcile?search={%20%22q%22:%20{%20%22query%22:%20%22pokemon%22%20}}) 
+
+### Known Problems
+
+#### Blank Nodes
+
+There many issues with blank nodes that are takle differently in different triple stores implementation.
+If your dataset contains blank nodes, you should perform a canonization.
+Use the query below to perform the canonization changing according to your needs.
+This query assign an URI with the prefix 'blanknode://' to every blank node of your dataset.
+
+```
+DELETE {?s ?p ?o}
+INSERT {?s ?p ?cO}
+WHERE
+{
+     ?s ?p ?o.
+     FILTER(isblank(?o))
+     bind (iri(concat("blanknode://",SHA1(STR(iri(?o))))) as ?cO)
+};
+
+DELETE {?s ?p ?o}
+INSERT {?cS ?p ?o}
+WHERE
+{
+    ?s ?p ?o.
+    FILTER(isblank(?s))
+	bind (iri(concat("blanknode://",SHA1(STR(iri(?s))))) as ?cS)
+};
+```
