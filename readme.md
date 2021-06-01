@@ -171,25 +171,25 @@ SANTé implements the following APIs:
 
 #### API/search
 
-Example 1: search for all occurrences of the word "pokemon":
+Example 1: search for all occurrences of the word ```pokemon```:
 
 [http://pokemon.aksw.org/API/search?q=%22pokemon%22](http://pokemon.aksw.org/API/search?q=%22pokemon%22) 
 
 #### API/suggest
 
-Example 1: suggest using the word "pokemon": 
+Example 1: suggest using the word ```pokemon```: 
 
 [http://pokemon.aksw.org/API/suggest?q=%22pokemon%22](http://pokemon.aksw.org/API/suggest?q=%22pokemon%22) 
 
 #### API/dbpedialookup 
 
-Example 1: looking for all occurrences of the word "pokemon": 
+Example 1: looking for all occurrences of the word ```pokemon```: 
 
 [http://pokemon.aksw.org/API/dbpedialookup?MaxHits=5&QueryString=pokemon](http://pokemon.aksw.org/API/dbpedialookup?MaxHits=5&QueryString=pokemon) 
 
 #### API/reconcile 
 
-Example 1: looking for all occurrences of the word "pokemon": 
+Example 1: looking for all occurrences of the word ```pokemon```: 
 
 [http://pokemon.aksw.org/API/reconcile?search={%20%22q%22:%20{%20%22query%22:%20%22pokemon%22%20}}](http://pokemon.aksw.org/API/reconcile?search={%20%22q%22:%20{%20%22query%22:%20%22pokemon%22%20}}) 
 
@@ -200,7 +200,7 @@ Example 1: looking for all occurrences of the word "pokemon":
 There many issues with blank nodes that are takle differently in different triple stores implementation.
 If your dataset contains blank nodes, you should perform a canonization.
 Use the query below to perform the canonization changing according to your needs.
-This query assigns an URI with the prefix 'blanknode://' to every blank node of your dataset.
+This query assigns an URI with the prefix ```blanknode://``` to every blank node of your dataset.
 
 ```
 DELETE {?s ?p ?o}
