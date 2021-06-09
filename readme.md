@@ -200,8 +200,8 @@ Example 1: looking for all occurrences of the word ```pokemon```:
 
 There many issues regarding RDF blank nodes such as no uniformity or standard way of tackling them.
 To avoid custom implementations, we have made a design decision not to support blank nodes.
-If your dataset happens to have blank nodes, you should perform a canonization using the query below and customizing it according to your needs.
-This query assigns a URI with the prefix ```blanknode://``` to every blank node of your dataset.
+If your dataset happens to have blank nodes, you should perform a canonization using the query below (customizing it according to your needs).
+This query will assign an URI with the prefix ```blanknode://``` to every blank node of your dataset.
 
 ```
 DELETE {?s ?p ?o}
