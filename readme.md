@@ -28,7 +28,7 @@ Following we discuss some of the basic functionalities to help you to instantiat
 - [Creating an index](https://github.com/AKSW/sante#creating-an-index)
 - [Running SANTé](https://github.com/AKSW/sante/blob/master/readme.md#running-sant%C3%A9)
 - [APIs](https://github.com/AKSW/sante/blob/master/readme.md#apis)
-- [Known Issues](https://github.com/AKSW/sante/blob/master/readme.md#known-issues)
+- [Known Issues & Limitations](https://github.com/AKSW/sante/blob/master/readme.md#known-issues)
 
 ### Showcases
 
