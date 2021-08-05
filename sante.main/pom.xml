@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.aksw.sante</groupId>
     <artifactId>parent</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.21-SNAPSHOT</version>
   </parent>
   <artifactId>sante.main</artifactId>
   <name>sante.main</name>
@@ -32,7 +32,7 @@
    <dependency>
 	    <groupId>org.aksw.sante</groupId>
 	    <artifactId>sante.smile</artifactId>
-	    <version>0.0.1-SNAPSHOT</version>
+	    <version>0.0.21-SNAPSHOT</version>
 	    <classifier>classes</classifier>
 	    <exclusions>
 	        <exclusion> 

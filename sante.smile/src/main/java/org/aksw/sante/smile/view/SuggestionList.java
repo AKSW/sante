@@ -3,11 +3,11 @@ package org.aksw.sante.smile.view;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 @Named(value="suggestionList")
-@SessionScoped
+@ViewScoped
 public class SuggestionList implements Serializable {
 	
 	/**

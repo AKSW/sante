@@ -22,6 +22,10 @@ public class IndexCommand extends AbstractSimpleMapCommand {
 	public void process(Map<String, String[]> commands) throws Exception {
 		String filePath = commands.get("-path")[0];
 		String endpoint = commands.get("-endpoint")[0];
+		String whereClause = null;
+		if(commands.containsKey("-where")) {
+			whereClause = commands.get("-where")[0];
+		}
 		RDFIndexer indexer = new RDFIndexer();
 		File index = new File(filePath);
 		URIPatternFilter subjectFilter = new URIPatternFilter();
@@ -29,6 +33,7 @@ public class IndexCommand extends AbstractSimpleMapCommand {
 		URIPatternFilter typeFilter = new URIPatternFilter();
 		indexer.createIndex(index,
 				endpoint,
+				whereClause,
 				subjectFilter,
 				predicateFilter,
 				typeFilter);

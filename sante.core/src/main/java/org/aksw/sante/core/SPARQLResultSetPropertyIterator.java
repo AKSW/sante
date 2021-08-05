@@ -18,18 +18,16 @@ public class SPARQLResultSetPropertyIterator extends AbstractResultSetIterator<P
 	
 	private String query;
 	private String endpoint;
-	private String graph;
 	private int limit;
 	
 	public SPARQLResultSetPropertyIterator(String endpoint, 
 			String query,
-			String graph,
+			String whereClause,
 			int limit,
 			Set<String> labelingProperties) {
-		super(endpoint, graph, labelingProperties);
+		super(endpoint, whereClause, labelingProperties);
 		this.endpoint = endpoint;
 		this.query = query;
-		this.graph = graph;
 		this.limit = limit;
 	}
 	
@@ -38,14 +36,15 @@ public class SPARQLResultSetPropertyIterator extends AbstractResultSetIterator<P
 		boolean loop = true;
 		while (loop) {
 			String sparqlQuery = query + " LIMIT " + limit + " OFFSET " + offset;
-			Query query = QueryFactory.create(sparqlQuery, graph);
+			Query query = QueryFactory.create(sparqlQuery);
 			try(QueryEngineHTTP qexec = new QueryEngineHTTP(endpoint, query)) {
 				ResultSet rs = qexec.execSelect();
 				while (rs != null && rs.hasNext()) {
 					QuerySolution qs = rs.next();
-					String pURI = qs.get("p").toString();
+					RDFNode pNode = qs.get("p");
+					String pURI = pNode.toString();
 					java.util.List<Literal> pLabels = new ArrayList<Literal>();
-					List<org.apache.jena.rdf.model.Literal> pLabelLiterals = getLabels(pURI);
+					List<org.apache.jena.rdf.model.Literal> pLabelLiterals = getLabels(pNode);
 					for(org.apache.jena.rdf.model.Literal pLabelLiteral: pLabelLiterals) {
 						String pLabel = pLabelLiteral.getString();
 						String pLang = pLabelLiteral.getLanguage();						
@@ -64,9 +63,9 @@ public class SPARQLResultSetPropertyIterator extends AbstractResultSetIterator<P
 						LiteralObject literalObject = new LiteralObject(oLabel, oLang);
 						p = new Property(pURI, pLabels, literalObject);
 					} else {
-						oURI = oNode.asResource().getURI();
+						oURI = oNode.toString();
 						java.util.List<Literal> oLabels = new ArrayList<Literal>();
-						List<org.apache.jena.rdf.model.Literal>  oLabelLiterals = getLabels(oURI);
+						List<org.apache.jena.rdf.model.Literal>  oLabelLiterals = getLabels(oNode);
 						for(org.apache.jena.rdf.model.Literal oLabelLiteral : oLabelLiterals) {
 							oLabel = oLabelLiteral.getString();
 							oLang = oLabelLiteral.getLanguage();

@@ -1,6 +1,11 @@
 package org.aksw.sante.main;
 
 import org.aksw.sante.smile.core.SmileParams;
+import org.aksw.sante.smile.servlet.DBpediaLookupServlet;
+import org.aksw.sante.smile.servlet.ResourceServlet;
+import org.aksw.sante.smile.servlet.ReconcileSearchServlet;
+import org.aksw.sante.smile.servlet.SearchServlet;
+import org.aksw.sante.smile.servlet.SuggestServlet;
 import org.apache.tomcat.util.scan.StandardJarScanner;
 import org.eclipse.jetty.apache.jsp.JettyJasperInitializer;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -24,6 +29,13 @@ public class Server extends org.eclipse.jetty.server.Server {
 	    context.setParentLoaderPriority(true);
 	    context.setThrowUnavailableOnStartupException(true);
 	    context.setConfigurationDiscovered(true);
+	    
+	    context.addServlet(DBpediaLookupServlet.class, "/API/lookup/search");
+        context.addServlet(SearchServlet.class, "/API/search");
+        context.addServlet(SuggestServlet.class, "/API/suggest");
+        context.addServlet(ReconcileSearchServlet.class, "/API/reconcile");
+        context.addServlet(ResourceServlet.class, "/API/resource");
+
 //	    context.setWelcomeFiles(new String[] { "index_full.xhtml" });
 	    SmileParams.getInstance().indexPath = indexPath;
 	    context.setWar(warPath);

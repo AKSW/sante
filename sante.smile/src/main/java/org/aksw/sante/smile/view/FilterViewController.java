@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 import org.aksw.sante.smile.core.ItemAutoCompleteSnippetGeneartor;
@@ -22,7 +22,7 @@ import org.sante.lucene.ResultSet;
 import org.sante.lucene.Suggestion;
 
 @Named
-@SessionScoped
+@ViewScoped
 public class FilterViewController implements Serializable {
 
 	/**

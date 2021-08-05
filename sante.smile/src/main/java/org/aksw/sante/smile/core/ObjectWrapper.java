@@ -14,6 +14,7 @@ public class ObjectWrapper extends ResourceWrapper implements Serializable {
 	 */
 	private static final long serialVersionUID = -3833778580743854124L;
 	private Boolean isLiteral = false;
+	private Boolean isLangTagged = false;
 
 	public ObjectWrapper(Object object, String defaultLabel, String[] langs) {
 		super(object.getURI());
@@ -30,6 +31,9 @@ public class ObjectWrapper extends ResourceWrapper implements Serializable {
 			public void visit(Literal literalObject) {
 				addLabel(literalObject);
 				setLabel(literalObject.getValue());
+				String lang = literalObject.getLang();
+				isLangTagged = (lang != null && !lang.isEmpty());
+				setLang(literalObject.getLang());
 				setSnippet(literalObject.getValue());
 			}
 		});
@@ -37,5 +41,9 @@ public class ObjectWrapper extends ResourceWrapper implements Serializable {
 
 	public boolean isLiteral() {
 		return isLiteral;
+	}
+	
+	public boolean isLangTagged() {
+		return isLangTagged;
 	}
 }

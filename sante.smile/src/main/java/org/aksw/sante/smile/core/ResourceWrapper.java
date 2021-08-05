@@ -9,6 +9,7 @@ public abstract class ResourceWrapper extends Resource {
 	 * 
 	 */
 	private String label = null;
+	private String lang = null;
 	private String snippet = null;
 	
 	public ResourceWrapper() {
@@ -26,6 +27,11 @@ public abstract class ResourceWrapper extends Resource {
 		this.snippet = label;
 	}
 	
+	public ResourceWrapper(String uri, String label, String lang) {
+		this(uri, label);
+		this.lang = lang;
+	}
+	
 	public boolean isAvailable() {
 		return false;
 	}	
@@ -40,6 +46,14 @@ public abstract class ResourceWrapper extends Resource {
 	
 	public void setLabel(String label) {
 		this.label = label;
+	}
+	
+	public void setLang(String lang) {
+		this.lang = lang;
+	}
+	
+	public String getLang() {
+		return lang;
 	}
 	
 	public String getSnippet() {

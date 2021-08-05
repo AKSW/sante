@@ -16,10 +16,12 @@ xmlns:pe="http://primefaces.org/ui/extensions"
     <!-- import Google font -->
     <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'/>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+	
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
-  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"/>
 
 	<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
 	
 	<!-- to top buttom -->
 	<link type="text/css" rel="stylesheet" href="./resources/style.css"/>
@@ -54,8 +56,6 @@ xmlns:pe="http://primefaces.org/ui/extensions"
 		    min-height: 100vh;
 		    background-color: #eee;
 		}
-				
-	
 	</style>
 </h:head>
 <h:body onload="init();">
@@ -72,9 +72,26 @@ xmlns:pe="http://primefaces.org/ui/extensions"
 			    		style="box-shadow: 0 1px 1px rgba(0,0,0,.05);
 			    		padding-bottom: 0px;
     					padding-top: 6px;">
-			    		<button type="button" class="close" data-dismiss="modal" style="margin-right:10px; float:right; font-size:32px;" aria-label="Close">
+			    		<button type="button" class="close" data-dismiss="modal" style="float:right; font-size:32px;" aria-label="Close">
 			    			<i class="material-icons" style="font-size: 32px;">&#xe5cd;</i>
 			    		</button>
+			    		<div class="btn-group" style="float:right">
+						  <a href="./API/resource?uri=#{searchViewController.selectedEntry.uri}" style="font-size: x-small;"
+						  class="btn btn-default" role="button">Download</a>
+						  <button type="button" 
+						 	class="btn btn-default dropdown-toggle" 
+						  	data-toggle="dropdown" 
+    						style="font-size: x-small; margin-right:10px;"
+						  	aria-haspopup="true" aria-expanded="false">
+						    <span class="caret"></span>
+						    <span class="sr-only">Toggle Button</span>
+						  </button>
+						  <ul class="dropdown-menu">
+						  	<li><a href="./API/resource?uri=#{searchViewController.selectedEntry.uri}&amp;format=JSON-LD" style="font-size: x-small;">JSON-LD</a></li>
+							<li><a href="./API/resource?uri=#{searchViewController.selectedEntry.uri}&amp;format=N-Triples" style="font-size: x-small;">N-Triples</a></li>
+						    <li><a href="./API/resource?uri=#{searchViewController.selectedEntry.uri}&amp;format=Turtle" style="font-size: x-small;">Turtle</a></li>
+						  </ul>
+						</div>
 			    		<button type="button" class="close" data-dismiss="modal" style="margin-right:10px; float:left; font-size:30px;" aria-label="Close">
 			    			<i class="material-icons" style="font-size: 32px;">&#xe5c4;</i>
 			    		</button>
@@ -128,30 +145,48 @@ xmlns:pe="http://primefaces.org/ui/extensions"
 										      		onclick="openEntry([{name:'id', value:'#{literalProperty.id}'}])">#{literalProperty.label}</button>:
 										      </td>
 										      <td class="value-column">
-										      	<ui:repeat var="object" value="#{literalProperty.objects}">
-											      	<h:panelGroup rendered="#{object.literal}">
-												      	<table>
-											  				<tbody>
-											  					<tr>
-											  						<td>		  							
-													      				#{object.label}								      				
-													      			</td>
-													      		</tr>
-													      	</tbody>
-													    </table>
-												    </h:panelGroup>
-												    <h:panelGroup  rendered="#{!object.literal &amp;&amp; object.id != searchViewController.selectedEntry.id}">
-								      					<button type="button"
-								      					class="btn btn-default btn-xs info-button"
-								      					onclick="openEntry([{name:'id', value:'#{object.id}'}])">#{object.label}</button>
-								      				</h:panelGroup>
-								      				<h:panelGroup rendered="#{!object.literal &amp;&amp; object.id == searchViewController.selectedEntry.id}">
-								      					<button type="button"
-								      					disabled="true"
-								      					class="btn btn-default btn-xs info-button"
-								      					onclick="openEntry([{name:'id', value:'#{object.id}'}])">#{object.label}</button>
-								      				</h:panelGroup>
-							      				</ui:repeat>
+										        <h:panelGroup rendered="#{literalProperty.image}">
+							      					<p:galleria value="#{literalProperty.objectURIs}" var="image" panelWidth="500" panelHeight="313" showCaption="true">
+													    <p:graphicImage  value="#{image}" alt="#{image}" title="#{image}"/>
+													</p:galleria>
+								      			</h:panelGroup>
+								      			<h:panelGroup rendered="#{!literalProperty.image}">
+											      	<ui:repeat var="object" value="#{literalProperty.objects}">
+												      	<h:panelGroup rendered="#{object.literal &amp;&amp; object.langTagged}">
+													      	<table>
+												  				<tbody>
+												  					<tr>
+												  						<td style="padding-bottom: 15px;">
+														      				#{object.label}@#{object.lang}
+														      			</td>
+														      		</tr>
+														      	</tbody>
+														    </table>
+													    </h:panelGroup>
+													    <h:panelGroup rendered="#{object.literal &amp;&amp; !object.langTagged}">
+													      	<table>
+												  				<tbody>
+												  					<tr>
+												  						<td style="padding-bottom: 15px;">
+														      				#{object.label}
+														      			</td>
+														      		</tr>
+														      	</tbody>
+														    </table>
+													    </h:panelGroup>
+													    <h:panelGroup rendered="#{!object.literal &amp;&amp; object.id != searchViewController.selectedEntry.id}">
+									      					<button type="button"
+									      						class="btn btn-default btn-xs info-button"
+									      						onclick="openEntry([{name:'id', value:'#{object.id}'}])">#{object.label}</button>
+									      				</h:panelGroup>
+									      				<h:panelGroup rendered="#{!object.literal &amp;&amp; object.id == searchViewController.selectedEntry.id}">
+									      					<button type="button"
+									      						disabled="true"
+									      						class="btn btn-default btn-xs info-button"
+									      						onclick="openEntry([{name:'id', value:'#{object.id}'}])">#{object.label}</button>
+									      				</h:panelGroup>
+								      				</ui:repeat>
+							      				</h:panelGroup>
 										      </td>
 										    </tr>
 									    </ui:repeat>
@@ -254,11 +289,11 @@ xmlns:pe="http://primefaces.org/ui/extensions"
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="navbar-collapse">
 			  <ul id="content-navbar" class="nav navbar-nav">
-				<li class="active"><a onclick="filter([{name:'id', value:'none'}]);refresh();">All<span class="sr-only">(current)</span></a></li>
-				<li><a onclick="filter([{name:'content', value:'entity'}]);refresh(); return false;">Entities</a></li>
-				<li><a onclick="filter([{name:'content', value:'ontology'}]);refresh(); return false;">Ontologies</a></li>
-				<li><a onclick="filter([{name:'content', value:'class'}]);refresh(); return false;">Classes</a></li>
-				<li><a onclick="filter([{name:'content', value:'property'}]);refresh(); return false;">Properties</a></li>
+				<li class="active"><a onclick="filter([{name:'id', value:'none'}]); updateStats(); refresh();">All<span class="sr-only">(current)</span></a></li>
+				<li><a onclick="filter([{name:'content', value:'entity'}]);refresh(); updateStats(); return false;">Entities</a></li>
+				<li><a onclick="filter([{name:'content', value:'ontology'}]);refresh(); updateStats(); return false;">Ontologies</a></li>
+				<li><a onclick="filter([{name:'content', value:'class'}]);refresh(); updateStats(); return false;">Classes</a></li>
+				<li><a onclick="filter([{name:'content', value:'property'}]);refresh(); updateStats(); return false;">Properties</a></li>
 			  </ul>
 			  <ul class="nav navbar-nav navbar-right">
 			  	<li id="content-about"><a onclick="display('about', !isActive('content-about'))">About</a></li>
@@ -405,6 +440,9 @@ xmlns:pe="http://primefaces.org/ui/extensions"
 				<div id="container">
 					<div class="grid-sizer"></div>					  				
 				</div>
+				<div style="text-align:center;">
+					<img id="spinner" src="./resources/ajax-loader.gif" style="padding-top: 10px;" height="100px"></img>
+				</div>
 				<div style="text-align:center;padding-top: 40px;">
 					<button type="button" id="loadMore" 
 					class="btn btn-default btn-sm" 
@@ -442,17 +480,18 @@ xmlns:pe="http://primefaces.org/ui/extensions"
 				update=":itemDetailPanel"/>
 			<p:remoteCommand name="loadNewContent"
 				actionListener="#{searchViewController.nextPage}"
-				process=":newContent" update=":newContent"
+				process=":newContent"
+				update=":newContent"
                 oncomplete="handleLoadStop()"/> 
 			<p:remoteCommand name="openEntry"
 				actionListener="#{searchViewController.openEntry}" 
 				process=":itemDetailPanel"
 				update=":itemDetailPanel" />
-			<p:remoteCommand  name="resetPage"
+			<p:remoteCommand name="resetPage"
 				actionListener="#{searchViewController.resetPage}"
 				process="@this"
 				update="@none"/>
-			<p:remoteCommand  name="cleanQuery"
+			<p:remoteCommand name="cleanQuery"
 				actionListener="#{searchViewController.cleanQuery}"
 				process="@this"
 				update="@none"/>
@@ -479,6 +518,7 @@ xmlns:pe="http://primefaces.org/ui/extensions"
 			    update="@none"
 				actionListener="#{searchViewController.filterContent}"/>
 			<p:remoteCommand name="updateStats"
+			    async="false"
 			    process="@this"
 			    update=":searchStats"/>
 		</h:form>

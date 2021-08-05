@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.aksw.sante</groupId>
     <artifactId>parent</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.21-SNAPSHOT</version>
   </parent>
   <dependencies>
 	<dependency>
@@ -12,6 +12,11 @@
 	    <artifactId>apache-jena-libs</artifactId>
 	    <type>pom</type>
 	    <version>3.16.0</version>
+	</dependency>
+	<dependency>
+	    <groupId>log4j</groupId>
+	    <artifactId>log4j</artifactId>
+	    <version>1.2.17</version>
 	</dependency>
 	<dependency>
 	    <groupId>org.apache.commons</groupId>

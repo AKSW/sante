@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.aksw.sante</groupId>
     <artifactId>parent</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.21-SNAPSHOT</version>
   </parent>
   <packaging>war</packaging>
   <name>sante.smile</name>
@@ -124,12 +124,12 @@
 	<dependency>
 	    <groupId>org.aksw.sante</groupId>
 	    <artifactId>sante.core</artifactId>
-	    <version>0.0.1-SNAPSHOT</version>
+	    <version>0.0.21-SNAPSHOT</version>
 	</dependency>
 	<dependency>
 	    <groupId>org.aksw.sante</groupId>
 	    <artifactId>sante.lucene</artifactId>
-	    <version>0.0.1-SNAPSHOT</version>
+	    <version>0.0.21-SNAPSHOT</version>
 	</dependency>
   </dependencies>
   

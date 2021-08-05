@@ -96,11 +96,12 @@ function layoutItems(l) {
 }
 
 function handleLoadStop() {
+	loading('none');
 	var $items = $('#newContent > div');
 	if(layout == 'line') {
 		$items.addClass('grid-item-large');
 	}
-	$('#container').append($items).masonry( 'appended', $items );
+	$('#container').append($items).masonry('appended', $items);
 	$('#container').masonry('layout');
 	if($items.length == 10) {
 		enableLoadMore('inline');
@@ -108,6 +109,10 @@ function handleLoadStop() {
     } else {
     	enableLoadMore('none');
     }
+}
+
+function loading(display) {
+	document.getElementById("spinner").style.display = display;
 }
 
 function validKeyEntry(keycode) {
@@ -127,6 +132,8 @@ function refresh() {
 	    $('#container').remove(".grid-item");
     	$('#container').masonry( 'remove', elements ).masonry('layout');
     }
+	enableLoadMore('none');
+	loading('inline');
 	resetPage();
 	loadContent();
 }

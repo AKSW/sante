@@ -63,25 +63,31 @@ public class PropertyObjectAnnotation extends Annotation<Double> {
 		List<String> queryTokenList = new ArrayList<String>(Arrays.asList(queryTokens));
 		List<String> labelTokenList = new ArrayList<String>(Arrays.asList(labelTokens));
 		retainAll(queryTokenList, labelTokenList);
-		Double score = (double) (labelTokenList.size() / labelTokens.length);
-		if(score == 1) {
-			score = Math.pow(score, labelTokens.length);
-		} else {
-			double intersection = labelTokenList.size() - queryTokenList.size();
-			score = intersection / (queryTokenList.size() + labelTokenList.size() - intersection);
-		}
-		Double boost = boosts.get(propertyURI);
-		if(boost == null) {
-			boost = 0.;
-		}
-		score = score * 100;
-		double tScore = (score / labelTokenList.size()) + boost;
-		for(String token : labelTokenList) {
-			Double pTScore = get(token);
-			if(pTScore == null || pTScore < tScore) {
-				put(token, tScore);
-				resourceLabels.put(token, label);
+		try {
+			if(labelTokens.length > 0) {
+				Double score = (double) (labelTokenList.size() / labelTokens.length);
+				if(score == 1) {
+					score = Math.pow(score, labelTokens.length);
+				} else {
+					double intersection = labelTokenList.size() - queryTokenList.size();
+					score = intersection / (queryTokenList.size() + labelTokenList.size() - intersection);
+				}
+				Double boost = boosts.get(propertyURI);
+				if(boost == null) {
+					boost = 0.;
+				}
+				score = score * 100;
+				double tScore = (score / labelTokenList.size()) + boost;
+				for(String token : labelTokenList) {
+					Double pTScore = get(token);
+					if(pTScore == null || pTScore < tScore) {
+						put(token, tScore);
+						resourceLabels.put(token, label);
+					}
+				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	

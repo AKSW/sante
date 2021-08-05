@@ -15,28 +15,30 @@ import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.sparql.engine.http.QueryEngineHTTP;
+import org.apache.log4j.Logger;
 
 public abstract class AbstractResultSetIterator <T> {
 	
+	private static Logger logger = Logger.getLogger(AbstractResultSetIterator.class);
 
 	private final static String LABEL_QUERY = "PREFIX  rdfs:  <http://www.w3.org/2000/01/rdf-schema#>  " + 
-			"Select distinct ?label where {<?uri> rdfs:label ?label }";
+			"Select distinct ?label where ";
 	
 	private final static String INSTANCE_QUERY = "PREFIX  rdfs:  <http://www.w3.org/2000/01/rdf-schema#>  " + 
-			"Select ?p ?o where {<?uri> ?p ?o }";
+			"Select ?p ?o where ";
 	
 	private final static String DEFAULT_LABELING_PROPERTY = "http://www.w3.org/2000/01/rdf-schema#label";
 
 	private String endpoint;
-	private String graph;
+	private String whereClause;
 	private Set<String> labelingProperties;
 	private String pFilter = null;
 	
 	public AbstractResultSetIterator(String endpoint, 
-			String graph, 
+			String whereClause, 
 			Set<String> labelingProperties) {
 		this.endpoint = endpoint;
-		this.graph = graph;
+		this.whereClause = whereClause;
 		this.labelingProperties = labelingProperties;
 		if(labelingProperties == null) {
 			pFilter = "?p = <" + DEFAULT_LABELING_PROPERTY + ">";
@@ -51,33 +53,45 @@ public abstract class AbstractResultSetIterator <T> {
 		}
 	}
 	
-	public List<org.apache.jena.rdf.model.Literal> getLabels(String uri) {
-		String parsedQuery = LABEL_QUERY.replace("?uri", uri);
+	public List<org.apache.jena.rdf.model.Literal> getLabels(RDFNode node) {
+		String queryVariable = getQueryVariale(node);
+		String parsedWhereClause = whereClause.replace("?s", queryVariable);
+		parsedWhereClause = parsedWhereClause.replace("?p", "rdfs:label");
+		parsedWhereClause = parsedWhereClause.replace("?o", "?label");
+		String parsedQuery = LABEL_QUERY + parsedWhereClause;
 		parsedQuery = parsedQuery.replace("?pFilter", pFilter);
-		Query query = QueryFactory.create(parsedQuery, graph);
-		try(QueryEngineHTTP qexec = new QueryEngineHTTP(endpoint, query)) {
-			List<org.apache.jena.rdf.model.Literal> literals = new ArrayList<org.apache.jena.rdf.model.Literal>();
-			ResultSet rs = qexec.execSelect();
-			while (rs != null && rs.hasNext()) {
-				QuerySolution qs = rs.next();
-				org.apache.jena.rdf.model.Literal literal = qs.getLiteral("label");
-				literals.add(literal);
+		List<org.apache.jena.rdf.model.Literal> literals = new ArrayList<org.apache.jena.rdf.model.Literal>();
+		try {
+			Query query = QueryFactory.create(parsedQuery);
+			try(QueryEngineHTTP qexec = new QueryEngineHTTP(endpoint, query)) {
+				ResultSet rs = qexec.execSelect();
+				while (rs != null && rs.hasNext()) {
+					QuerySolution qs = rs.next();
+					org.apache.jena.rdf.model.Literal literal = qs.getLiteral("label");
+					literals.add(literal);
+				}
 			}
-			return literals;
+		} catch(Exception e) {
+			logger.warn("Error retrieving label: " + node.toString(), e);
 		}
+		return literals;
 	}
 	
-	public Entity getInstance(String uri) {
+	public Entity getInstance(RDFNode node) {
+		String uri = node.toString();
+		String uriQueryVariable = getQueryVariale(node);
 		Entity e = new Entity(uri, labelingProperties);
-		String parsedQuery = INSTANCE_QUERY.replace("?uri", uri);
-		Query query = QueryFactory.create(parsedQuery, graph);
+		String parsedWhereClause = whereClause.replace("?s", uriQueryVariable);
+		String parsedQuery = INSTANCE_QUERY + parsedWhereClause;
+		Query query = QueryFactory.create(parsedQuery);
 		try(QueryEngineHTTP qexec = new QueryEngineHTTP(endpoint, query)) {
 			ResultSet rs = qexec.execSelect();
 			while (rs != null && rs.hasNext()) {
 				QuerySolution qs = rs.next();
-				String pURI = qs.get("p").toString();
+				RDFNode pNode = qs.get("p");
+				String pURI = pNode.toString();
 				java.util.List<Literal> pLabels = new ArrayList<Literal>();
-				List<org.apache.jena.rdf.model.Literal> pLabelLiterals = getLabels(pURI);
+				List<org.apache.jena.rdf.model.Literal> pLabelLiterals = getLabels(pNode);
 				for(org.apache.jena.rdf.model.Literal pLabelLiteral: pLabelLiterals) {
 					String pLabel = pLabelLiteral.getString();
 					String pLang = pLabelLiteral.getLanguage();
@@ -96,9 +110,9 @@ public abstract class AbstractResultSetIterator <T> {
 					LiteralObject literalObject = new LiteralObject(oLabel, oLang);
 					p = new Property(pURI, pLabels, literalObject);
 				} else {
-					oURI = oNode.asResource().getURI();
+					oURI = oNode.toString();
 					java.util.List<Literal> oLabels = new ArrayList<Literal>();
-					List<org.apache.jena.rdf.model.Literal>  oLabelLiterals = getLabels(oURI);
+					List<org.apache.jena.rdf.model.Literal>  oLabelLiterals = getLabels(oNode);
 					for(org.apache.jena.rdf.model.Literal oLabelLiteral : oLabelLiterals) {
 						oLabel = oLabelLiteral.getString();
 						oLang = oLabelLiteral.getLanguage();
@@ -112,8 +126,13 @@ public abstract class AbstractResultSetIterator <T> {
 		}
 		return e;
 	}
+
+	protected String getQueryVariale(RDFNode node) {
+		String nodeURI = node.toString();
+		nodeURI = "<" + nodeURI + ">";
+		return nodeURI;
+	}
 	
 	public abstract void accept(ResultSetVisitor<T> visitor);
-
 	
 }

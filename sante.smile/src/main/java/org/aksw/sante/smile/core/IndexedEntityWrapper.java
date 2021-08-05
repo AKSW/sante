@@ -67,7 +67,7 @@ public class IndexedEntityWrapper extends AbstractEntityWrapper implements Seria
 	
 	public String getLabel() {
 		if(label == null) {
-			label = entity.getPropertyObjectValue(labelingProperties, entity.getURI());
+			label = entity.getPropertyObjectValue(labelingProperties, new String[] {"en", "de", "fr", "pt", "ANY"}, entity.getURI());
 		}
 		return label;
 	}
@@ -80,7 +80,7 @@ public class IndexedEntityWrapper extends AbstractEntityWrapper implements Seria
 	
 	private void loadAbstract() {
 		if(description == null && abstractProperties != null) {
-			description = entity.getPropertyObjectValue(abstractProperties, "");
+			description = entity.getPropertyObjectValue(abstractProperties, new String[] {"en", "de", "fr", "pt", "ANY"}, "");
 		}
 	}
 	
@@ -118,6 +118,7 @@ public class IndexedEntityWrapper extends AbstractEntityWrapper implements Seria
 	private List<PropertyWrapper> extractRelevantProperties(List<Property> entityProperties,
 			String[] hideProperties) {
 		List<PropertyWrapper> relProperties = new ArrayList<PropertyWrapper>();
+		List<String> imagePropertiesList = Arrays.asList(imageProperties);
 		List<String> hidePropertyList = null;
 		if(hideProperties != null) {
 			hidePropertyList = Arrays.asList(hideProperties);
@@ -127,6 +128,7 @@ public class IndexedEntityWrapper extends AbstractEntityWrapper implements Seria
 					!hidePropertyList.contains(propertyURI)) {
 				List<Property> properties = entity.getProperties(propertyURI);
 				PropertyWrapper propertyWrapper = new PropertyWrapper(properties, propertyURI, "", "en", null);
+				propertyWrapper.isImage(imagePropertiesList.contains(propertyURI));
 				relProperties.add(propertyWrapper);
 			}
 		}

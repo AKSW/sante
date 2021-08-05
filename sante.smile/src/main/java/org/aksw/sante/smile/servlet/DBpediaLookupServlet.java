@@ -25,7 +25,7 @@ import org.apache.lucene.index.IndexReader;
 import org.sante.lucene.ResultSet;
 import org.sante.lucene.SearchEngine;
 
-@WebServlet(name = "DBpediaLookupServlet", urlPatterns = {"/API/dbpedialookup"})
+@WebServlet(name = "DBpediaLookupServlet", urlPatterns = {"/API/lookup/search"})
 public class DBpediaLookupServlet extends AbstractServlet {
 
     /**

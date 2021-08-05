@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:f="http://java.sun.com/jsf/core"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:p="http://primefaces.org/ui"
+xmlns:pe="http://primefaces.org/ui/extensions"
+>
+<h:head>
+    <title>SANTé</title>
+
+     <!-- Required meta tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    
+    <!-- import Google font -->
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'/>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+	<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+	
+	<!-- to top buttom -->
+	<link type="text/css" rel="stylesheet" href="./resources/style.css"/>
+	
+</h:head>
+<h:body>
+  
+		<div class="modal-dialog modal-fluid" role="document">
+			<div class="modal-content">
+				<h:panelGroup id="itemDetailPanel">
+			    	<div class="modal-header no-border no-padding-bottom" 
+			    		style="box-shadow: 0 1px 1px rgba(0,0,0,.05);
+			    		padding-bottom: 0px;
+    					padding-top: 6px;">
+    					<div class="btn-group" style="float:right">
+						  <a href="./API/resource?uri=#{detailsViewController.selectedEntry.uri}" style="font-size: x-small;"
+						  class="btn btn-default" role="button">Download</a>
+						  <button type="button" 
+						 	class="btn btn-default dropdown-toggle" 
+						  	data-toggle="dropdown" 
+    						style="font-size: x-small;"
+						  	aria-haspopup="true" aria-expanded="false">
+						    <span class="caret"></span>
+						    <span class="sr-only">Toggle Button</span>
+						  </button>
+						  <ul class="dropdown-menu">
+						  	<li><a href="./API/resource?uri=#{detailsViewController.selectedEntry.uri}&amp;format=JSON-LD" style="font-size: x-small;">JSON-LD</a></li>
+							<li><a href="./API/resource?uri=#{detailsViewController.selectedEntry.uri}&amp;format=N-Triples" style="font-size: x-small;">N-Triples</a></li>
+						    <li><a href="./API/resource?uri=#{detailsViewController.selectedEntry.uri}&amp;format=Turtle" style="font-size: x-small;">Turtle</a></li>
+						  </ul>
+						</div>
+			    		<a href="./" class="close" data-dismiss="modal" style="margin-right:10px; float:left; font-size:30px;" aria-label="Share">
+			    			<i class="glyphicon glyphicon-search" style="font-size: 32px;"></i>
+			    		</a>
+			    		<div style="text-align: center;font-size: x-small;">
+			    			<div>#{detailsViewController.selectedEntry.uri}</div>
+			    			<div>#{detailsViewController.selectedEntry.label}</div>
+			    		</div>
+			      	</div>
+			      	<ol class="breadcrumb" style="margin: 4px 0px 4px 0px;font-size:smaller;border-radius: 0px;">
+				        	<ui:repeat var="entity" value="#{detailsViewController.openEntities}">
+				        		<h:panelGroup rendered="#{entity.id != detailsViewController.selectedEntryId}">
+									 <li>
+									 	<button type="button" class="btn btn-default btn-xs info-button" onclick="openEntry([{name:'uri', value:'#{entity.id}'}])">#{entity.label}</button>
+									 </li>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{entity.id == detailsViewController.selectedEntryId}">
+								 	<li class="active">#{entity.label}</li>
+								</h:panelGroup>
+							</ui:repeat>
+					</ol>
+					<div class="modal-body no-padding-bottom no-padding-top">
+						<div class="panel panel-default info-panel">
+							<div class="panel-body">
+								<h4 class="media-heading">#{detailsViewController.selectedEntry.label}</h4>
+								<h6 class="media-heading"><a target="_blank" href="#{detailsViewController.selectedEntry.uri}">#{detailsViewController.selectedEntry.uri}</a></h6>
+								<h:panelGroup rendered="#{detailsViewController.selectedEntry.available}">
+									<table class="table table-borderless">
+									  <tbody>
+									  	<tr>
+						  					<th colspan="2">
+						  						<div class="media">
+													<div class="media-body">
+														#{detailsViewController.selectedEntry.description}
+													</div>
+													<h:panelGroup rendered="#{detailsViewController.selectedEntry.hasImage}">					
+														<div class="media-right">
+															<img class="media-object"  
+    															src="#{detailsViewController.selectedEntry.image}"
+    															alt="#{detailsViewController.selectedEntry.label}"
+    															onerror="this.style.display='none';"
+    															/>
+														</div>
+													</h:panelGroup>
+												</div>
+						  					</th>
+						  				</tr>
+									  	<ui:repeat var="literalProperty" value="#{detailsViewController.selectedEntry.literalProperties}">
+									  	    <tr>
+										      <td class="label-column">
+										      		<button type="button" 
+										      		class="btn btn-default btn-xs info-button"
+										      		onclick="openEntry([{name:'uri', value:'#{literalProperty.id}'}])">#{literalProperty.label}</button>:
+										      </td>
+										      <td class="value-column">
+										      	<ui:repeat var="object" value="#{literalProperty.objects}">
+											      	<h:panelGroup rendered="#{object.literal}">
+												      	<table>
+											  				<tbody>
+											  					<tr>
+											  						<td style="padding-bottom: 15px;">
+													      				#{object.label}@#{object.lang}
+													      			</td>
+													      		</tr>
+													      	</tbody>
+													    </table>
+												    </h:panelGroup>
+												    <h:panelGroup  rendered="#{!object.literal &amp;&amp; object.id != detailsViewController.selectedEntry.id}">
+								      					<button type="button"
+								      					class="btn btn-default btn-xs info-button"
+								      					onclick="openEntry([{name:'uri', value:'#{object.id}'}])">#{object.label}</button>
+								      				</h:panelGroup>
+								      				<h:panelGroup rendered="#{!object.literal &amp;&amp; object.id == detailsViewController.selectedEntry.id}">
+								      					<button type="button"
+								      					disabled="true"
+								      					class="btn btn-default btn-xs info-button"
+								      					onclick="openEntry([{name:'uri', value:'#{object.id}'}])">#{object.label}</button>
+								      				</h:panelGroup>
+							      				</ui:repeat>
+										      </td>
+										    </tr>
+									    </ui:repeat>
+									  </tbody>
+									</table>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{!detailsViewController.selectedEntry.available}">
+									<h1>Content not available :-(</h1>
+									<img style="width: 80%; max-width: 400px;" src="./resources/not_available.gif"/>
+								</h:panelGroup>
+			      			</div>
+			      		</div>
+			      </div>
+				</h:panelGroup>
+			</div>
+		</div>
+		<h:form style="display:none;">
+			<p:remoteCommand name="openEntry"
+				actionListener="#{detailsViewController.openEntry}" 
+				process=":itemDetailPanel"
+				update=":itemDetailPanel" />
+		</h:form>
+</h:body>
+</html>

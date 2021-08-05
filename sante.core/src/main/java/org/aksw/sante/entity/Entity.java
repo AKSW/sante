@@ -91,13 +91,28 @@ public class Entity extends Resource implements Serializable {
 		return value;
 	}
 	
+	public String getPropertyObjectValue(String uri, String[] langs) {
+		for(String lang : langs) {
+			String objectValue = getPropertyObjectValue(uri, lang);
+			if(objectValue != null) {
+				return objectValue;
+			}
+		}
+		return null;
+	}
+	
 	public String getPropertyObjectValue(String uri, String lang) {
 		if(properties.containsKey(uri)) {
 			List<Property> properties = getProperties(uri);
 			for(Property p : properties) {
-				LiteralObject object = (LiteralObject) p.getObject();
-				if(object.getLang() == lang) {
-					return object.getValue();
+				Object object = p.getObject();
+				if(object.isLiteral()) {
+					LiteralObject literal = (LiteralObject) object;
+					if(lang == null || lang.equalsIgnoreCase("ANY") || (literal.getLang() != null && (literal.getLang().equalsIgnoreCase(lang)))) {
+						return literal.getValue();
+					}
+				} else {
+					return object.getURI();
 				}
 			}
 		}
@@ -120,10 +135,17 @@ public class Entity extends Resource implements Serializable {
 	}
 
 	public String getPropertyObjectValue(String[] uris, String defaultValue) {
+		return getPropertyObjectValue(uris, new String[] {null}, defaultValue);
+	}
+	
+	public String getPropertyObjectValue(String[] uris, String[] langs, String defaultValue) {
 		if(uris != null) {
 			for(String uri : uris) {
 				if(properties.containsKey(uri)) {
-					return getPropertyObjectValue(uri);
+					String value = getPropertyObjectValue(uri, langs);
+					if(value != null) {
+						return value;
+					}
 				}
 			}
 		}

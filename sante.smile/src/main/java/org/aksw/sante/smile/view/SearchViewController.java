@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -42,7 +42,7 @@ import org.sante.lucene.Suggestion;
 import freemarker.template.TemplateException;
 
 @Named
-@SessionScoped
+@ViewScoped
 public class SearchViewController implements Serializable {
 
 	/**
@@ -365,8 +365,14 @@ public class SearchViewController implements Serializable {
 					loadResources(openEntry);
 				} else {
 					ResourceWrapper resource = detailResourceMap.get(openEntryId);
-					openEntry = new UnavailableEntityWrapper(openEntryId, 
-							resource.getLabel());
+					String label = openEntryId;
+					String uri = openEntryId;
+					if(resource != null) {
+						label = resource.getLabel();
+						uri = resource.getURI();
+					}
+					openEntry = new UnavailableEntityWrapper(uri, 
+							label);
 				}
 				resultEntityMap.put(openEntry.getId(), 
 						openEntry);
