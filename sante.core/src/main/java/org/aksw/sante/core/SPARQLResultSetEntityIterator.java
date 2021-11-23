@@ -9,8 +9,11 @@ import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.sparql.engine.http.QueryEngineHTTP;
+import org.apache.log4j.Logger;
 
-public class SPARQLResultSetEntityIterator extends AbstractResultSetIterator<Entity>{
+public class SPARQLResultSetEntityIterator extends AbstractResultSetIterator<Entity> {
+	
+	private static Logger logger = Logger.getLogger(SPARQLResultSetEntityIterator.class);
 	
 	private int limit;
 	private String query;
@@ -29,6 +32,8 @@ public class SPARQLResultSetEntityIterator extends AbstractResultSetIterator<Ent
 	
 	public void accept(ResultSetVisitor<Entity> visitor) {
 		int offset = 0;
+		long index = 0;
+		long size = getSize(query);
 		boolean loop = true;
 		while (loop) {
 			String sparqlQuery = query + " LIMIT " + limit + " OFFSET " + offset;
@@ -36,9 +41,11 @@ public class SPARQLResultSetEntityIterator extends AbstractResultSetIterator<Ent
 			try(QueryEngineHTTP qexec = new QueryEngineHTTP(endpoint, query)) {
 				ResultSet rs = qexec.execSelect();
 				while (rs != null && rs.hasNext()) {
+					index++;
 					QuerySolution qs = rs.next();
 					RDFNode sResource = qs.get("s");
 					Entity e = getInstance(sResource);
+					logger.debug("Processing entry " + index + "/" + size);
 					if(!visitor.visit(e)) {
 						return;
 					}

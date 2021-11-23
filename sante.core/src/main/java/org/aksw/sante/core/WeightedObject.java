@@ -1,9 +1,9 @@
 package org.aksw.sante.core;
-public class WeightedObjet <O> {
+public class WeightedObject <O> {
 		private O key; 
 		private double weight;
 		
-		public WeightedObjet(O key, double weight) {
+		public WeightedObject(O key, double weight) {
 			this.setKey(key);
 			this.setWeight(weight);
 		}

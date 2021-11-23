@@ -1,7 +1,12 @@
 package org.aksw.sante.smile.core;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+
+import org.apache.log4j.Logger;
 
 public abstract class AbstractEntityWrapper extends ResourceWrapper implements Serializable {
 	
@@ -9,6 +14,8 @@ public abstract class AbstractEntityWrapper extends ResourceWrapper implements S
 	 * 
 	 */
 	private static final long serialVersionUID = -6115503655288249317L;
+	
+	private final static Logger logger = Logger.getLogger(AbstractEntityWrapper.class);
 	
 	public AbstractEntityWrapper(String uri, String label) {
 		super(uri, label);
@@ -20,6 +27,15 @@ public abstract class AbstractEntityWrapper extends ResourceWrapper implements S
 	
 	public String getUri() {
 		return getURI();
+	}
+	
+	public String getEncodedUri() {
+		try {
+			return URLEncoder.encode(getURI(), StandardCharsets.UTF_8.toString());
+		} catch (UnsupportedEncodingException e) {
+			logger.error(e);
+		}
+		return "";
 	}
 
 	public abstract boolean isAvailable();

@@ -13,8 +13,11 @@ import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.sparql.engine.http.QueryEngineHTTP;
+import org.apache.log4j.Logger;
 
 public class SPARQLResultSetPropertyIterator extends AbstractResultSetIterator<Property> {
+	
+	private static Logger logger = Logger.getLogger(SPARQLResultSetPropertyIterator.class);
 	
 	private String query;
 	private String endpoint;
@@ -33,6 +36,8 @@ public class SPARQLResultSetPropertyIterator extends AbstractResultSetIterator<P
 	
 	public void accept(ResultSetVisitor<Property> visitor) {
 		int offset = 0;
+		long index = 0;
+		long size = getSize(query);
 		boolean loop = true;
 		while (loop) {
 			String sparqlQuery = query + " LIMIT " + limit + " OFFSET " + offset;
@@ -40,6 +45,7 @@ public class SPARQLResultSetPropertyIterator extends AbstractResultSetIterator<P
 			try(QueryEngineHTTP qexec = new QueryEngineHTTP(endpoint, query)) {
 				ResultSet rs = qexec.execSelect();
 				while (rs != null && rs.hasNext()) {
+					index++;
 					QuerySolution qs = rs.next();
 					RDFNode pNode = qs.get("p");
 					String pURI = pNode.toString();
@@ -73,7 +79,8 @@ public class SPARQLResultSetPropertyIterator extends AbstractResultSetIterator<P
 							oLabels.add(literal);
 						}
 						p = new Property(pURI, pLabels, oURI, oLabels);
-					}	
+					}
+					logger.debug("Processing entry " + index + "/" + size);
 					visitor.visit(p); // visit property
 				}
 				int rowNumber = rs.getRowNumber();

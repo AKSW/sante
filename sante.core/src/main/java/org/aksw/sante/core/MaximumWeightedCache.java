@@ -11,11 +11,11 @@ public class MaximumWeightedCache <S,P> extends HashMap<S, P> {
 	 * 
 	 */
 	private static final long serialVersionUID = 2899935050694697665L;
-	private List<WeightedObjet<S>> weighObjects = new ArrayList<WeightedObjet<S>>();
+	private List<WeightedObject<S>> weighObjects = new ArrayList<WeightedObject<S>>();
 	private int maxSize = 10;
-	private Comparator<WeightedObjet<S>> comparator = null;
+	private Comparator<WeightedObject<S>> comparator = null;
 			
-	public MaximumWeightedCache(int maxSize, Comparator<WeightedObjet<S>> comparator) {
+	public MaximumWeightedCache(int maxSize, Comparator<WeightedObject<S>> comparator) {
 		this.maxSize = maxSize;
 		this.comparator = comparator;
 	}
@@ -25,7 +25,7 @@ public class MaximumWeightedCache <S,P> extends HashMap<S, P> {
 			S loswestWeightedKey = weighObjects.get(maxSize-1).getKey();
 			remove(loswestWeightedKey);
 		}
-		WeightedObjet<S> wO = new WeightedObjet<S>(key, weight);
+		WeightedObject<S> wO = new WeightedObject<S>(key, weight);
 		Collections.sort(weighObjects, comparator);
 		weighObjects.add(wO);
 		return super.put(key, value);

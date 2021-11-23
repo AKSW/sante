@@ -19,6 +19,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFReader;
 import org.apache.jena.rdf.model.RDFWriter;
+import org.apache.log4j.Logger;
 import org.apache.lucene.index.IndexReader;
 import org.sante.lucene.SearchEngine;
 
@@ -29,6 +30,8 @@ public class ResourceServlet extends AbstractServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = -434687490902537643L;
+	
+	private final static Logger logger = Logger.getLogger(ResourceServlet.class);
 	
 	private static final String URI_PARAM = "uri";
 	private static final String FORMAT_PARAM = "format";
@@ -48,6 +51,11 @@ public class ResourceServlet extends AbstractServlet {
         try (IndexReader reader = SearchEngine.newReader(indexPath);) {
         	SearchEngine searchEngine = new SearchEngine(reader);
         	Entity entity = searchEngine.getEntity(uriParam);
+        	if(entity == null) {
+        		response.sendError(400);
+        		out.print("Entity not found: Make sure the given URI is properly encoded.");
+        		return;
+        	}
 			String triples = entity.asTriples();
 			Model model = ModelFactory.createDefaultModel();
 			RDFReader tripleReader = model.getReader(DEFAULT_READ_FORMAT);
@@ -61,7 +69,9 @@ public class ResourceServlet extends AbstractServlet {
 			}
 			rdfWriter.write(model, out, "");
 		} catch (Exception e) {
-			out.print(e.getMessage());
+			logger.error("Error retrieving resource: " + uriParam, e);
+			response.sendError(500);
+			out.print("Ups, something went wrong.");
 		}
     }
 }

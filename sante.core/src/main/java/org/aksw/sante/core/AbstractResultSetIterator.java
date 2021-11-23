@@ -53,6 +53,24 @@ public abstract class AbstractResultSetIterator <T> {
 		}
 	}
 	
+	public long getSize(String queryString) {
+		String parsedQuery = "SELECT ((COUNT(*)) AS ?count) { " + queryString + " }";
+		try {
+			Query query = QueryFactory.create(parsedQuery);
+			try(QueryEngineHTTP qexec = new QueryEngineHTTP(endpoint, query)) {
+				ResultSet rs = qexec.execSelect();
+				while (rs != null && rs.hasNext()) {
+					QuerySolution qs = rs.next();
+					int size = qs.getLiteral("count").getInt();
+					return size;
+				}
+			}
+		} catch(Exception e) {
+			logger.warn("Error retrieving query size.", e);
+		}
+		return 0;
+	}
+	
 	public List<org.apache.jena.rdf.model.Literal> getLabels(RDFNode node) {
 		String queryVariable = getQueryVariale(node);
 		String parsedWhereClause = whereClause.replace("?s", queryVariable);

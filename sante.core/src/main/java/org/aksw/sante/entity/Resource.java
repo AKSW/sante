@@ -55,6 +55,17 @@ public class Resource implements Serializable {
 		return labels;
 	}
 	
+	public Set<String> getStringLabels() {
+		Set<String> stringLiterals = new HashSet<String>();
+		if(labels == null) {
+			return stringLiterals;
+		}
+		for(Literal literal : labels) {
+			stringLiterals.add(literal.getValue());
+		}
+		return stringLiterals;
+	}
+	
 	public Set<Literal> getLabels(String... langs) {
 		if(labels == null) {
 			return null;

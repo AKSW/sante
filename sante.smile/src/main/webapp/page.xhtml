@@ -5,7 +5,6 @@ xmlns:h="http://java.sun.com/jsf/html"
 xmlns:f="http://java.sun.com/jsf/core"
 xmlns:ui="http://java.sun.com/jsf/facelets"
 xmlns:p="http://primefaces.org/ui"
-xmlns:pe="http://primefaces.org/ui/extensions"
 >
 <h:head>
     <title>SANTé</title>
@@ -35,20 +34,20 @@ xmlns:pe="http://primefaces.org/ui/extensions"
 			    		padding-bottom: 0px;
     					padding-top: 6px;">
     					<div class="btn-group" style="float:right">
-						  <a href="./API/resource?uri=#{detailsViewController.selectedEntry.uri}" style="font-size: x-small;"
+						  <a href="./API/resource?uri=#{detailsViewController.selectedEntry.encodedUri}" style="font-size: x-small;"
 						  class="btn btn-default" role="button">Download</a>
-						  <button type="button" 
-						 	class="btn btn-default dropdown-toggle" 
-						  	data-toggle="dropdown" 
+						  <button type="button"
+						 	class="btn btn-default dropdown-toggle"
+						  	data-toggle="dropdown"
     						style="font-size: x-small;"
 						  	aria-haspopup="true" aria-expanded="false">
 						    <span class="caret"></span>
 						    <span class="sr-only">Toggle Button</span>
 						  </button>
 						  <ul class="dropdown-menu">
-						  	<li><a href="./API/resource?uri=#{detailsViewController.selectedEntry.uri}&amp;format=JSON-LD" style="font-size: x-small;">JSON-LD</a></li>
-							<li><a href="./API/resource?uri=#{detailsViewController.selectedEntry.uri}&amp;format=N-Triples" style="font-size: x-small;">N-Triples</a></li>
-						    <li><a href="./API/resource?uri=#{detailsViewController.selectedEntry.uri}&amp;format=Turtle" style="font-size: x-small;">Turtle</a></li>
+						  	<li><a href="./API/resource?uri=#{detailsViewController.selectedEntry.encodedUri}&amp;format=JSON-LD" style="font-size: x-small;">JSON-LD</a></li>
+							<li><a href="./API/resource?uri=#{detailsViewController.selectedEntry.encodedUri}&amp;format=N-Triples" style="font-size: x-small;">N-Triples</a></li>
+						    <li><a href="./API/resource?uri=#{detailsViewController.selectedEntry.encodedUri}&amp;format=Turtle" style="font-size: x-small;">Turtle</a></li>
 						  </ul>
 						</div>
 			    		<a href="./" class="close" data-dismiss="modal" style="margin-right:10px; float:left; font-size:30px;" aria-label="Share">
@@ -89,55 +88,81 @@ xmlns:pe="http://primefaces.org/ui/extensions"
 														<div class="media-right">
 															<img class="media-object"  
     															src="#{detailsViewController.selectedEntry.image}"
-    															alt="#{detailsViewController.selectedEntry.label}"
-    															onerror="this.style.display='none';"
-    															/>
+    															alt="#{detailsViewController.selectedEntry.label}" 
+    															onerror="this.style.display='none';"/>
 														</div>
 													</h:panelGroup>
 												</div>
 						  					</th>
 						  				</tr>
-									  	<ui:repeat var="literalProperty" value="#{detailsViewController.selectedEntry.literalProperties}">
-									  	    <tr>
-										      <td class="label-column">
-										      		<button type="button" 
-										      		class="btn btn-default btn-xs info-button"
-										      		onclick="openEntry([{name:'uri', value:'#{literalProperty.id}'}])">#{literalProperty.label}</button>:
-										      </td>
-										      <td class="value-column">
-										      	<ui:repeat var="object" value="#{literalProperty.objects}">
-											      	<h:panelGroup rendered="#{object.literal}">
-												      	<table>
-											  				<tbody>
-											  					<tr>
-											  						<td style="padding-bottom: 15px;">
-													      				#{object.label}@#{object.lang}
-													      			</td>
-													      		</tr>
-													      	</tbody>
-													    </table>
-												    </h:panelGroup>
-												    <h:panelGroup  rendered="#{!object.literal &amp;&amp; object.id != detailsViewController.selectedEntry.id}">
-								      					<button type="button"
-								      					class="btn btn-default btn-xs info-button"
-								      					onclick="openEntry([{name:'uri', value:'#{object.id}'}])">#{object.label}</button>
-								      				</h:panelGroup>
-								      				<h:panelGroup rendered="#{!object.literal &amp;&amp; object.id == detailsViewController.selectedEntry.id}">
-								      					<button type="button"
-								      					disabled="true"
-								      					class="btn btn-default btn-xs info-button"
-								      					onclick="openEntry([{name:'uri', value:'#{object.id}'}])">#{object.label}</button>
-								      				</h:panelGroup>
-							      				</ui:repeat>
-										      </td>
-										    </tr>
-									    </ui:repeat>
 									  </tbody>
 									</table>
+									<ui:repeat var="literalProperty" value="#{detailsViewController.selectedEntry.literalProperties}">
+									  		<div class="panel panel-default" style="margin-bottom: 10px;">
+									  			 <div class="panel-heading" style="background-color: white;">
+												    <button type="button" 
+											      		class="btn btn-default btn-xs info-button"
+											      		style="font-size: 20px;white-space: normal;word-break: break-all;"
+											      		onclick="openEntry([{name:'uri', value:'#{literalProperty.id}'}])">#{literalProperty.label}</button>
+												  </div>
+												  <div class="panel-body" style="margin: 5px 5px -5px 5px;">
+												  		 <h:panelGroup rendered="#{literalProperty.image}">
+										      				<p:galleria value="#{literalProperty.objectURIs}" var="image" panelWidth="500" panelHeight="313" showCaption="false">
+															    <p:graphicImage  value="#{image}" alt="#{image}" style="height: 100%;"/>
+															    <f:facet name="thumbnail">
+														            <p:graphicImage value="#{image}" title="" alt="#{image}" style="height: 100%;"/>
+														        </f:facet>
+															</p:galleria>
+											      		</h:panelGroup>
+											      		<h:panelGroup rendered="#{!literalProperty.image}">
+														  	<ui:repeat var="object" value="#{literalProperty.objects}">
+														      	<h:panelGroup rendered="#{object.literal &amp;&amp; object.langTagged}">
+																	<div class="panel panel-default" style="margin: 0px 10px 10px 0px;float: left" >
+																	  <div class="panel-body" style="padding: 10px;font-size: 12px;">
+																	    #{object.label} <kbd style="-webkit-box-shadow:none;
+																		    	float:right;
+																		    	box-shadow:none;
+																		    	margin: 2.5px 0px 0px 5px;
+																		    	color:black;
+																		    	background-color: #e3e3e3;
+																		    	font-size: 70%;">#{object.lang}</kbd>
+																	  </div>
+																	</div>
+															    </h:panelGroup>
+															    <h:panelGroup rendered="#{object.literal &amp;&amp; !object.langTagged}">
+																	<div class="panel panel-default" style="margin: 0px 10px 10px 0px;float: left">
+																	  <div class="panel-body" style="padding: 10px;font-size: 12px;">
+																	    #{object.label}
+																	  </div>
+																	</div>
+															    </h:panelGroup>
+															    <h:panelGroup rendered="#{!object.literal &amp;&amp; object.id != detailsViewController.selectedEntry.id}">
+											      					<button type="button"
+											      						class="btn btn-default btn-xs info-button" style="margin: 0px 10px 10px 0px;padding:10px;
+											      						white-space: normal;word-break: break-all;"
+											      						onclick="openEntry([{name:'uri', value:'#{object.id}'}])">#{object.label}</button>
+											      				</h:panelGroup>
+											      				<h:panelGroup rendered="#{!object.literal &amp;&amp; object.id == detailsViewController.selectedEntry.id}">
+											      					<button type="button"
+											      						disabled="true"
+											      						class="btn btn-default btn-xs info-button" style="margin: 0px 10px 10px 0px;padding:10px;
+											      						white-space: normal;word-break: break-all;"
+											      						onclick="openEntry([{name:'uri', value:'#{object.id}'}])">#{object.label}</button>
+											      				</h:panelGroup>
+										      				</ui:repeat>
+								      					</h:panelGroup>
+												  </div>
+											</div>
+									    </ui:repeat>
 								</h:panelGroup>
-								<h:panelGroup rendered="#{!detailsViewController.selectedEntry.available}">
+								<h:panelGroup rendered="#{searchViewController.selectedEntry != null &amp;&amp; !detailsViewController.selectedEntry.available}">
 									<h1>Content not available :-(</h1>
 									<img style="width: 80%; max-width: 400px;" src="./resources/not_available.gif"/>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{detailsViewController.selectedEntry == null}">
+									<div style="text-align:center;">
+										<img id="spinner" src="./resources/ajax-loader.gif" style="padding-top: 10px;" height="100px"></img>
+									</div>
 								</h:panelGroup>
 			      			</div>
 			      		</div>

@@ -98,6 +98,9 @@ function layoutItems(l) {
 function handleLoadStop() {
 	loading('none');
 	var $items = $('#newContent > div');
+	if($items.length == 0) {
+		noResults('inherit');
+	}
 	if(layout == 'line') {
 		$items.addClass('grid-item-large');
 	}
@@ -113,6 +116,10 @@ function handleLoadStop() {
 
 function loading(display) {
 	document.getElementById("spinner").style.display = display;
+}
+
+function noResults(display) {
+	document.getElementById("no-results").style.display = display;
 }
 
 function validKeyEntry(keycode) {
@@ -132,6 +139,7 @@ function refresh() {
 	    $('#container').remove(".grid-item");
     	$('#container').masonry( 'remove', elements ).masonry('layout');
     }
+	noResults('none')
 	enableLoadMore('none');
 	loading('inline');
 	resetPage();

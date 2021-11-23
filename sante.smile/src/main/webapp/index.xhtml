@@ -5,7 +5,6 @@ xmlns:h="http://java.sun.com/jsf/html"
 xmlns:f="http://java.sun.com/jsf/core"
 xmlns:ui="http://java.sun.com/jsf/facelets"
 xmlns:p="http://primefaces.org/ui"
-xmlns:pe="http://primefaces.org/ui/extensions"
 >
 <h:head>
     <title>SANTé</title>
@@ -76,7 +75,7 @@ xmlns:pe="http://primefaces.org/ui/extensions"
 			    			<i class="material-icons" style="font-size: 32px;">&#xe5cd;</i>
 			    		</button>
 			    		<div class="btn-group" style="float:right">
-						  <a href="./API/resource?uri=#{searchViewController.selectedEntry.uri}" style="font-size: x-small;"
+						  <a href="./API/resource?uri=#{searchViewController.selectedEntry.encodedUri}" style="font-size: x-small;"
 						  class="btn btn-default" role="button">Download</a>
 						  <button type="button" 
 						 	class="btn btn-default dropdown-toggle" 
@@ -87,9 +86,9 @@ xmlns:pe="http://primefaces.org/ui/extensions"
 						    <span class="sr-only">Toggle Button</span>
 						  </button>
 						  <ul class="dropdown-menu">
-						  	<li><a href="./API/resource?uri=#{searchViewController.selectedEntry.uri}&amp;format=JSON-LD" style="font-size: x-small;">JSON-LD</a></li>
-							<li><a href="./API/resource?uri=#{searchViewController.selectedEntry.uri}&amp;format=N-Triples" style="font-size: x-small;">N-Triples</a></li>
-						    <li><a href="./API/resource?uri=#{searchViewController.selectedEntry.uri}&amp;format=Turtle" style="font-size: x-small;">Turtle</a></li>
+						  	<li><a href="./API/resource?uri=#{searchViewController.selectedEntry.encodedUri}&amp;format=JSON-LD" style="font-size: x-small;">JSON-LD</a></li>
+							<li><a href="./API/resource?uri=#{searchViewController.selectedEntry.encodedUri}&amp;format=N-Triples" style="font-size: x-small;">N-Triples</a></li>
+						    <li><a href="./API/resource?uri=#{searchViewController.selectedEntry.encodedUri}&amp;format=Turtle" style="font-size: x-small;">Turtle</a></li>
 						  </ul>
 						</div>
 			    		<button type="button" class="close" data-dismiss="modal" style="margin-right:10px; float:left; font-size:30px;" aria-label="Close">
@@ -137,65 +136,74 @@ xmlns:pe="http://primefaces.org/ui/extensions"
 												</div>
 						  					</th>
 						  				</tr>
-									  	<ui:repeat var="literalProperty" value="#{searchViewController.selectedEntry.literalProperties}">
-									  	    <tr>
-										      <td class="label-column">
-										      		<button type="button" 
-										      		class="btn btn-default btn-xs info-button"
-										      		onclick="openEntry([{name:'id', value:'#{literalProperty.id}'}])">#{literalProperty.label}</button>:
-										      </td>
-										      <td class="value-column">
-										        <h:panelGroup rendered="#{literalProperty.image}">
-							      					<p:galleria value="#{literalProperty.objectURIs}" var="image" panelWidth="500" panelHeight="313" showCaption="true">
-													    <p:graphicImage  value="#{image}" alt="#{image}" title="#{image}"/>
-													</p:galleria>
-								      			</h:panelGroup>
-								      			<h:panelGroup rendered="#{!literalProperty.image}">
-											      	<ui:repeat var="object" value="#{literalProperty.objects}">
-												      	<h:panelGroup rendered="#{object.literal &amp;&amp; object.langTagged}">
-													      	<table>
-												  				<tbody>
-												  					<tr>
-												  						<td style="padding-bottom: 15px;">
-														      				#{object.label}@#{object.lang}
-														      			</td>
-														      		</tr>
-														      	</tbody>
-														    </table>
-													    </h:panelGroup>
-													    <h:panelGroup rendered="#{object.literal &amp;&amp; !object.langTagged}">
-													      	<table>
-												  				<tbody>
-												  					<tr>
-												  						<td style="padding-bottom: 15px;">
-														      				#{object.label}
-														      			</td>
-														      		</tr>
-														      	</tbody>
-														    </table>
-													    </h:panelGroup>
-													    <h:panelGroup rendered="#{!object.literal &amp;&amp; object.id != searchViewController.selectedEntry.id}">
-									      					<button type="button"
-									      						class="btn btn-default btn-xs info-button"
-									      						onclick="openEntry([{name:'id', value:'#{object.id}'}])">#{object.label}</button>
-									      				</h:panelGroup>
-									      				<h:panelGroup rendered="#{!object.literal &amp;&amp; object.id == searchViewController.selectedEntry.id}">
-									      					<button type="button"
-									      						disabled="true"
-									      						class="btn btn-default btn-xs info-button"
-									      						onclick="openEntry([{name:'id', value:'#{object.id}'}])">#{object.label}</button>
-									      				</h:panelGroup>
-								      				</ui:repeat>
-							      				</h:panelGroup>
-										      </td>
-										    </tr>
-									    </ui:repeat>
 									  </tbody>
 									</table>
+									<ui:repeat var="literalProperty" value="#{searchViewController.selectedEntry.literalProperties}">
+									  		<div class="panel panel-default" style="margin-bottom: 10px;">
+									  			 <div class="panel-heading" style="background-color: white;">
+												    <button type="button" 
+											      		class="btn btn-default btn-xs info-button"
+											      		style="font-size: 20px;white-space: normal;word-break: break-all;"
+											      		onclick="openEntry([{name:'id', value:'#{literalProperty.id}'}])">#{literalProperty.label}</button>
+												  </div>
+												  <div class="panel-body" style="margin: 5px 5px -5px 5px;">
+												  	 <h:panelGroup rendered="#{literalProperty.image}">
+								      					<p:galleria value="#{literalProperty.objectURIs}" var="image" panelWidth="500" panelHeight="313" showCaption="false">
+														    <p:graphicImage  value="#{image}"  alt="#{image}" style="height: 100%;"/>
+														    <f:facet name="thumbnail">
+													            <p:graphicImage value="#{image}" alt="#{image}" style="height: 100%;"/>
+													        </f:facet>
+														</p:galleria>
+									      			</h:panelGroup>
+									      			<h:panelGroup rendered="#{!literalProperty.image}">
+													  	<ui:repeat var="object" value="#{literalProperty.objects}">
+													      	<h:panelGroup rendered="#{object.literal &amp;&amp; object.langTagged}">
+																<div class="panel panel-default" style="margin: 0px 10px 10px 0px;float: left" >
+																  <div class="panel-body" style="padding: 10px;font-size: 12px;">
+																    #{object.label} <kbd style="-webkit-box-shadow:none;
+																	    	float:right;
+																	    	box-shadow:none;
+																	    	margin: 2.5px 0px 0px 5px;
+																	    	color:black;
+																	    	background-color: #e3e3e3;
+																	    	font-size: 70%;">#{object.lang}</kbd>
+																  </div>
+																</div>
+														    </h:panelGroup>
+														    <h:panelGroup rendered="#{object.literal &amp;&amp; !object.langTagged}">
+																<div class="panel panel-default" style="margin: 0px 10px 10px 0px;float: left">
+																  <div class="panel-body" style="padding: 10px;font-size: 12px;">
+																    #{object.label}
+																  </div>
+																</div>
+														    </h:panelGroup>
+														    <h:panelGroup rendered="#{!object.literal &amp;&amp; object.id != searchViewController.selectedEntry.id}">
+										      					<button type="button"
+										      						class="btn btn-default btn-xs info-button" style="margin: 0px 10px 10px 0px;padding:10px;
+										      						white-space: normal;word-break: break-all;"
+										      						onclick="openEntry([{name:'id', value:'#{object.id}'}])">#{object.label}</button>
+										      				</h:panelGroup>
+										      				<h:panelGroup rendered="#{!object.literal &amp;&amp; object.id == searchViewController.selectedEntry.id}">
+										      					<button type="button"
+										      						disabled="true"
+										      						class="btn btn-default btn-xs info-button" style="margin: 0px 10px 10px 0px;padding:10px;
+										      						white-space: normal;word-break: break-all;"
+										      						onclick="openEntry([{name:'id', value:'#{object.id}'}])">#{object.label}</button>
+										      				</h:panelGroup>
+									      				</ui:repeat>
+								      				</h:panelGroup>
+												  </div>
+											</div>
+									    </ui:repeat>
 								</h:panelGroup>
-								<h:panelGroup rendered="#{!searchViewController.selectedEntry.available}">
+								<h:panelGroup rendered="#{searchViewController.selectedEntry != null &amp;&amp; !searchViewController.selectedEntry.available}">
 									<h1>Content not available :-(</h1>
 									<img style="width: 80%; max-width: 400px;" src="./resources/not_available.gif"/>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{searchViewController.selectedEntry == null}">
+									<div style="text-align:center;">
+										<img id="info-spinner" src="./resources/ajax-loader.gif" style="padding-top: 10px;" height="100px"></img>
+									</div>
 								</h:panelGroup>
 			      			</div>
 			      		</div>
@@ -261,18 +269,18 @@ xmlns:pe="http://primefaces.org/ui/extensions"
 					<p:focus for="searchInputQuery"/>
 				<span class="glyphicon glyphicon-search" aria-hidden="true" style="margin: 25px 0px 0px 20px; position: absolute;color:darkcyan;"></span>
 				<span
-						id="cleanToggle"
-						onclick="autocompleteClear();"
-						class="glyphicon glyphicon-remove-circle clickable"
-						style="
-						right: 20px;
-						margin: 25px 0px 0px -70px;
-						position: absolute;
-						color:darksalmon;
-						background-color: transparent;
-						border: none;
-						border-radius: 50px;"
-						aria-hidden="true"/>
+					id="cleanToggle"
+					onclick="autocompleteClear();"
+					class="glyphicon glyphicon-remove-circle clickable"
+					style="
+					right: 20px;
+					margin: 25px 0px 0px -70px;
+					position: absolute;
+					color:darksalmon;
+					background-color: transparent;
+					border: none;
+					border-radius: 50px;"
+					aria-hidden="true"/>
 			</h:panelGroup>
 		  </h:form>
 		  <div class="container-fluid">
@@ -297,14 +305,14 @@ xmlns:pe="http://primefaces.org/ui/extensions"
 			  </ul>
 			  <ul class="nav navbar-nav navbar-right">
 			  	<li id="content-about"><a onclick="display('about', !isActive('content-about'))">About</a></li>
-				<!-- li class="dropdown">
-				  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">English<span class="caret"></span></a>
-				  <ul class="dropdown-menu">
-					<li><a href="#">English</a></li>
-					<li><a href="#">German</a></li>
-					<li><a href="#">Latin</a></li>
-				  </ul>
-				</li-->
+				<li>
+					<p:selectOneMenu styleClass="langSelect" id="option" value="#{selectOneMenuView.selectedOption}">
+	                    <f:selectItem itemLabel="Select One" itemValue=""/>
+	                    <f:selectItem itemLabel="Option1" itemValue="Option1"/>
+	                    <f:selectItem itemLabel="Option2" itemValue="Option2"/>
+	                    <f:selectItem itemLabel="Option3" itemValue="Option3"/>
+                	</p:selectOneMenu>
+				</li>
 			  </ul>
 			</div><!-- /.navbar-collapse -->
 		  </div><!-- /.container-fluid -->
@@ -318,8 +326,7 @@ xmlns:pe="http://primefaces.org/ui/extensions"
 			    			value="#{filterViewController.selectedTags}" emptyMessage="" 
 			    			styleClass="tag-list" itemStyleClass="" style="border: none;" var="suggestion" type="definition">
 			    			<div class="clickable" style="
-			    					padding-left: 15px;
-   									padding-right: 15px;
+			    					    padding: 10px 25px 10px 25px;
 			    					margin: 5px;
 			    					font-size: 12px;
 			    					font-weight: 500;
@@ -328,7 +335,7 @@ xmlns:pe="http://primefaces.org/ui/extensions"
 								    border-radius: 30px;"
 								    onclick="unselectTag([{name:'id', value:'#{suggestion.id}'}]);refresh();updateStats();"
 								    >
-							    <div class="inline-component">
+							    <div class="inline-component inline-component-left">
 			    					<div><h:outputText escape="false" value="${suggestion.title}"/></div>
 									<div style="font-size:8px;"><h:outputText escape="false" value="${suggestion.subtitle}"/></div>
 								</div>
@@ -383,8 +390,8 @@ xmlns:pe="http://primefaces.org/ui/extensions"
 			    				type="definition">
 			    			<div class="clickable"
 			    					style="
-			    					padding-left: 15px;
-   									padding-right: 15px;
+			    					    padding: 10px 25px 10px 25px;
+
 			    					margin: 5px;
 			    					font-size: 12px;
 			    					font-weight: 500;
@@ -439,6 +446,10 @@ xmlns:pe="http://primefaces.org/ui/extensions"
 				</div>
 				<div id="container">
 					<div class="grid-sizer"></div>					  				
+				</div>
+				<div id="no-results" style="display:none;text-align:center;">
+					<img src="./resources/no_results.png" style="padding-top: 10px;" height="100px"></img>
+					<div style="color: darkgray; margin-top: 30px;font-size: x-large;">No result has been found</div>
 				</div>
 				<div style="text-align:center;">
 					<img id="spinner" src="./resources/ajax-loader.gif" style="padding-top: 10px;" height="100px"></img>

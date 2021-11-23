@@ -18,10 +18,10 @@
 				data-target="#basicExampleModal">
 			<div class="panel-body">
 				
-				  <div style="font-size:8px;" onclick="immediate(event);"><a id="panelItemURI" href="${entity.uri}" target="_blank">${entity.uri}</a></div>
+				  <div style="font-size:8px;" onclick="immediate(event);"><a id="panelItemURI" href="${entity.uri}" class="text-break-all" target="_blank">${entity.uri}</a></div>
 				
 			      <#if entity.image?has_content>
-					 <img src="${entity.image}" alt="${entity.label}" onerror="this.style.display='none'; fixLayout();">
+					 <img src="${entity.image}" style ="width: 100%;max-width: 200px" alt="${entity.label}" onerror="this.style.display='none'; fixLayout();">
 				  </#if>
 				  <div class="caption">
 					<h3>${entity.label}</h3>

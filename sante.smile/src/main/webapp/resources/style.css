@@ -15,6 +15,25 @@
     filter: alpha(opacity=80); /* For IE8 and earlier */
 }
 
+.lang-select, .ui-selectonemenu .ui-selectonemenu-trigger {
+	width: 24px;
+}
+
+.lang-select, .ui-selectonemenu {
+	margin: 10px 0 0 10px;
+}
+
+.lang-select, .ui-selectonemenu .ui-selectonemenu-label {
+	background: #f5f5f5;
+	color: darkgray;
+	font-size: small;
+}
+
+.text-break-all {
+	word-break: break-all;
+}
+   
+
 .scrollable-menu {
     height: auto;
     max-height: 200px;

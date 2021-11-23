@@ -1,8 +1,9 @@
 package org.aksw.sante.entity;
 
 import java.io.Serializable;
-
-import org.apache.commons.text.StringEscapeUtils;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 public class Literal implements Serializable {
 	/**
@@ -62,11 +63,23 @@ public class Literal implements Serializable {
 			return "";
 		} else if((type == null || type.isEmpty()) 
 				&& (lang == null || lang.isEmpty())) {
-			return "\"" + StringEscapeUtils.escapeJava(value) + "\"";
+				String encodedValue = encode(value);
+				return "\"" + encodedValue + "\"";
 		} else if (lang == null || lang.isEmpty()) {
 			return "\"" + value + "\"^^"  + type;
 		}
-		return "\"" + value + "\"@"  + lang;
+		String encodedValue = encode(value);
+		return "\"" + encodedValue + "\"@"  + lang;
+	}
+	
+	private String encode(String value) {
+		try {
+			String encodedValue = URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
+			return encodedValue;
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return value;
 	}
 	
 	@Override

@@ -65,6 +65,10 @@ public class IndexedEntityWrapper extends AbstractEntityWrapper implements Seria
 		return entity.getURI();
 	}
 	
+	public String getEncodedURI() {
+		return entity.getURI();
+	}
+	
 	public String getLabel() {
 		if(label == null) {
 			label = entity.getPropertyObjectValue(labelingProperties, new String[] {"en", "de", "fr", "pt", "ANY"}, entity.getURI());
