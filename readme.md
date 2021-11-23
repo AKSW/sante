@@ -1,4 +1,4 @@
-# SANTÉ Mulan: A Multilingual Search Engine for RDF data
+# SANTÉ Mulang: A Multilingual Search Engine for RDF data
 
 <img src="https://github.com/AKSW/sante/raw/master/sante.png"/>
 <img src="http://www.prowebdesign.ro/wp-content/uploads/2012/07/iStock_000019691100XSmall.jpg"/>
