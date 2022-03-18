@@ -16,6 +16,7 @@ public class Entity extends Resource implements Serializable {
 	private HashMap<String, Property> propertyObject = new HashMap<String, Property>();
 	private Set<String> labelingProperties = null;
 	private static final String tripleEnding = " .";
+	public static final String ANY_LANG = "ANY";
 	
 	public Entity(String uri) {
 		super(uri);
@@ -92,6 +93,9 @@ public class Entity extends Resource implements Serializable {
 	}
 	
 	public String getPropertyObjectValue(String uri, String[] langs) {
+		if(langs == null) {
+			return getPropertyObjectValue(uri, ANY_LANG);
+		}
 		for(String lang : langs) {
 			String objectValue = getPropertyObjectValue(uri, lang);
 			if(objectValue != null) {
@@ -108,7 +112,7 @@ public class Entity extends Resource implements Serializable {
 				Object object = p.getObject();
 				if(object.isLiteral()) {
 					LiteralObject literal = (LiteralObject) object;
-					if(lang == null || lang.equalsIgnoreCase("ANY") || (literal.getLang() != null && (literal.getLang().equalsIgnoreCase(lang)))) {
+					if(lang == null || lang.equalsIgnoreCase(ANY_LANG) || (literal.getLang() != null && (literal.getLang().equalsIgnoreCase(lang)))) {
 						return literal.getValue();
 					}
 				} else {

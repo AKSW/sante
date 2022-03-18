@@ -11,7 +11,7 @@
 	    <groupId>org.apache.jena</groupId>
 	    <artifactId>apache-jena-libs</artifactId>
 	    <type>pom</type>
-	    <version>3.16.0</version>
+	    <version>4.2.0</version>
 	</dependency>
 	<dependency>
 	    <groupId>log4j</groupId>
@@ -28,5 +28,11 @@
 	    <artifactId>commons-lang3</artifactId>
 	    <version>3.9</version>
 	</dependency>
+	<dependency>
+	    <groupId>commons-validator</groupId>
+	    <artifactId>commons-validator</artifactId>
+	    <version>1.7</version>
+	</dependency>
+		
   </dependencies>
 </project>

@@ -16,4 +16,5 @@ public class IndexParams {
 	public static final String SUGGEST_ANALYSED_STRING_FIELD = "SUGGEST_ANALYSED_TEXT";
 	public static final String LABEL_WEIGHT_FIELD = "LABEL_WEIGHT";
 	public static final String ENTITY_RANK_FIELD = "ENTITY_RANK_FIELD";
+	public static final String LANG = "LANG";
 }
