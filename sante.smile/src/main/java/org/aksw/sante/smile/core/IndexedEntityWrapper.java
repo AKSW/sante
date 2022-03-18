@@ -26,13 +26,16 @@ public class IndexedEntityWrapper extends AbstractEntityWrapper implements Seria
 	private String[] abstractProperties = new String[]{"http://www.w3.org/2000/01/rdf-schema#comment"};
 	private String[] relevancePropertyOrder = new String[]{""};
 	private String[] hideProperties = new String[]{""};
+	private String[] langArray = null; 
+	private List<String> langs = null;
 	
 	public IndexedEntityWrapper(Entity entity,
 			String[] labelingProperties,
 			String[] imageProperties,
 			String[] abstractProperties,
 			String[] relevancePropertyOrder,
-			String[] hideProperties) {
+			String[] hideProperties,
+			List<String> langs) {
 		super(entity.getURI());
 		this.labelingProperties = labelingProperties;
 		this.imageProperties = imageProperties;
@@ -40,6 +43,16 @@ public class IndexedEntityWrapper extends AbstractEntityWrapper implements Seria
 		this.relevancePropertyOrder = relevancePropertyOrder;
 		this.hideProperties = hideProperties;
 		this.entity = entity;
+		this.langs = langs;
+		if(langs != null) {
+			langArray = new String[langs.size() + 1];
+			int i = 0;
+			for(String lang : langs) {
+				langArray[i] = lang;
+				i++;
+			}
+			langArray[i] = Entity.ANY_LANG;
+		}
 		loadImage();
 		loadAbstract();
 		loadProperties();
@@ -71,7 +84,7 @@ public class IndexedEntityWrapper extends AbstractEntityWrapper implements Seria
 	
 	public String getLabel() {
 		if(label == null) {
-			label = entity.getPropertyObjectValue(labelingProperties, new String[] {"en", "de", "fr", "pt", "ANY"}, entity.getURI());
+			label = entity.getPropertyObjectValue(labelingProperties, langArray, entity.getURI());
 		}
 		return label;
 	}
@@ -84,7 +97,7 @@ public class IndexedEntityWrapper extends AbstractEntityWrapper implements Seria
 	
 	private void loadAbstract() {
 		if(description == null && abstractProperties != null) {
-			description = entity.getPropertyObjectValue(abstractProperties, new String[] {"en", "de", "fr", "pt", "ANY"}, "");
+			description = entity.getPropertyObjectValue(abstractProperties, langArray, "");
 		}
 	}
 	
@@ -131,7 +144,7 @@ public class IndexedEntityWrapper extends AbstractEntityWrapper implements Seria
 			if(hidePropertyList == null || 
 					!hidePropertyList.contains(propertyURI)) {
 				List<Property> properties = entity.getProperties(propertyURI);
-				PropertyWrapper propertyWrapper = new PropertyWrapper(properties, propertyURI, "", "en", null);
+				PropertyWrapper propertyWrapper = new PropertyWrapper(properties, propertyURI, langArray);
 				propertyWrapper.isImage(imagePropertiesList.contains(propertyURI));
 				relProperties.add(propertyWrapper);
 			}
@@ -151,7 +164,8 @@ public class IndexedEntityWrapper extends AbstractEntityWrapper implements Seria
 				imageProperties,
 				abstractProperties,
 				relevancePropertyOrder,
-				hideProperties);
+				hideProperties,
+				langs);
 		return indexedEntityWrapper;
 	}
 }

@@ -245,15 +245,15 @@ xmlns:p="http://primefaces.org/ui"
 						 	padding-right: 110px;"
 						 	panelStyleClass="autocomplete-panel-style"
 							inputStyle="
-								padding-top:30px;
-								padding-bottom: 30px;
-							    box-shadow: none;
-								font-size: 15px;
-								height: inherit;
-								width: 100%;
-								margin: 0px;
-							    border: none;
-							    ">
+									padding-top:30px;
+									padding-bottom: 30px;
+								    box-shadow: none;
+									font-size: 15px;
+									height: inherit;
+									width: 100%;
+									margin: 0px;
+								    border: none;
+							">
 						<p:ajax
 							process="@this"
 							event="keyup"
@@ -306,12 +306,12 @@ xmlns:p="http://primefaces.org/ui"
 			  <ul class="nav navbar-nav navbar-right">
 			  	<li id="content-about"><a onclick="display('about', !isActive('content-about'))">About</a></li>
 				<li>
-					<p:selectOneMenu styleClass="langSelect" id="option" value="#{selectOneMenuView.selectedOption}">
-	                    <f:selectItem itemLabel="Select One" itemValue=""/>
-	                    <f:selectItem itemLabel="Option1" itemValue="Option1"/>
-	                    <f:selectItem itemLabel="Option2" itemValue="Option2"/>
-	                    <f:selectItem itemLabel="Option3" itemValue="Option3"/>
-                	</p:selectOneMenu>
+					<h:form>
+						<p:selectOneMenu styleClass="langSelect" id="option" value="#{userSessionController.lang}">
+							<p:ajax update="@this" process="@this"/>
+		                    <f:selectItems value="#{userSessionController.langOptions}"/>
+	                	</p:selectOneMenu>
+                	</h:form>
 				</li>
 			  </ul>
 			</div><!-- /.navbar-collapse -->
@@ -323,6 +323,7 @@ xmlns:p="http://primefaces.org/ui"
 		         <div class="panel panel-default sidebar-upper-panel sidebar-tag-panel no-padding-bottom">
 			  		<div class="panel-body no-padding-bottom">
 			    		<p:dataList id="activeTagList" 
+			    			lazy="false"
 			    			value="#{filterViewController.selectedTags}" emptyMessage="" 
 			    			styleClass="tag-list" itemStyleClass="" style="border: none;" var="suggestion" type="definition">
 			    			<div class="clickable" style="
@@ -384,7 +385,8 @@ xmlns:p="http://primefaces.org/ui"
 			  		<div class="panel-body">
 			    		<p:dataList id="tagList" value="#{filterViewController.resources}" 
 			    				styleClass="tag-list" 
-			    				itemStyleClass="" 
+			    				itemStyleClass=""
+			    				lazy="false"
 			    				style="border: none;"
 			    				var="suggestion" 
 			    				type="definition">
@@ -487,7 +489,7 @@ xmlns:p="http://primefaces.org/ui"
 		<h:form style="display:none;">
 			<p:remoteCommand name="showEntry" 
 				actionListener="#{searchViewController.selectEntry}"
-				process=":itemDetailPanel" 
+				process="@this" 
 				update=":itemDetailPanel"/>
 			<p:remoteCommand name="loadNewContent"
 				actionListener="#{searchViewController.nextPage}"
@@ -496,7 +498,7 @@ xmlns:p="http://primefaces.org/ui"
                 oncomplete="handleLoadStop()"/> 
 			<p:remoteCommand name="openEntry"
 				actionListener="#{searchViewController.openEntry}" 
-				process=":itemDetailPanel"
+				process="@this"
 				update=":itemDetailPanel" />
 			<p:remoteCommand name="resetPage"
 				actionListener="#{searchViewController.resetPage}"
@@ -508,9 +510,9 @@ xmlns:p="http://primefaces.org/ui"
 				update="@none"/>
 			<p:remoteCommand name="loadContent"
 				actionListener="#{searchViewController.loadContent}"
-				process=":newContent"
+				process="@this"
 				async="false"
-				oncomplete="handleLoadStop()"
+				oncomplete="handleLoadStop();"
 				update=":newContent"/>
 			<p:remoteCommand name="filterTags"
 			    process="@this"

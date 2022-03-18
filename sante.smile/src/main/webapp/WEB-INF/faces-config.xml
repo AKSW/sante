@@ -11,17 +11,6 @@
         <locale-config>
             <default-locale>en</default-locale>
         </locale-config>
-        <el-resolver>org.primefaces.application.exceptionhandler.PrimeExceptionHandlerELResolver</el-resolver>
-        <resource-bundle>
-            <base-name>build</base-name>
-            <var>build</var>
-        </resource-bundle>
+        <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
     </application>
-    
-
-
-    <lifecycle>
-        <phase-listener>org.primefaces.component.lifecycle.LifecyclePhaseListener</phase-listener>
-    </lifecycle>
-
 </faces-config>

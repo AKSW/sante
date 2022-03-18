@@ -14,22 +14,22 @@ public class About extends IndexedEntityWrapper {
 	}
 	
 	public String getTwitter() {
-		return e.getPropertyObjectValue("Twitter", "ANY");
+		return e.getPropertyObjectValue("Twitter", Entity.ANY_LANG);
 	}
 	
 	public String getAuthor() {
-		return e.getPropertyObjectValue("Author", "ANY");
+		return e.getPropertyObjectValue("Author", Entity.ANY_LANG);
 	}
 	
 	public String getRepo() {
-		return e.getPropertyObjectValue("Repository", "ANY");
+		return e.getPropertyObjectValue("Repository", Entity.ANY_LANG);
 	}
 	
 	public String getLicense() {
-		return e.getPropertyObjectValue("License", "ANY");
+		return e.getPropertyObjectValue("License", Entity.ANY_LANG);
 	}
 
 	public String getIssues() {
-		return e.getPropertyObjectValue("Issues", "ANY");
+		return e.getPropertyObjectValue("Issues", Entity.ANY_LANG);
 	}
 }

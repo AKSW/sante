@@ -25,7 +25,13 @@ import org.apache.lucene.index.IndexReader;
 import org.sante.lucene.ResultSet;
 import org.sante.lucene.SearchEngine;
 
-@WebServlet(name = "DBpediaLookupServlet", urlPatterns = {"/API/lookup/search"})
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
+@WebServlet(name = "DBpediaLookupServlet", urlPatterns = {"/API/dbpedia-lookup"})
 public class DBpediaLookupServlet extends AbstractServlet {
 
     /**
@@ -44,8 +50,16 @@ public class DBpediaLookupServlet extends AbstractServlet {
 	private static final String TYPE_NAME_PARAM = "typeName";
 	private static final String TYPE_PARAM = "type";
 	private static final String COMMENT_PARAM = "comment";
-
-	@Override
+	
+	@ApiOperation(httpMethod = "GET", value = "Retrieve entities based on a given query string (when given).", nickname = "dbpedia-lookup")
+    @ApiResponses({@ApiResponse(code = 400, message = "Invalid input")})
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "QueryString", value = "Query", required = false, dataType = "string", paramType =
+                    "query"),
+            @ApiImplicitParam(name = "MaxHits", value = "Maximum number of entries", required = false, dataType = "integer", paramType =
+                    "query"),
+            @ApiImplicitParam(name = "QueryClass", value = "Entity types", required = true, dataType = "string", paramType
+                    = "query")})
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 		response.setContentType(CONTENT_TYPE);
@@ -95,7 +109,7 @@ public class DBpediaLookupServlet extends AbstractServlet {
 						}
 					}
 					params.put(TYPE_NAME_PARAM, stringTypes);
-					params.put(TYPE_PARAM, stringTypes);
+					params.put(TYPE_PARAM, uriTypes);
 				}
 				List<Property> commentProperties = entity.getProperties("http://www.w3.org/1999/02/22-rdf-syntax-ns#comment");
 				if(commentProperties != null) {

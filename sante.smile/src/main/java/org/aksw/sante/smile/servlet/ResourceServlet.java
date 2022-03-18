@@ -17,8 +17,8 @@ import org.aksw.sante.entity.Entity;
 import org.aksw.sante.smile.core.SmileParams;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.RDFReader;
-import org.apache.jena.rdf.model.RDFWriter;
+import org.apache.jena.rdf.model.RDFReaderI;
+import org.apache.jena.rdf.model.RDFWriterI;
 import org.apache.log4j.Logger;
 import org.apache.lucene.index.IndexReader;
 import org.sante.lucene.SearchEngine;
@@ -58,10 +58,10 @@ public class ResourceServlet extends AbstractServlet {
         	}
 			String triples = entity.asTriples();
 			Model model = ModelFactory.createDefaultModel();
-			RDFReader tripleReader = model.getReader(DEFAULT_READ_FORMAT);
+			RDFReaderI tripleReader = model.getReader(DEFAULT_READ_FORMAT);
 			InputStream is = new ByteArrayInputStream(triples.getBytes(StandardCharsets.UTF_8));
 			tripleReader.read(model, is, uriParam);
-			RDFWriter rdfWriter = null;
+			RDFWriterI rdfWriter = null;
 			if(formatParam == null || formatParam.isEmpty()) {
 				rdfWriter = model.getWriter(DEFAULT_WRITE_FORMAT);
 			} else {

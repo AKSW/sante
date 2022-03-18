@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
@@ -45,13 +46,21 @@ public class DetailsViewController implements Serializable {
 	private volatile String[] relevancePropertyOrder = null;
 	private volatile String[] hidenProperties = null;
 	private String selectedEntryId = "";
+	private List<String> langs = null;
 	private AbstractEntityWrapper selectedEntry = null;
 	private List<AbstractEntityWrapper> openEntities = new ArrayList<AbstractEntityWrapper>();
 
 	public DetailsViewController() {
+	}
+	
+	@PostConstruct
+	public void init() {
 		openEntities.clear();
 		loadProperties();
-		openEntry();
+		FacesContext context = FacesContext.getCurrentInstance();
+		if(context != null) {
+			openEntry();
+		}
 	}
 
 	public void setSelectedEntry(AbstractEntityWrapper entry) {
@@ -73,6 +82,8 @@ public class DetailsViewController implements Serializable {
 	public void selectEntry() {
 		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 		selectedEntryId = params.get("uri");
+		String lang = params.get("lang");
+		langs = toArray(lang);
 		AbstractEntityWrapper openEntity = resultEntityMap.get(selectedEntryId);
 		selectedEntry = openEntity;
 		openEntities.clear();
@@ -93,6 +104,8 @@ public class DetailsViewController implements Serializable {
 	public void openEntry() {
 		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 		String openEntryId = params.get("uri");
+		String lang = params.get("lang");
+		langs = toArray(lang);
 		if(openEntryId != null) {
 			AbstractEntityWrapper openEntry = resultEntityMap.get(openEntryId);
 			if (openEntry == null) {
@@ -103,11 +116,12 @@ public class DetailsViewController implements Serializable {
 					Entity entity = searchEngine.getEntity(openEntryId);
 					if (entity != null) {
 						openEntry = new IndexedEntityWrapper(entity, 
-								labelingProperties, 
+								labelingProperties,
 								imageProperties,
-								abstractProperties, 
-								relevancePropertyOrder, 
-								hidenProperties);
+								abstractProperties,
+								relevancePropertyOrder,
+								hidenProperties,
+								langs);
 						loadResources(openEntry);
 					} else {
 						openEntry = new UnavailableEntityWrapper(null, 
@@ -135,6 +149,18 @@ public class DetailsViewController implements Serializable {
 			resultEntityMap.put(null, 
 					openEntry);
 		}
+	}
+
+	private List<String> toArray(String lang) {
+		if(lang != null) {
+			String[] langs = lang.split(",");
+			List<String> langList = new ArrayList<String>();
+			for(String l : langs) {
+				langList.add(l);
+			}
+			return langList;
+		}
+		return null;
 	}
 
 	public AbstractEntityWrapper getEntity(List<AbstractEntityWrapper> list, String id) {

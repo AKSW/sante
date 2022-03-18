@@ -29,6 +29,7 @@ import org.aksw.sante.smile.core.PropertyWrapper;
 import org.aksw.sante.smile.core.ResourceWrapper;
 import org.aksw.sante.smile.core.SmileParams;
 import org.aksw.sante.smile.core.UnavailableEntityWrapper;
+import org.apache.log4j.Logger;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
 import org.primefaces.event.SelectEvent;
@@ -50,11 +51,16 @@ public class SearchViewController implements Serializable {
 	 */
 	private static final long serialVersionUID = -2173739028408143306L;
 	
+	private static Logger logger = Logger.getLogger(SearchViewController.class);
+	
 	@Inject
 	private SuggestionList suggestionList = null;
 	
 	@Inject
 	private FilterViewController filterViewController = null;
+	
+	@Inject
+	private UserSessionController sessionController = null;
 
 	private Map<String, AbstractEntityWrapper> resultEntityMap = new HashMap<String, AbstractEntityWrapper>();
 	private Map<String, ResourceWrapper> detailResourceMap = new HashMap<String, ResourceWrapper>();
@@ -67,6 +73,7 @@ public class SearchViewController implements Serializable {
 	private List<AbstractSuggestionView> selectedItems = null;
 	private int pageSize = 10;
 	private int page = 0;
+	private List<String> langs = null;
 	
 	private volatile Set<Filter> filters = new HashSet<Filter>();
 	private volatile Set<String> classes = new HashSet<String>();
@@ -165,11 +172,12 @@ public class SearchViewController implements Serializable {
 		EntitySnippetGeneartor snippetGenerator = new EntitySnippetGeneartor();
 		Entity about = searchEngine.about();
 		AbstractEntityWrapper entityWrapper = new IndexedEntityWrapper(about, 
-				labelingProperties, 
+				labelingProperties,
 				imageProperties,
-				abstractProperties, 
-				relevancePropertyOrder, 
-				hidenProperties);
+				abstractProperties,
+				relevancePropertyOrder,
+				hidenProperties,
+				langs);
 		About aboutWrapper = new About(about);
 		entityWrapper.setSnippet(snippetGenerator.generate(inputTextQuery, aboutWrapper));
 		return entityWrapper;
@@ -224,7 +232,7 @@ public class SearchViewController implements Serializable {
 			}
 			this.suggestionList.setSuggestions(suggestions);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Error generating suggestions.", e);
 		}
 		return suggestions;
     }
@@ -239,6 +247,21 @@ public class SearchViewController implements Serializable {
 		QueryPatternSuggestionView suggestionItem = new QueryPatternSuggestionView(id,
 				query,
 				rs.highlight(query),
+				query);
+		String html = generator.generate(suggestionItem);
+		suggestionItem.setHtml(html);
+		return suggestionItem;
+	}
+	
+	public AbstractSuggestionView createPatternQuerySuggestion(
+			String query, 
+			ItemAutoCompleteSnippetGeneartor generator) throws IOException, 
+	InvalidTokenOffsetsException, 
+	TemplateException {
+		query = query.toLowerCase();
+		QueryPatternSuggestionView suggestionItem = new QueryPatternSuggestionView(0,
+				query,
+				query,
 				query);
 		String html = generator.generate(suggestionItem);
 		suggestionItem.setHtml(html);
@@ -275,6 +298,8 @@ public class SearchViewController implements Serializable {
 			Path indexPath = index.toPath();
 			Set<Filter> filters = filterViewController.getActiveFilters();
 			filters.addAll(this.filters);
+			// language
+			List<String> displayLangs = sessionController.getLangs();
 			try (IndexReader reader = SearchEngine.newReader(indexPath);) {
 				SearchEngine searchEngine = new SearchEngine(reader);
 				EntitySnippetGeneartor snippetGenerator = new EntitySnippetGeneartor();
@@ -289,12 +314,13 @@ public class SearchViewController implements Serializable {
 				result.accept(new EntityVisitor() {
 					@Override
 					public boolean visit(Entity entity, float score) throws Exception {
-						AbstractEntityWrapper entityWrapper = new IndexedEntityWrapper(entity, 
+						AbstractEntityWrapper entityWrapper = new IndexedEntityWrapper(entity,
 								labelingProperties,
-								imageProperties, 
-								abstractProperties, 
-								relevancePropertyOrder, 
-								hidenProperties);
+								imageProperties,
+								abstractProperties,
+								relevancePropertyOrder,
+								hidenProperties,
+								displayLangs);
 						entityWrapper.setSnippet(snippetGenerator.generate(inputTextQuery, 
 								entityWrapper));
 						entities.add(entityWrapper);
@@ -305,7 +331,7 @@ public class SearchViewController implements Serializable {
 				});
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Error loading content.", e);
 		}
 	}
 
@@ -356,12 +382,13 @@ public class SearchViewController implements Serializable {
 				searchEngine = new SearchEngine(reader);
 				Entity entity = searchEngine.getEntity(openEntryId);
 				if (entity != null) {
-					openEntry = new IndexedEntityWrapper(entity, 
+					openEntry = new IndexedEntityWrapper(entity,
 							labelingProperties, 
 							imageProperties,
 							abstractProperties, 
 							relevancePropertyOrder, 
-							hidenProperties);
+							hidenProperties,
+							langs);
 					loadResources(openEntry);
 				} else {
 					ResourceWrapper resource = detailResourceMap.get(openEntryId);
@@ -377,7 +404,7 @@ public class SearchViewController implements Serializable {
 				resultEntityMap.put(openEntry.getId(), 
 						openEntry);
 			} catch (Exception e) {
-				e.printStackTrace();
+				logger.error("Error opening entry: " + openEntryId, e);
 			}
 		}
 		selectedEntry = openEntry;
@@ -412,13 +439,23 @@ public class SearchViewController implements Serializable {
 		this.imageProperties = params.imageProperties;
 		this.labelingProperties = params.labelingProperties;
 		this.abstractProperties = params.abstractProperties;
+		try {
+			Map<String, String> requestParams = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+			inputTextQuery = requestParams.get("query");
+			if(inputTextQuery != null) {
+				ItemAutoCompleteSnippetGeneartor generator = new ItemAutoCompleteSnippetGeneartor();
+				this.setSelectedQueryItem(createPatternQuerySuggestion(inputTextQuery, generator));
+			}
+		} catch (Exception e) {
+			logger.error("Error while loading properties.", e);
+		}
 		if(params.prefixes != null) {
 			for(String prefix : params.prefixes) {
 				prefixes.add(prefix);
 			}
 		}
 	}
-	
+
 	public void setSuggestionList(SuggestionList suggestionList) {
 		this.suggestionList = suggestionList;
 	}

@@ -16,8 +16,8 @@ import org.apache.commons.lang3.StringUtils;
 
 @ApplicationScoped
 @Named
-@FacesConverter(value = "suggestionConverter", managed = true)
-public class SuggestionConverter implements Converter<AbstractSuggestionView>, Serializable {
+@FacesConverter(value = "suggestionConverter")
+public class SuggestionConverter implements Converter, Serializable {
  
 	/**
 	 * 
@@ -52,18 +52,18 @@ public class SuggestionConverter implements Converter<AbstractSuggestionView>, S
         }
         return null;
     }
- 
-    @Override
-    public String getAsString(FacesContext fc, UIComponent uic, AbstractSuggestionView object) {
-        if(object != null) {
-            return String.valueOf(object.getResultId());
-        }
-        else {
-            return null;
-        }
-    }
     
     public void setSuggestionList(SuggestionList suggestionList) {
     	this.suggestionList = suggestionList;
     }
+
+	@Override
+	public String getAsString(FacesContext context, UIComponent component, Object value) {
+		 if(value != null) {
+	            return String.valueOf(((AbstractSuggestionView) value).getResultId());
+	        }
+	        else {
+	            return null;
+	        }
+	}
 }

@@ -1,0 +1,81 @@
+swagger: '2.0'
+info:
+  description: A set of APIs implemented by SANTé search engine.
+  version: 1.0.0
+  title: SANTé APIs
+  contact:
+    name: Edgard Marx
+    url: http://emarx.org
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+host: localhost:8080
+basePath: /API
+paths:
+  /dbpedia-lookup:
+    get:
+      summary: Lookup for entities in the underlying knowledge base(s).
+      produces: 
+        - application/json
+      parameters:
+        - in: query
+          name: QueryString
+          type: string
+          required: false
+          description: A query to be used in lookup.
+        - in: query
+          name: MaxHints
+          type: integer
+          required: false
+          description: The maximum number of entries to be retrieved.
+        - in: query
+          name: QueryClass
+          type: string
+          required: false
+          description: Restricts the lookup to the given class. The parameter should be the class URI.
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              params:
+                type: object
+                properties:
+                  QueryString:
+                    type: string
+                  MaxHints:
+                    type: integer
+                  QueryClass:
+                    type: string
+              docs:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    resource:
+                      type: array
+                      items:
+                        type: string
+                    score:
+                      type: array
+                      items:
+                        type: number
+                    label:
+                      type: array
+                      items:
+                        type: string
+                    typeName:
+                      type: array
+                      items:
+                        type: string
+                    type:
+                      type: array
+                      items:
+                        type: string
+                    comment:
+                      type: array
+                      items:
+                        type: string
+        400:
+          description: Invalid parameters.
