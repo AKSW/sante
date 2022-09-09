@@ -1,6 +1,5 @@
 package org.aksw.sante.api.dbpedia;
 
-import java.io.IOException;
 import java.util.*;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 // TODO Pascal/Upper-Camel-Case for query parameters
 // TODO Add request validation
+// TODO Handle Exceptions properly
+// TODO Complete Swagger documentation
+
 @RestController
 public class DbpediaLookupController {
 	private final DbpediaLookupService dbpediaLookupService;
@@ -30,7 +32,7 @@ public class DbpediaLookupController {
 			@RequestParam(defaultValue = "10") Integer maxHits,
 			@RequestParam(required = false) String searchQuery,
 			@RequestParam(required = false) String searchClasses
-	) throws IOException {
+	) throws Exception {
 		HashSet<String> classes = searchClasses == null
 				? new HashSet<>()
 				: new HashSet<>(Arrays.asList(searchClasses.split(",")));
