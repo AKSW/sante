@@ -16,5 +16,5 @@ jobs:
           java-version: '11'
           distribution: 'zulu'
           cache: maven
-      - name: Change directory
+      - name: Create packages
         run: mvn clean insatall
