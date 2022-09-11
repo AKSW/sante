@@ -17,4 +17,4 @@ jobs:
           distribution: 'zulu'
           cache: maven
       - name: Create packages
-        run: mvn clean insatall
+        run: mvn clean install
