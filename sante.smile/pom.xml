@@ -134,11 +134,11 @@
 		    <artifactId>jena-core</artifactId>
 		    <version>4.4.0</version>
 		</dependency>
-		   <dependency>
-		         <groupId>org.projectlombok</groupId>
-		         <artifactId>lombok</artifactId>
-		         <version>1.18.20</version>
-		   </dependency>
+		<dependency>
+		    <groupId>org.projectlombok</groupId>
+		    <artifactId>lombok</artifactId>
+		    <version>1.18.20</version>
+		</dependency>
 		<dependency>
 		    <groupId>net.lingala.zip4j</groupId>
 		    <artifactId>zip4j</artifactId>
@@ -167,23 +167,21 @@
 		</dependency>
     </dependencies>
   	<repositories>
-  		<repository>
-		    <id>Local Repository</id>
-		    <releases>
-		        <enabled>true</enabled>
-		        <checksumPolicy>ignore</checksumPolicy>
-		    </releases>
-		    <snapshots>
-		        <enabled>true</enabled>
-		        <checksumPolicy>ignore</checksumPolicy>
-		    </snapshots>
-		    <url>file://${project.basedir}/repo</url>
-		</repository>
         <repository>
 	        <id>prime-repo</id>
 	        <name>PrimeFaces Maven Repository</name>
 	        <url>https://repository.primefaces.org</url>
         </repository>
+        <repository>
+	      <id>maven.aksw.internal</id>
+	      <name>University Leipzig, AKSW Maven2 Repository</name>
+	      <url>http://maven.aksw.org/archiva/repository/internal</url>
+	    </repository>
+	    <repository>
+	      <id>maven.aksw.snapshots</id>
+	      <name>University Leipzig, AKSW Maven2 Repository</name>
+	      <url>http://maven.aksw.org/archiva/repository/snapshots</url>
+	    </repository>
     </repositories>
   <build>
     <plugins>

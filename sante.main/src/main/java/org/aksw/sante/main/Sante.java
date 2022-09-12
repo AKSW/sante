@@ -12,9 +12,8 @@ public class Sante {
 		Command debug = new DebugCommand();
 		Command measuresOption = new IndexCommand();
 		Command searchOption = new SearchCommand();
-		Command serverOption = new ServerCommand();
 		CommandFactory factory = new CommandFactory(measuresOption, 
-				searchOption, serverOption);
+				searchOption);
 		
 		// checking debug mode
 		if(debug.canProcess(args)) {
@@ -38,10 +37,6 @@ public class Sante {
 		System.out.println("  -endpoint\ta sparql endpoint.");
 		System.out.println("  -path\t\ttarget index directory.");
 		System.out.println("  -where\t\ta filter where clause in the form of '{?s ?p ?o}'.");
-		System.out.println(" server -war <smile.war> -path <path> [-port <port>]");
-		System.out.println("  -war\tthe smile war file.");
-		System.out.println("  -path\ttarget index directory.");
-		System.out.println("  -port\tserver publishing port (default 8080).");
 		System.out.println(" -debug\trun the command in debug mode.");
 	}
 }
