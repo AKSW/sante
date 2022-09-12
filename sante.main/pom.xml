@@ -18,28 +18,11 @@
 	  <groupId>org.slf4j</groupId>
 	  <artifactId>slf4j-simple</artifactId>
 	  <version>1.7.21</version>
-	</dependency>
- 	<dependency>
-	    <groupId>org.eclipse.jetty</groupId>
-	    <artifactId>jetty-webapp</artifactId>
-	    <version>9.4.8.v20171121</version>
    </dependency>
    <dependency>
-        <groupId>org.eclipse.jetty</groupId>
-        <artifactId>apache-jsp</artifactId>
-        <version>9.4.8.v20171121</version>
-   </dependency>
-   <dependency>
-	    <groupId>org.aksw.sante</groupId>
-	    <artifactId>sante.smile</artifactId>
-	    <version>0.0.21-SNAPSHOT</version>
-	    <classifier>classes</classifier>
-	    <exclusions>
-	        <exclusion> 
-	          	<groupId>org.apache.myfaces.core</groupId>
-	   			<artifactId>myfaces-impl</artifactId>
-             </exclusion>
-      	</exclusions> 
+     <groupId>org.aksw.sante</groupId>
+     <artifactId>sante.lucene</artifactId>
+     <version>0.0.21-SNAPSHOT</version>
    </dependency>
    <dependency>
     <groupId>org.springframework.boot</groupId>
@@ -75,4 +58,16 @@
 		</plugin>  	
   	</plugins>
   </build>
+  <repositories>
+    <repository>
+      <id>maven.aksw.internal</id>
+      <name>University Leipzig, AKSW Maven2 Repository</name>
+      <url>http://maven.aksw.org/archiva/repository/internal</url>
+    </repository>
+    <repository>
+      <id>maven.aksw.snapshots</id>
+      <name>University Leipzig, AKSW Maven2 Repository</name>
+      <url>http://maven.aksw.org/archiva/repository/snapshots</url>
+    </repository>
+  </repositories>
 </project>
