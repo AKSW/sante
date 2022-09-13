@@ -44,6 +44,24 @@ In this showcase we demonstrate SANTé with full functionalities (search, APIs, 
 
 [<img src="https://github.com/AKSW/sante/raw/master/sante_full_pokemon.png"/>](http://pokemon.aksw.org)
 
+### Requirements
+
+#### maven setup 
+
+Change your maven ``settings.xml`` adding the following lines:
+
+```
+ <mirrors>
+    <mirror>
+        <id>prime-repo</id>
+        <mirrorOf>external:http:*</mirrorOf>
+        <url>http://repository.primefaces.org</url>
+        <blocked>false</blocked>
+    </mirror>
+  </mirrors>
+```
+
+
 ### SANTé in 5 minutes 
 
 In this 5 minutes tutorial we will help you to instantiate your first knowledge base search engine over FOAF ontology using KBox [https://github.com/AKSW/KBox](https://github.com/AKSW/KBox).
@@ -71,7 +89,7 @@ Download the jar here [https://github.com/AKSW/sante/releases](https://github.co
 
 Assuming that you successfully performed step 1, 
 ```
-java -jar sante-vXXX.jar index -endpoint http://localhost:8080/kbox/query -path \foaf_kg
+java -jar sante-main-*.jar index -endpoint http://localhost:8080/kbox/query -path \foaf_kg
 ```
 
 4) Download one of the available smile WAR files (same version as the step 2).
@@ -80,14 +98,17 @@ Download the WAR here [https://github.com/AKSW/sante/releases](https://github.co
 
 5) Instantiate smile
 ```
-java -jar sante-vXXX.jar server -war sante-vXXX.war -path \foaf_kg -port 9090
-[main] INFO org.eclipse.jetty.util.log - Logging initialized @150ms to org.eclipse.jetty.util.log.Slf4jLog
-[main] INFO org.eclipse.jetty.server.Server - jetty-9.4.z-SNAPSHOT, build timestamp: 2017-11-21T22:27:37+01:00, git hash: 82b8fb23f757335bb3329d540ce37a2a2615f0a8
-[main] INFO org.eclipse.jetty.server.session - DefaultSessionIdManager workerName=node0
-[main] INFO org.eclipse.jetty.server.session - No SessionScavenger set, using defaults
-[main] INFO org.eclipse.jetty.server.session - Scavenging every 660000ms
-May 09, 2020 9:25:16 AM org.apache.myfaces.config.DefaultFacesConfigurationProvider getStandardFacesConfig
+java -jar sante.smile-*.war
+ ____    _    _   _ _____  __   __        _______ ____       _
+ / ___|  / \  | \ | |_   _|/_/_  \ \      / / ____| __ )     / \   _ __  _ __
+ \___ \ / _ \ |  \| | | || ____|  \ \ /\ / /|  _| |  _ \    / _ \ | '_ \| '_ \
+  ___) / ___ \| |\  | | ||  _|_    \ V  V / | |___| |_) |  / ___ \| |_) | |_) |
+ |____/_/   \_\_| \_| |_||_____|    \_/\_/  |_____|____/  /_/   \_\ .__/| .__/
+                                                                  |_|   |_|
+
+2022-09-13 09:58:15.842  INFO 21938 --- [           main] org.aksw.sante.SanteWebApp               : Starting SanteWebApp v2.5.3 using Java 11.0.10 on ... with PID 21938
 ...
+2022-09-13 09:58:15.846  INFO 21938 --- [           main] org.aksw.sante.SanteWebApp               : No active profile set, falling back to default profiles: default
 ```
 
 If you correctly executed all the steps above, now you should be able to access SANTé at [http://localhost:9090](http://localhost:9090).
@@ -98,11 +119,11 @@ However, SANté uses triple stores to feed data to the index.
 That's useful for performing reasoning over the target knowledge graph.
 To create the index, you will first need to index your data in a triple store of your preference.
 
-1) Download one of the availabes SANTé runnable jar file.
+1) Download one of the availabes SANTé runnable jar file or [generate one](https://github.com/AKSW/sante#creating-sant%C3%A9-runnable-jar-file).
 
 2) Execute the following command:
 ```
-java -jar sante.jar index -endpoint <endpoint> -path <path>
+java -jar sante.main-*.jar index -endpoint <endpoint> -path <path>
 ```
 where:
   
@@ -110,22 +131,23 @@ where:
 	 
     <path>     stands for the target index directory.
 
-### Running SANTé
-1) Download one of the availabes SANTé runnable jar file.
+### Running SANTé Web App
+1) Download the availabes SANTé war file or [generate one](https://github.com/AKSW/sante#creating-sant%C3%A9-smile-war-file).
 
-2) Download the available SANTé WAR file.
-
-2) Execute the following command:
+3) Execute the following command:
 ```
-java -jar sante.jar server -war <smile.war> -path <path> [-port <port>]
-```
-where:
+java -jar sante.smile-*.war
+ ____    _    _   _ _____  __   __        _______ ____       _
+ / ___|  / \  | \ | |_   _|/_/_  \ \      / / ____| __ )     / \   _ __  _ __
+ \___ \ / _ \ |  \| | | || ____|  \ \ /\ / /|  _| |  _ \    / _ \ | '_ \| '_ \
+  ___) / ___ \| |\  | | ||  _|_    \ V  V / | |___| |_) |  / ___ \| |_) | |_) |
+ |____/_/   \_\_| \_| |_||_____|    \_/\_/  |_____|____/  /_/   \_\ .__/| .__/
+                                                                  |_|   |_|
 
-    <war>  stands for smile war file.
-	
-    <path> stands for the target index directory.
- 
-    <port> stands for the server publishing port (default 8080).
+2022-09-13 09:58:15.842  INFO 21938 --- [           main] org.aksw.sante.SanteWebApp               : Starting SanteWebApp v2.5.3 using Java 11.0.10 on ... with PID 21938
+...
+2022-09-13 09:58:15.846  INFO 21938 --- [           main] org.aksw.sante.SanteWebApp               : No active profile set, falling back to default profiles: default
+```
 
 ### Creating SANTé runnable jar file 
 
@@ -144,20 +166,20 @@ Run ```mvn package``` at the ```sante.main``` base directory:
 [INFO] Finished at: 2020-05-07T23:31:50+02:00
 [INFO] ------------------------------------------------------------------------
 ```
-The runnable jar file will be generated at ```sante.main/target/sante.main-0.0.1-SNAPSHOT-jar-with-dependencies.jar```
+The runnable jar file will be generated at ```sante.main/target/sante.main-0.0.2-SNAPSHOT-jar-with-dependencies.jar```
 
 ### Creating SANTé smile WAR file 
 
-Run ```mvn war:war``` at the ```sante.smile``` base directory:
+Run ```mvn clean install``` at the ```sante.smile``` base directory:
 ```
-...\sante.smile\mvn war:war
+...\sante.smile\mvn clean install
 ...
 [INFO] Packaging webapp
-[INFO] Assembling webapp [sante.smile] in [...\sante.smile\target\sante.smile-0.0.1-SNAPSHOT]
+[INFO] Assembling webapp [sante.smile] in [...\sante.smile\target\sante.smile-2.5.3]
 [INFO] Processing war project
 [INFO] Copying webapp resources [...\sante.smile\src\main\webapp]
 [INFO] Webapp assembled in [356 msecs]
-[INFO] Building war: ...\sante.smile\target\sante.smile-0.0.1-SNAPSHOT.war
+[INFO] Building war: ...\sante.smile\target\sante.smile-2.5.3.war
 [INFO] WEB-INF\web.xml already added, skipping
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
@@ -166,7 +188,7 @@ Run ```mvn war:war``` at the ```sante.smile``` base directory:
 [INFO] Finished at: 2020-05-07T23:42:36+02:00
 [INFO] ------------------------------------------------------------------------
 ```
-The smile WAR file will be generated at ```sante.smile/target/sante.smile-0.0.1-SNAPSHOT.war```
+The smile WAR file will be generated at ```sante.smile/target/sante.smile-2.5.3.war```
 
 ### APIs
 
