@@ -238,48 +238,70 @@ public abstract class AbstractResultSetIterator <T> {
 		}
 		return e;
 	}
+	
+
+	
+	private List<Set<String>> getChuncks(int size, Set<String> resources) {
+		List<Set<String>> chuncks = new ArrayList<Set<String>>();
+		int i = 0;
+		Set<String> chuck = new HashSet<String>();
+		chuncks.add(chuck);
+		for(String resource : resources) {
+			if(i == size) {
+				chuck = new HashSet<String>();
+				chuncks.add(chuck);
+				i = 0;
+			}
+			chuck.add(resource);
+			i++;
+		}
+		return chuncks;
+	}
 
 	private Map<String, List<org.apache.jena.rdf.model.Literal>> getResourceLabelsQuery(Set<String> resources) {
 		Map<String, List<org.apache.jena.rdf.model.Literal>> labels = new HashMap<String, List<org.apache.jena.rdf.model.Literal>>();
 		if(resources.size() == 0) {
 			return labels;
 		}
-		String parsedQuery  = "Select ?s ?l where { ?s <http://www.w3.org/2000/01/rdf-schema#label> ?l filter(";
-		for(int i = 0; i < resources.size(); i++) {
-			parsedQuery += "?s = ?resource" + i;
-			if(i < resources.size() - 1) {
-				parsedQuery += " || ";
-			}
-		}
-		parsedQuery += ")}";
-		ParameterizedSparqlString pss = new ParameterizedSparqlString(parsedQuery);
-		int j = 0;
-		for(String resource : resources) {
-			pss.setIri("resource" + j, resource);
-			j++;
-		}
-		Query query = null;
-		try {
-			query = QueryFactory.create(pss.toString());
-			try(QueryEngineHTTP qexec = getQueryEngine(endpoint, query, clientFactory)) { // get all prop / objects
-				ResultSet rs = qexec.execSelect();
-				while (rs != null && rs.hasNext()) {
-					QuerySolution qs = rs.next();
-					RDFNode sNode = qs.get("s");
-					String sURI = sNode.toString();
-					org.apache.jena.rdf.model.Literal literal = qs.getLiteral("l");
-					List<org.apache.jena.rdf.model.Literal> literals = null;
-					if(labels.containsKey(sURI)) {
-						literals = labels.get(sURI);
-					} else {
-						literals = new ArrayList<org.apache.jena.rdf.model.Literal>();
-						labels.put(sURI, literals);
-					}
-					literals.add(literal);
+		List<Set<String>> chuncks = getChuncks(30, resources);
+		for(Set<String> chunck : chuncks) {
+			String parsedQuery  = "Select ?s ?l where { ?s <http://www.w3.org/2000/01/rdf-schema#label> ?l filter(";
+			for(int i = 0; i < chunck.size(); i++) {
+				parsedQuery += "?s = ?resource" + i;
+				if(i < chunck.size() - 1) {
+					parsedQuery += " || ";
 				}
 			}
-		} catch (Exception e) {
-			logger.error("Error retrieving label list.", e);
+			parsedQuery += ")}";
+			ParameterizedSparqlString pss = new ParameterizedSparqlString(parsedQuery);
+			int j = 0;
+			for(String resource : chunck) {
+				pss.setIri("resource" + j, resource);
+				j++;
+			}
+			Query query = null;
+			try {
+				query = QueryFactory.create(pss.toString());
+				try(QueryEngineHTTP qexec = getQueryEngine(endpoint, query, clientFactory)) { // get all prop / objects
+					ResultSet rs = qexec.execSelect();
+					while (rs != null && rs.hasNext()) {
+						QuerySolution qs = rs.next();
+						RDFNode sNode = qs.get("s");
+						String sURI = sNode.toString();
+						org.apache.jena.rdf.model.Literal literal = qs.getLiteral("l");
+						List<org.apache.jena.rdf.model.Literal> literals = null;
+						if(labels.containsKey(sURI)) {
+							literals = labels.get(sURI);
+						} else {
+							literals = new ArrayList<org.apache.jena.rdf.model.Literal>();
+							labels.put(sURI, literals);
+						}
+						literals.add(literal);
+					}
+				}
+			} catch (Exception e) {
+				logger.error("Error retrieving label list.", e);
+			}
 		}
 		return labels;
 	}
