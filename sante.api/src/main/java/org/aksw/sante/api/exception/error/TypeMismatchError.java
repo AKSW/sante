@@ -1,5 +1,8 @@
 package org.aksw.sante.api.exception.error;
 
+import lombok.Getter;
+
+@Getter
 public class TypeMismatchError extends ReportableError {
 	private final String parameter;
 
@@ -7,9 +10,5 @@ public class TypeMismatchError extends ReportableError {
 		super();
 		this.parameter = parameter;
 		this.message = message;
-	}
-
-	public String getParameter() {
-		return this.parameter;
 	}
 }

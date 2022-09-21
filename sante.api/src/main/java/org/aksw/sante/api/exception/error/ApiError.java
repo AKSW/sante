@@ -2,6 +2,7 @@ package org.aksw.sante.api.exception.error;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @AllArgsConstructor
+@Getter
 public class ApiError {
 	private HttpStatus httpStatus;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
@@ -30,7 +32,7 @@ public class ApiError {
 	public static class ErrorResponseBuilder {
 		private HttpStatus httpStatus;
 		private String message;
-		private Collection<ReportableError> errors;
+		private final Collection<ReportableError> errors;
 
 		private ErrorResponseBuilder() {
 			this.errors = new ArrayList<>();
@@ -63,21 +65,5 @@ public class ApiError {
 		public ApiError create() {
 			return new ApiError(this);
 		}
-	}
-
-	public HttpStatus getHttpStatus() {
-		return this.httpStatus;
-	}
-
-	public LocalDateTime getTimestamp() {
-		return this.timestamp;
-	}
-
-	public String getMessage() {
-		return this.message;
-	}
-
-	public Collection<ReportableError> getErrors() {
-		return this.errors;
 	}
 }

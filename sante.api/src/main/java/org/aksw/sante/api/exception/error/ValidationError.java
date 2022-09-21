@@ -1,5 +1,8 @@
 package org.aksw.sante.api.exception.error;
 
+import lombok.Getter;
+
+@Getter
 public class ValidationError extends ReportableError {
 	private final String field;
 
@@ -7,9 +10,5 @@ public class ValidationError extends ReportableError {
 		super();
 		this.field = field;
 		this.message = message;
-	}
-
-	public String getField() {
-		return this.field;
 	}
 }
