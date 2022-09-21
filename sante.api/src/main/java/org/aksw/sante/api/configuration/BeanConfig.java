@@ -1,4 +1,4 @@
-package org.aksw.sante.api;
+package org.aksw.sante.api.configuration;
 
 import org.aksw.sante.smile.core.SmileParams;
 import org.apache.lucene.index.IndexReader;
@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 @Configuration
-public class Config {
+public class BeanConfig {
 
 	// TODO decouple dependency on implicitly specified index path in SANTe.smile
 	@Bean
