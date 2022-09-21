@@ -17,8 +17,10 @@ public class DbpediaLookupService {
 		this.searchEngine = searchEngine;
 	}
 
-	public DbpediaDocumentCollection lookupDbpedia(Integer maxHits, String searchQuery, Set<String> searchClasses) throws Exception {
+	public DbpediaDocumentCollection lookupDbpedia(String searchQuery, Integer maxHits, Set<String> searchClasses) throws Exception {
 		var docs = new DbpediaDocumentCollection();
+		// TODO call the correct search method — maybe one that can be called without a limit?
+		//  or even better: create a search-query builder instead of method overloading
 		ResultSet<Entity> results = this.searchEngine
 				.search(searchQuery, 0, maxHits, null, searchClasses, null, true);
 

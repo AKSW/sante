@@ -11,9 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-// TODO call the correct search method -> maybe add a that can be called without limit?
-// TODO Add request validation and exception handlers
-// TODO Pascal/Upper-Camel-Case for query parameters?
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 
 @RestController
 @Validated
@@ -74,7 +74,8 @@ public class DbpediaLookupController {
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	protected DbpediaDocumentCollection lookupDbpedia(
-			Integer maxHits,
+			// TODO handle issues with maxHits being absent or becoming too large — what is this dependent on?
+			@NotNull @Min(1) Integer maxHits,
 			@RequestParam(required = false) String searchQuery,
 			@RequestParam(required = false) String searchClasses
 	) throws Exception {
@@ -82,6 +83,6 @@ public class DbpediaLookupController {
 				? new HashSet<>()
 				: new HashSet<>(Arrays.asList(searchClasses.split(",")));
 
-		return this.dbpediaLookupService.lookupDbpedia(maxHits, searchQuery, classes);
+		return this.dbpediaLookupService.lookupDbpedia(searchQuery, maxHits, classes);
 	}
 }
