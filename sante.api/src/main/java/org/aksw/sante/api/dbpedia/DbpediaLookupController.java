@@ -14,17 +14,41 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+// TODO Add JavaDoc
 
+/**
+ * SpringBoot controller for the dbpedia-lookup endpoint.
+ * @see RestController
+ */
 @RestController
 @Validated
 public class DbpediaLookupController {
 
+	/**
+	 * The service to perform searches analogously to DBpedia-Lookup.
+	 */
 	private final DbpediaLookupService dbpediaLookupService;
 
+	/**
+	 * Constructs the controller and injects all necessary dependencies.
+	 *
+	 * @param dbpediaLookupService the service to perform the search
+	 * @see DbpediaLookupService
+	 */
 	public DbpediaLookupController(DbpediaLookupService dbpediaLookupService) {
 		this.dbpediaLookupService = dbpediaLookupService;
 	}
 
+	/**
+	 * Provides a method for GET calls to the dbpedia-lookup endpoint.
+	 * Calls the corresponding service that performs the actual search.
+	 *
+	 * @param searchQuery   the actual search string. If empty, the search is not reduced to any given search string.
+	 * @param maxHits       limits the amount of search results
+	 * @param searchClasses comma-separated list of classes that are to be searched
+	 * @return              a REST-response of the search results
+	 * @throws Exception    if any issues arise
+	 */
 	@Operation(
 			summary = "Retrieve entities in the format of DBpedia-Lookup",
 			description = "DBpedia Lookup provides a way of searching"
@@ -75,8 +99,8 @@ public class DbpediaLookupController {
 	@ResponseBody
 	protected DbpediaDocumentCollection lookupDbpedia(
 			// TODO handle issues with maxHits being absent or becoming too large — what is this dependent on?
-			@NotNull @Min(1) Integer maxHits,
 			@RequestParam(required = false) String searchQuery,
+			@NotNull @Min(1) Integer maxHits,
 			@RequestParam(required = false) String searchClasses
 	) throws Exception {
 		HashSet<String> classes = searchClasses == null

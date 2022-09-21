@@ -8,8 +8,20 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+/**
+ * Handler for MethodArgumentTypeMismatchException.
+ *
+ * @see MethodArgumentTypeMismatchException
+ */
 @RestControllerAdvice
 public class MethodArgumentTypeMismatchHandler {
+
+	/**
+	 * Handle MethodArgumentTypeMismatchException and return an appropriate error response.
+	 *
+	 * @param exception MethodArgumentTypeMismatchException that is to be handled
+	 * @return          an appropriate error response
+	 */
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@org.springframework.web.bind.annotation.ExceptionHandler(MethodArgumentTypeMismatchException.class)
 	public ApiErrorResponse handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException exception) {

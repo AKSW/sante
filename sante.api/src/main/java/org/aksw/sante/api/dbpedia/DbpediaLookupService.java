@@ -8,17 +8,45 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * The service to perform searches similar to DBpedia-Lookup.
+ */
 @Service
 public class DbpediaLookupService {
 
+	/**
+	 * The SearchEngine which performs the search.
+	 */
 	private final SearchEngine searchEngine;
+
+	/**
+	 * The URI for RDF Schema types.
+	 */
 	private final String RDF_SCHEMA_TYPE = "http://www.w3.org/2000/01/rdf-schema#type";
+
+	/**
+	 * The URI for RDF Schema comments.
+	 */
 	private final String RDF_COMMENT = "http://www.w3.org/1999/02/22-rdf-syntax-ns#comment";
 
+	/**
+	 * Constructs the service and injects the necessary dependencies.
+	 *
+	 * @param searchEngine search engine that will perform the search
+	 */
 	public DbpediaLookupService(SearchEngine searchEngine) {
 		this.searchEngine = searchEngine;
 	}
 
+	/**
+	 * Performs the search and returns the result as a DbpediaDocumentCollection of DbpediaDocument objects.
+	 *
+	 * @param searchQuery   the search string. If empty, the search will not be reduced to any search string.
+	 * @param maxHits       limit the amount of search results
+	 * @param searchClasses comma-separated list of classes that are to be searched
+	 * @return              a DbpediaDocumentCollection of DbpediaDocument objects
+	 * @throws Exception    if any issues arise
+	 */
 	public DbpediaDocumentCollection lookupDbpedia(
 			String searchQuery,
 			Integer maxHits,
@@ -49,6 +77,12 @@ public class DbpediaLookupService {
 		return docs;
 	}
 
+	/**
+	 * Extract the type from given type properties.
+	 *
+	 * @param typeProperties    list of type properties
+	 * @return                  type. Formatted as a list of types with a single element.
+	 */
 	private List<String> getTypeFromTypeProperties(List<Property> typeProperties) {
 		if (typeProperties == null) {
 			return null;
@@ -58,6 +92,12 @@ public class DbpediaLookupService {
 				.collect(Collectors.toList());
 	}
 
+	/**
+	 * Extract the type name from given type properties.
+	 *
+	 * @param typeProperties    list of type properties
+	 * @return                  type name. Formatted as a list of types with a single element.
+	 */
 	private List<String> getTypeNameFromTypeProperties(List<Property> typeProperties) {
 		if (typeProperties == null) {
 			return null;
@@ -69,6 +109,12 @@ public class DbpediaLookupService {
 				.collect(Collectors.toList());
 	}
 
+	/**
+	 * Extract comments from given comment properties.
+	 *
+	 * @param commentProperties list of comment properties
+	 * @return                  list of comments
+	 */
 	private List<String> getCommentFromCommentProperties(List<Property> commentProperties) {
 		if (commentProperties == null) {
 			return null;

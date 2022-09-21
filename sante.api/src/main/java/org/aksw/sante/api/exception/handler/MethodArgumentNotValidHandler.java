@@ -10,8 +10,21 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.stream.Collectors;
 
+/**
+ * Handler for MethodArgumentNotValidException.
+ *
+ * @see MethodArgumentNotValidException
+ */
 @RestControllerAdvice
 public class MethodArgumentNotValidHandler {
+
+
+	/**
+	 * Handle MethodArgumentNotValidException and return an appropriate error response.
+	 *
+	 * @param exception MethodArgumentNotValidException that is to be handled
+	 * @return          an appropriate error response
+	 */
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@org.springframework.web.bind.annotation.ExceptionHandler(MethodArgumentNotValidException.class)
 	public ApiErrorResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {

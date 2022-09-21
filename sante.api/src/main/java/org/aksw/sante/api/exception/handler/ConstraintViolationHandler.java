@@ -10,8 +10,20 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.validation.ConstraintViolationException;
 import java.util.stream.Collectors;
 
+/**
+ * Handler for ConstraintViolationException.
+ *
+ * @see ConstraintViolationException
+ */
 @RestControllerAdvice
 public class ConstraintViolationHandler {
+
+	/**
+	 * Handle ConstraintViolationException and return an appropriate error response.
+	 *
+	 * @param exception ConstraintViolationException that is to be handled
+	 * @return          an appropriate error response
+	 */
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@org.springframework.web.bind.annotation.ExceptionHandler(ConstraintViolationException.class)
 	public ApiErrorResponse handleConstraintViolationException(ConstraintViolationException exception) {
