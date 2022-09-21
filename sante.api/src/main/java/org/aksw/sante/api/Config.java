@@ -13,6 +13,7 @@ import java.nio.file.Path;
 @Configuration
 public class Config {
 
+	// TODO decouple dependency on implicitly specified index path in SANTe.smile
 	@Bean
 	public SearchEngine getSearchEngine() throws IOException {
 		Path indexPath = (new File(SmileParams.getInstance().indexPath)).toPath();

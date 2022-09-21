@@ -1,10 +1,12 @@
 package org.aksw.sante.api.dbpedia;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
 
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Getter
 public class DbpediaDocument {
 	private List<String> score;
 	private List<String> refCount;
@@ -16,75 +18,85 @@ public class DbpediaDocument {
 	private List<String> type;
 	private List<String> category;
 
-	public List<String> getScore() {
-		return score;
+	private DbpediaDocument() {}
+
+	private DbpediaDocument(DbpediaDocumentBuilder builder) {
+		this();
+		this.score = builder.score;
+		this.refCount = builder.refCount;
+		this.resource = builder.resource;
+		this.redirectLabel = builder.redirectLabel;
+		this.typeName = builder.typeName;
+		this.comment = builder.comment;
+		this.label = builder.label;
+		this.type = builder.type;
+		this.category = builder.category;
 	}
 
-	public void setScore(List<String> score) {
-		this.score = score;
-	}
+	public static class DbpediaDocumentBuilder {
+		private List<String> score;
+		private List<String> refCount;
+		private List<String> resource;
+		private List<String> redirectLabel;
+		private List<String> typeName;
+		private List<String> comment;
+		private List<String> label;
+		private List<String> type;
+		private List<String> category;
 
-	public List<String> getRefCount() {
-		return refCount;
-	}
+		private DbpediaDocumentBuilder() {}
 
-	public void setRefCount(List<String> refCount) {
-		this.refCount = refCount;
-	}
+		public static DbpediaDocumentBuilder newDbpediaDocument() {
+			return new DbpediaDocumentBuilder();
+		}
 
-	public List<String> getResource() {
-		return resource;
-	}
+		public DbpediaDocumentBuilder addScore(List<String> score) {
+			this.score = score;
+			return this;
+		}
 
-	public void setResource(List<String> resource) {
-		this.resource = resource;
-	}
+		public DbpediaDocumentBuilder addRefCount(List<String> refCount) {
+			this.refCount = refCount;
+			return this;
+		}
 
-	public List<String> getRedirectLabel() {
-		return redirectLabel;
-	}
+		public DbpediaDocumentBuilder addResource(List<String> resource) {
+			this.resource = resource;
+			return this;
+		}
 
-	public void setRedirectLabel(List<String> redirectLabel) {
-		this.redirectLabel = redirectLabel;
-	}
+		public DbpediaDocumentBuilder addRedirectLabel(List<String> redirectLabel) {
+			this.redirectLabel = redirectLabel;
+			return this;
+		}
 
-	public List<String> getTypeName() {
-		return typeName;
-	}
+		public DbpediaDocumentBuilder addTypeName(List<String> typeName) {
+			this.typeName = typeName;
+			return this;
+		}
 
-	public void setTypeName(List<String> typeName) {
-		this.typeName = typeName;
-	}
+		public DbpediaDocumentBuilder addComment(List<String> comment) {
+			this.comment = comment;
+			return this;
+		}
 
-	public List<String> getComment() {
-		return comment;
-	}
+		public DbpediaDocumentBuilder addLabel(List<String> label) {
+			this.label = label;
+			return this;
+		}
 
-	public void setComment(List<String> comment) {
-		this.comment = comment;
-	}
+		public DbpediaDocumentBuilder addType(List<String> type) {
+			this.type = type;
+			return this;
+		}
 
-	public List<String> getLabel() {
-		return label;
-	}
+		public DbpediaDocumentBuilder addCategory(List<String> category) {
+			this.category = category;
+			return this;
+		}
 
-	public void setLabel(List<String> label) {
-		this.label = label;
-	}
-
-	public List<String> getType() {
-		return type;
-	}
-
-	public void setType(List<String> type) {
-		this.type = type;
-	}
-
-	public List<String> getCategory() {
-		return category;
-	}
-
-	public void setCategory(List<String> category) {
-		this.category = category;
+		public DbpediaDocument create() {
+			return new DbpediaDocument(this);
+		}
 	}
 }
