@@ -17,7 +17,7 @@
 }
 ```
 
-SANTé stands for Semantic Search Engine and is designed to simplify RDF data access and exploration. 
+SANTé stands for SemANTic Search Engine and is designed to simplify RDF data access and exploration. 
 SANTé covers different aspects of search engines such as indexing, ranking as well as interaction.
 You can use SANTé via command line or via SANTé Web Interface (smile).
 
