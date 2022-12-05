@@ -1,4 +1,4 @@
-package org.aksw.sante.api.dbpedia;
+package org.aksw.sante.api.endpoints.dbpedia.data;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
@@ -15,48 +15,49 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
 public class DbpediaDocument {
+
 	/**
-	 * Score of the document.
+	 * The scores of the document.
 	 */
 	private List<String> score;
 
 	/**
-	 * ? TODO
+	 * The ref counts of the document.
 	 */
 	private List<String> refCount;
 
 	/**
-	 * TODO
+	 * The resources that represent the document.
 	 */
 	private List<String> resource;
 
 	/**
-	 * TODO
+	 * The redirect labels for the document.
 	 */
 	private List<String> redirectLabel;
 
 	/**
-	 * TODO
+	 * The type names of the document.
 	 */
 	private List<String> typeName;
 
 	/**
-	 * TODO
+	 * The comments of the document.
 	 */
 	private List<String> comment;
 
 	/**
-	 * TODO
+	 * The labels of the document.
 	 */
 	private List<String> label;
 
 	/**
-	 * TODO
+	 * The types of the document.
 	 */
 	private List<String> type;
 
 	/**
-	 * TODO
+	 * The categories of the document.
 	 */
 	private List<String> category;
 
@@ -88,50 +89,51 @@ public class DbpediaDocument {
 	/**
 	 * Builder to construct DbpediaDocument objects dynamically.
 	 */
+	@SuppressWarnings("unused,UnusedReturnValue")
 	public static class DbpediaDocumentBuilder {
 
 		/**
-		 * TODO
+		 * The scores of the document.
 		 */
 		private List<String> score;
 
 		/**
-		 * TODO
+		 * The ref counts of the document.
 		 */
 		private List<String> refCount;
 
 		/**
-		 * TODO
+		 * The resources that represent the document.
 		 */
 		private List<String> resource;
 
 		/**
-		 * TODO
+		 * The redirect labels for the document.
 		 */
 		private List<String> redirectLabel;
 
 		/**
-		 * TODO
+		 * The type names of the document.
 		 */
 		private List<String> typeName;
 
 		/**
-		 * TODO
+		 * The comments of the document.
 		 */
 		private List<String> comment;
 
 		/**
-		 * TODO
+		 * The labels of the document.
 		 */
 		private List<String> label;
 
 		/**
-		 * TODO
+		 * The types of the document.
 		 */
 		private List<String> type;
 
 		/**
-		 * TODO
+		 * The categories of the document.
 		 */
 		private List<String> category;
 
@@ -152,10 +154,10 @@ public class DbpediaDocument {
 		}
 
 		/**
-		 * Adds a score to a DbpediaDocument.
+		 * Adds scores to a DbpediaDocument.
 		 *
 		 * @param score score to be added
-		 * @return      this DbpediaDocumentBuilder
+		 * @return this DbpediaDocumentBuilder
 		 */
 		public DbpediaDocumentBuilder addScore(List<String> score) {
 			this.score = score;
@@ -163,11 +165,10 @@ public class DbpediaDocument {
 		}
 
 		/**
-		 * TODO
-		 * Adds a refCount to a DbpediaDocument.
+		 * Adds ref counts to a DbpediaDocument.
 		 *
-		 * @param refCount  refCount to be added
-		 * @return          this DbpediaDocumentBuilder
+		 * @param refCount refCount to be added
+		 * @return this DbpediaDocumentBuilder
 		 */
 		public DbpediaDocumentBuilder addRefCount(List<String> refCount) {
 			this.refCount = refCount;
@@ -175,11 +176,10 @@ public class DbpediaDocument {
 		}
 
 		/**
-		 * TODO
-		 * Adds a resource to a DbpediaDocument.
+		 * Adds resources to a DbpediaDocument.
 		 *
-		 * @param resource  resource to be added
-		 * @return          this DbpediaDocumentBuilder
+		 * @param resource resource to be added
+		 * @return this DbpediaDocumentBuilder
 		 */
 		public DbpediaDocumentBuilder addResource(List<String> resource) {
 			this.resource = resource;
@@ -187,11 +187,10 @@ public class DbpediaDocument {
 		}
 
 		/**
-		 * TODO
-		 * Adds a redirectLabel to a DbpediaDocument.
+		 * Adds redirect labels to a DbpediaDocument.
 		 *
 		 * @param redirectLabel redirectLabel to be added
-		 * @return              this DbpediaDocumentBuilder
+		 * @return this DbpediaDocumentBuilder
 		 */
 		public DbpediaDocumentBuilder addRedirectLabel(List<String> redirectLabel) {
 			this.redirectLabel = redirectLabel;
@@ -199,11 +198,10 @@ public class DbpediaDocument {
 		}
 
 		/**
-		 * TODO
-		 * Adds a typeName to a DbpediaDocument.
+		 * Adds type names to a DbpediaDocument.
 		 *
-		 * @param typeName  typeName to be added
-		 * @return          this DbpediaDocumentBuilder
+		 * @param typeName typeName to be added
+		 * @return this DbpediaDocumentBuilder
 		 */
 		public DbpediaDocumentBuilder addTypeName(List<String> typeName) {
 			this.typeName = typeName;
@@ -211,11 +209,10 @@ public class DbpediaDocument {
 		}
 
 		/**
-		 * TODO
-		 * Adds a comment to a DbpediaDocument.
+		 * Adds comments to a DbpediaDocument.
 		 *
-		 * @param comment   comment to be added
-		 * @return          this DbpediaDocumentBuilder
+		 * @param comment comment to be added
+		 * @return this DbpediaDocumentBuilder
 		 */
 		public DbpediaDocumentBuilder addComment(List<String> comment) {
 			this.comment = comment;
@@ -223,11 +220,10 @@ public class DbpediaDocument {
 		}
 
 		/**
-		 * TODO
-		 * Adds a label to a DbpediaDocument.
+		 * Adds labels to a DbpediaDocument.
 		 *
 		 * @param label label to be added
-		 * @return      this DbpediaDocumentBuilder
+		 * @return this DbpediaDocumentBuilder
 		 */
 		public DbpediaDocumentBuilder addLabel(List<String> label) {
 			this.label = label;
@@ -235,11 +231,10 @@ public class DbpediaDocument {
 		}
 
 		/**
-		 * TODO
-		 * Adds a type to a DbpediaDocument.
+		 * Adds types to a DbpediaDocument.
 		 *
-		 * @param type  type to be added
-		 * @return      this DbpediaDocumentBuilder
+		 * @param type type to be added
+		 * @return this DbpediaDocumentBuilder
 		 */
 		public DbpediaDocumentBuilder addType(List<String> type) {
 			this.type = type;
@@ -247,11 +242,10 @@ public class DbpediaDocument {
 		}
 
 		/**
-		 * TODO
-		 * Adds a category to a DbpediaDocument.
+		 * Adds categories to a DbpediaDocument.
 		 *
-		 * @param category  category to be added
-		 * @return          this DbpediaDocumentBuilder
+		 * @param category category to be added
+		 * @return this DbpediaDocumentBuilder
 		 */
 		public DbpediaDocumentBuilder addCategory(List<String> category) {
 			this.category = category;

@@ -1,4 +1,4 @@
-package org.aksw.sante.api.dbpedia;
+package org.aksw.sante.api.endpoints.dbpedia.data;
 
 import lombok.Getter;
 
@@ -29,9 +29,9 @@ public class DbpediaDocumentCollection {
 	/**
 	 * Adds a single document to the collection.
 	 *
-	 * @param doc a single DbpediaDocument
+	 * @param dbpediaDocument a single DbpediaDocument
 	 */
-	public void addDocument(DbpediaDocument doc) {
-		this.docs.add(doc);
+	public void addDocument(DbpediaDocument dbpediaDocument) {
+		this.docs.add(dbpediaDocument);
 	}
 }

@@ -1,43 +1,21 @@
-package org.aksw.sante.api.dbpedia;
-
-import java.util.*;
+package org.aksw.sante.api.endpoints.dbpedia;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.aksw.sante.api.endpoints.dbpedia.data.DbpediaDocumentCollection;
 import org.springframework.http.MediaType;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.aksw.sante.api.exception.SearchSuggestException;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import java.util.Optional;
 
-// TODO Add JavaDoc
-
-/**
- * SpringBoot controller for the dbpedia-lookup endpoint.
- * @see RestController
- */
-@RestController
-@Validated
-public class DbpediaLookupController {
-
-	/**
-	 * The service to perform searches analogously to DBpedia-Lookup.
-	 */
-	private final DbpediaLookupService dbpediaLookupService;
-
-	/**
-	 * Constructs the controller and injects all necessary dependencies.
-	 *
-	 * @param dbpediaLookupService the service to perform the search
-	 * @see DbpediaLookupService
-	 */
-	public DbpediaLookupController(DbpediaLookupService dbpediaLookupService) {
-		this.dbpediaLookupService = dbpediaLookupService;
-	}
+@RequestMapping("${api-path-prefix}/dbpedia-lookup")
+public interface DbpediaLookupOperations {
 
 	/**
 	 * Provides a method for GET calls to the dbpedia-lookup endpoint.
@@ -46,16 +24,16 @@ public class DbpediaLookupController {
 	 * @param searchQuery   the actual search string. If empty, the search is not reduced to any given search string.
 	 * @param maxHits       limits the amount of search results
 	 * @param searchClasses comma-separated list of classes that are to be searched
-	 * @return              a REST-response of the search results
-	 * @throws Exception    if any issues arise
+	 * @return a REST-response of the search results
+	 * @throws SearchSuggestException if any issues arises during search
 	 */
+	@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 	@Operation(
 			summary = "Retrieve entities in the format of DBpedia-Lookup",
 			description = "DBpedia Lookup provides a way of searching"
 					+ " through RDF data using natural language search queries."
 					+ " A user can therefore search for resources without having to use or learn SPARQL."
-					+ " This endpoint makes it possible to use SANTé in a similar fashion."
-					+ " It returns a search result that is equivalent of that of DBpedia Lookup.",
+					+ " This endpoint provides a way to use SANTé in accordance with DBpedia Lookup.",
 			tags = {"dbpedia-lookup"},
 			parameters = {
 					@Parameter(
@@ -94,19 +72,11 @@ public class DbpediaLookupController {
 			}
 	)
 	@GetMapping(
-			path = "/api/dbpedia-lookup",
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	protected DbpediaDocumentCollection lookupDbpedia(
-			// TODO handle issues with maxHits being absent or becoming too large — what is this dependent on?
-			@RequestParam(required = false) String searchQuery,
-			@NotNull @Min(1) Integer maxHits,
-			@RequestParam(required = false) String searchClasses
-	) throws Exception {
-		HashSet<String> classes = searchClasses == null
-				? new HashSet<>()
-				: new HashSet<>(Arrays.asList(searchClasses.split(",")));
-
-		return this.dbpediaLookupService.lookupDbpedia(searchQuery, maxHits, classes);
-	}
+	DbpediaDocumentCollection lookupDbpedia(
+			Integer maxHits,
+			Optional<String> searchQuery,
+			Optional<String> searchClasses
+	) throws SearchSuggestException;
 }

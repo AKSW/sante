@@ -2,6 +2,7 @@ package org.aksw.sante.api.wrapper;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import lombok.Setter;
 import org.sante.lucene.Filter;
 
 import javax.validation.constraints.Min;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
  */
 @SuppressWarnings("unused")
 @Getter
+@Setter
 // no setters needed since Jackson is capable of doing reflective deserialization
 public class Query {
 
