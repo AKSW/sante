@@ -132,7 +132,7 @@ public class ApiError {
 		 * @param errors    collection of specific errors
 		 * @return          this ErrorResponseBuilder
 		 */
-		public ErrorResponseBuilder addErrors(Collection<ReportableError> errors) {
+		public ErrorResponseBuilder addErrors(Collection<? extends ReportableError> errors) {
 			this.errors.addAll(errors);
 			return this;
 		}

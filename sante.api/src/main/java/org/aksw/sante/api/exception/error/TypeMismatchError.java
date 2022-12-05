@@ -4,10 +4,12 @@ import lombok.Getter;
 
 /**
  * An error that indicates a type mismatch.
+ *
  * @see ReportableError
  */
 @Getter
 public class TypeMismatchError extends ReportableError {
+
 	/**
 	 * Parameter that had its type mismatched.
 	 */
@@ -16,12 +18,11 @@ public class TypeMismatchError extends ReportableError {
 	/**
 	 * Constructs a TypeMismatchError and adds the required information.
 	 *
-	 * @param parameter parameter that had its type mismatched
 	 * @param message   detailed information about the type mismatch
+	 * @param parameter parameter that had its type mismatched
 	 */
-	public TypeMismatchError(String parameter, String message) {
-		super();
+	public TypeMismatchError(String message, String parameter) {
+		super(message);
 		this.parameter = parameter;
-		this.message = message;
 	}
 }

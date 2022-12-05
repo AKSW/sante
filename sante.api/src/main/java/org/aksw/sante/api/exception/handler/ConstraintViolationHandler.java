@@ -11,7 +11,7 @@ import javax.validation.ConstraintViolationException;
 import java.util.stream.Collectors;
 
 /**
- * Handler for ConstraintViolationException.
+ * Handler for a ConstraintViolationException.
  *
  * @see ConstraintViolationException
  */
@@ -19,10 +19,10 @@ import java.util.stream.Collectors;
 public class ConstraintViolationHandler {
 
 	/**
-	 * Handle ConstraintViolationException and return an appropriate error response.
+	 * Handles a ConstraintViolationException and returns an appropriate error response.
 	 *
 	 * @param exception ConstraintViolationException that is to be handled
-	 * @return          an appropriate error response
+	 * @return an appropriate error response
 	 */
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@org.springframework.web.bind.annotation.ExceptionHandler(ConstraintViolationException.class)
@@ -34,8 +34,7 @@ public class ConstraintViolationHandler {
 						.addErrors(
 								exception.getConstraintViolations().stream().map(violation ->
 										new ValidationError(
-												violation.getPropertyPath().toString(),
-												violation.getMessage()
+												violation.getMessage(), violation.getPropertyPath().toString()
 										)
 								).collect(Collectors.toList())
 						)

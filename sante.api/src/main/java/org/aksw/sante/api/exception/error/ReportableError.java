@@ -19,8 +19,11 @@ public abstract class ReportableError {
 
 	/**
 	 * Constructs a ReportableError and sets the type to name of the class.
+	 *
+	 * @param message information about the error
 	 */
-	public ReportableError() {
+	public ReportableError(String message) {
+		this.message = message;
 		this.type = this.getClass().getSimpleName();
 	}
 }

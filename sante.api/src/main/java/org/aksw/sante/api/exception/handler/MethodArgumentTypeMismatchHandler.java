@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 /**
- * Handler for MethodArgumentTypeMismatchException.
+ * Handler for a MethodArgumentTypeMismatchException.
  *
  * @see MethodArgumentTypeMismatchException
  */
@@ -17,7 +17,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 public class MethodArgumentTypeMismatchHandler {
 
 	/**
-	 * Handle MethodArgumentTypeMismatchException and return an appropriate error response.
+	 * Handles MethodArgumentTypeMismatchException and returns an appropriate error response.
 	 *
 	 * @param exception MethodArgumentTypeMismatchException that is to be handled
 	 * @return          an appropriate error response
@@ -31,8 +31,7 @@ public class MethodArgumentTypeMismatchHandler {
 						.addMessage("Incorrect type (type mismatch) of a parameter")
 						.addError(
 								new TypeMismatchError(
-										exception.getParameter().getParameterName(),
-										exception.getMessage()
+										exception.getMessage(), exception.getParameter().getParameterName()
 								)
 						)
 						.create()

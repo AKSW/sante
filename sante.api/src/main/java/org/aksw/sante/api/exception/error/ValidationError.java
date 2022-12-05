@@ -16,12 +16,11 @@ public class ValidationError extends ReportableError {
 	/**
 	 * Constructs a ValidationError and adds the required information.
 	 *
-	 * @param field     invalid field.
-	 * @param message   detailed information about the validation issue
+	 * @param message detailed information about the validation issue
+	 * @param field   invalid field.
 	 */
-	public ValidationError(String field, String message) {
-		super();
+	public ValidationError(String message, String field) {
+		super(message);
 		this.field = field;
-		this.message = message;
 	}
 }
