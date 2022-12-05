@@ -10,6 +10,7 @@ import javax.validation.constraints.NotEmpty;
  */
 @Getter
 @Setter
+@SuppressWarnings("unused")
 public class ReconciliationCandidateFeature {
 
 	/**

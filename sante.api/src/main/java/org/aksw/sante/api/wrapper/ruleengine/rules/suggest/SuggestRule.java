@@ -23,7 +23,7 @@ public abstract class SuggestRule extends AbstractQueryRule<Suggestion> {
 	/**
 	 * The FuzzyQuerySuggester that is going to be used to execute the rule.
 	 */
-	protected FuzzyQuerySuggester fuzzyQuerySuggester;
+	protected final FuzzyQuerySuggester fuzzyQuerySuggester;
 
 	/**
 	 * Constructs the SuggestRule.

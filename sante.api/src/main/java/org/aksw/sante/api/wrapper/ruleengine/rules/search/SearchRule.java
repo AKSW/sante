@@ -35,7 +35,7 @@ public abstract class SearchRule extends AbstractQueryRule<Entity> {
 	/**
 	 * The SearchEngine that is going to be used to execute the rule.
 	 */
-	protected SearchEngine searchEngine;
+	protected final SearchEngine searchEngine;
 
 	/**
 	 * Constructs the SearchRule.

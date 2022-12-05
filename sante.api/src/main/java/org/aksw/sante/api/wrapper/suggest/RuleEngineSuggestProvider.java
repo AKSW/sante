@@ -18,7 +18,7 @@ public class RuleEngineSuggestProvider implements SuggestProvider {
 	/**
 	 * List of SuggestRules used with the rule engine.
 	 */
-	List<? extends SuggestRule> suggestRules;
+	private final List<? extends SuggestRule> suggestRules;
 
 	/**
 	 * Constructs the RuleEngineSuggestProvider.

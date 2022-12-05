@@ -16,7 +16,7 @@ public class SanteSuggestConfiguration {
 	/**
 	 * The configuration that contains the rules for the suggestion rule engine.
 	 */
-	SuggestConfiguration suggestConfiguration;
+	private final SuggestConfiguration suggestConfiguration;
 
 	/**
 	 * Constructs the SanteSuggestConfiguration.

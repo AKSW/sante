@@ -17,7 +17,7 @@ public class ReconciliationConfiguration {
 	/**
 	 * The configuration that contains the rules for the search rule engine.
 	 */
-	SearchConfiguration searchConfiguration;
+	private final SearchConfiguration searchConfiguration;
 
 	/**
 	 * Constructs the ReconciliationConfiguration.
