@@ -32,7 +32,9 @@ public abstract class QueryRuleEngine {
 				.stream()
 				.filter(rule -> rule.queryRuleApplies(query))
 				.findFirst()
-				.orElseThrow(() -> new IllegalArgumentException("Rule engine can not match any rule"));
+				.orElseThrow(() -> new IllegalArgumentException("Query rule engine can not match any rule "
+						+ "so no search or suggestion is performed"
+				));
 		return queryRule.executeQuery(query);
 	}
 }
