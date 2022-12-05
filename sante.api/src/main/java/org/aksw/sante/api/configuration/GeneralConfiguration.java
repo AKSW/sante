@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
  * Configuration class for Spring beans.
  */
 @Configuration
-//@PropertySource("classpath:json-examples.properties")
 public class GeneralConfiguration {
 
 	/**
