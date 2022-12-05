@@ -29,7 +29,10 @@ public class RuntimeExceptionHandler {
 				ApiError.ErrorResponseBuilder
 						.newErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR)
 						.addMessage("There was an issue while processing the request")
-						.addError(new RuntimeError(exception.getCause().getLocalizedMessage()))
+						.addError(new RuntimeError(
+								exception.getCause() != null ?
+										exception.getCause().getMessage()
+										: exception.getMessage()))
 						.create()
 		);
 	}
