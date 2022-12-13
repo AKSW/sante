@@ -1,7 +1,7 @@
 package org.aksw.sante.api.endpoints.santesuggest;
 
-import org.aksw.sante.api.endpoints.santesuggest.data.SanteSuggestCandidate;
-import org.aksw.sante.api.endpoints.santesuggest.data.SanteSuggestResponseDto;
+import org.aksw.sante.api.endpoints.santesuggest.dto.SanteSuggestCandidate;
+import org.aksw.sante.api.endpoints.santesuggest.dto.SanteSuggestResponseDto;
 import org.aksw.sante.api.exception.SearchSuggestException;
 import org.aksw.sante.api.wrapper.Query;
 import org.aksw.sante.api.wrapper.provider.SuggestProvider;

@@ -1,6 +1,6 @@
 package org.aksw.sante.api.endpoints.santesearch;
 
-import org.aksw.sante.api.endpoints.santesearch.data.SanteSearchResponseDto;
+import org.aksw.sante.api.endpoints.santesearch.dto.SanteSearchResponseDto;
 import org.aksw.sante.api.exception.SearchSuggestException;
 import org.aksw.sante.api.wrapper.Query;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.aksw.sante.api.endpoints.santesuggest.data.SanteSuggestResponseDto;
+import org.aksw.sante.api.endpoints.santesuggest.dto.SanteSuggestResponseDto;
 import org.aksw.sante.api.exception.SearchSuggestException;
 import org.aksw.sante.api.wrapper.Query;
 import org.springframework.http.MediaType;

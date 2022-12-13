@@ -1,7 +1,7 @@
 package org.aksw.sante.api.endpoints.dbpedia;
 
-import org.aksw.sante.api.endpoints.dbpedia.data.DbpediaDocument;
-import org.aksw.sante.api.endpoints.dbpedia.data.DbpediaDocumentCollection;
+import org.aksw.sante.api.endpoints.dbpedia.dto.DbpediaDocument;
+import org.aksw.sante.api.endpoints.dbpedia.dto.DbpediaDocumentCollection;
 import org.aksw.sante.api.exception.SearchSuggestException;
 import org.aksw.sante.api.wrapper.Query;
 import org.aksw.sante.api.wrapper.provider.SearchProvider;

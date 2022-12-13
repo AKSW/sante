@@ -1,4 +1,4 @@
-package org.aksw.sante.api.endpoints.dbpedia.data;
+package org.aksw.sante.api.endpoints.dbpedia.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;

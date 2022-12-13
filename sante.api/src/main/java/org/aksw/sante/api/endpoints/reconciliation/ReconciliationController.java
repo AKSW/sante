@@ -1,7 +1,7 @@
 package org.aksw.sante.api.endpoints.reconciliation;
 
-import org.aksw.sante.api.endpoints.reconciliation.data.query.ReconciliationQuery;
-import org.aksw.sante.api.endpoints.reconciliation.data.result.ReconciliationResult;
+import org.aksw.sante.api.endpoints.reconciliation.dto.query.ReconciliationQuery;
+import org.aksw.sante.api.endpoints.reconciliation.dto.result.ReconciliationResult;
 import org.aksw.sante.api.exception.SearchSuggestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;

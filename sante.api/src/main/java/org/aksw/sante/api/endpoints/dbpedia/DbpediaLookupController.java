@@ -2,7 +2,7 @@ package org.aksw.sante.api.endpoints.dbpedia;
 
 import java.util.*;
 
-import org.aksw.sante.api.endpoints.dbpedia.data.DbpediaDocumentCollection;
+import org.aksw.sante.api.endpoints.dbpedia.dto.DbpediaDocumentCollection;
 import org.aksw.sante.api.exception.SearchSuggestException;
 import org.springframework.web.bind.annotation.*;
 

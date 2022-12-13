@@ -1,4 +1,4 @@
-package org.aksw.sante.api.endpoints.santesuggest.data;
+package org.aksw.sante.api.endpoints.santesuggest.dto;
 
 import lombok.Getter;
 import lombok.Setter;

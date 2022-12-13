@@ -1,4 +1,4 @@
-package org.aksw.sante.api.endpoints.reconciliation.data;
+package org.aksw.sante.api.endpoints.reconciliation.dto;
 
 import lombok.Getter;
 import lombok.Setter;

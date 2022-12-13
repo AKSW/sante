@@ -1,10 +1,10 @@
-package org.aksw.sante.api.endpoints.reconciliation.data.query;
+package org.aksw.sante.api.endpoints.reconciliation.dto.query;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
-import org.aksw.sante.api.endpoints.reconciliation.data.ReconciliationProperty;
-import org.aksw.sante.api.endpoints.reconciliation.data.ReconciliationType;
+import org.aksw.sante.api.endpoints.reconciliation.dto.ReconciliationProperty;
+import org.aksw.sante.api.endpoints.reconciliation.dto.ReconciliationType;
 import org.aksw.sante.api.wrapper.Query;
 
 import javax.validation.Valid;
