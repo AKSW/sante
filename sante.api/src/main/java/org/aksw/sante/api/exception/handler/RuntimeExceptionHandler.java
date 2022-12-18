@@ -1,7 +1,7 @@
 package org.aksw.sante.api.exception.handler;
 
 import org.aksw.sante.api.exception.error.ApiError;
-import org.aksw.sante.api.exception.error.ApiErrorResponse;
+import org.aksw.sante.api.exception.response.ApiErrorResponse;
 import org.aksw.sante.api.exception.error.RuntimeError;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;

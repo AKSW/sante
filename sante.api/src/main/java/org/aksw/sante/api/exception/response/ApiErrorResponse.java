@@ -1,6 +1,7 @@
-package org.aksw.sante.api.exception.error;
+package org.aksw.sante.api.exception.response;
 
 import lombok.Getter;
+import org.aksw.sante.api.exception.error.ApiError;
 
 /**
  * Response object for an ApiError.

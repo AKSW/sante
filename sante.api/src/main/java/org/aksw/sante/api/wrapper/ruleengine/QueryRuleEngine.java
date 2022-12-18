@@ -27,12 +27,16 @@ public abstract class QueryRuleEngine {
 	 * @return a ResultSet of possible results
 	 * @throws SearchSuggestException if any issue arises during search or suggest
 	 */
-	public static <T extends Serializable> ResultSet<T> processQueryUsingQueryRules(Query query, List<? extends QueryRule<T>> queryRules) throws SearchSuggestException {
+	public static <T extends Serializable> ResultSet<T> processQueryUsingQueryRules(
+			Query query,
+			List<? extends QueryRule<T>> queryRules
+	) throws SearchSuggestException {
 		QueryRule<T> queryRule = queryRules
 				.stream()
 				.filter(rule -> rule.queryRuleApplies(query))
 				.findFirst()
-				.orElseThrow(() -> new IllegalArgumentException("Query rule engine can not match any rule "
+				.orElseThrow(() -> new IllegalArgumentException(
+						"Query rule engine can not match any rule "
 						+ "so no search or suggestion is performed"
 				));
 		return queryRule.executeQuery(query);
