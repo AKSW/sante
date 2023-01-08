@@ -33,7 +33,7 @@ public interface ResourceOperations {
 							name = "uri",
 							description = "URI",
 							in = ParameterIn.QUERY,
-							example = "https://example.org/bob"
+							example = "http://xmlns.com/foaf/0.1/Person"
 					)
 			},
 			responses = {
