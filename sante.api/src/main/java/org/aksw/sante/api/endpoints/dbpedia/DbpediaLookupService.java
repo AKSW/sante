@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.Set;
 import java.util.List;
 import java.util.Collections;
 import java.util.stream.Collectors;
@@ -48,25 +47,31 @@ public class DbpediaLookupService {
 	/**
 	 * Performs the search and returns the result as a DbpediaDocumentCollection of DbpediaDocument objects.
 	 *
-	 * @param maxHits       limit the amount of search results
-	 * @param searchQuery   the search string. If empty, the search will not be reduced to any search string.
-	 * @param searchClasses comma-separated list of classes that are to be searched
+	 * @param maxResults      limit the amount of search results
+	 * @param searchQuery  the search string. If empty, the search will not be reduced to any search string.
+	 * @param minRelevance comma-separated list of classes that are to be searched
 	 * @return a DbpediaDocumentCollection of DbpediaDocument objects
 	 * @throws SearchSuggestException if any issues arises during search
 	 */
 	public DbpediaDocumentCollection lookupDbpedia(
-			Integer maxHits,
+			Integer maxResults,
 			String searchQuery,
-			Set<String> searchClasses
+			Double minRelevance
 	) throws SearchSuggestException {
 		try {
 
 			DbpediaDocumentCollection dbpediaDocumentCollection = new DbpediaDocumentCollection();
 
 			Query query = new Query();
-			query.setLimit(maxHits);
+
+			query.setLimit(maxResults);
 			query.setQ(searchQuery);
-			query.setClasses(searchClasses);
+
+			// new DBpedia lookup does not define a classes filter
+			query.setClasses(null);
+
+			// always set the score for dbpedia-lookup
+			query.setContent(Collections.singleton("score"));
 
 			ResultSet<Entity> results = this.searchProvider.search(query);
 
@@ -75,20 +80,32 @@ public class DbpediaLookupService {
 				List<Property> typeProperties = entity.getProperties(RDF_SCHEMA_TYPE);
 				List<Property> commentProperties = entity.getProperties(RDF_COMMENT);
 
-				DbpediaDocument.DbpediaDocumentBuilder doc = DbpediaDocument.DbpediaDocumentBuilder.newDbpediaDocument()
+				DbpediaDocument.DbpediaDocumentBuilder documentBuilder = DbpediaDocument.DbpediaDocumentBuilder
+						.newDbpediaDocument()
 						.addResource(Collections.singletonList(entity.getURI()))
 						.addScore(Collections.singletonList(Float.toString(results.score())));
 
 				if (entity.getLabels() != null) {
-					doc.addLabel(entity.getLabels().stream().map(Literal::getValue).collect(Collectors.toList()));
+					documentBuilder.addLabel(entity.getLabels().stream().map(Literal::getValue)
+							.collect(Collectors.toList()));
 				}
 
-				doc.addType(this.getTypeFromTypeProperties(typeProperties))
+				documentBuilder.addType(this.getTypeFromTypeProperties(typeProperties))
 						.addTypeName(this.getTypeNameFromTypeProperties(typeProperties))
 						.addComment(this.getCommentFromCommentProperties(commentProperties));
 
-				dbpediaDocumentCollection.addDocument(doc.create());
+				// The refCount and category are missing from the response
+				// since no way was found to produce those from the entity.
+				// If SANTé supports this in the future,
+				// they can easily be added here.
+
+				DbpediaDocument document = documentBuilder.create();
+
+				if (minRelevance == 0.0 || minRelevance < Double.parseDouble(document.getScore().get(0))) {
+					dbpediaDocumentCollection.addDocument(document);
+				}
 			}
+
 			return dbpediaDocumentCollection;
 		} catch (IOException exception) {
 			throw new RuntimeException(exception);

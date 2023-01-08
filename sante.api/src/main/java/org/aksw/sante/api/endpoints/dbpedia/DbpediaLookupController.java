@@ -34,16 +34,17 @@ public class DbpediaLookupController implements DbpediaLookupOperations {
 
 	@Override
 	public DbpediaDocumentCollection lookupDbpedia(
-			@NotNull @Min(1) Integer maxHits,
-			Optional<String> searchQuery,
-			Optional<String> searchClasses
+			@NotNull @Min(1) Integer maxResults,
+			Optional<String> query,
+			Optional<Double> minRelevance
 	) throws SearchSuggestException {
 		return this.dbpediaLookupService.lookupDbpedia(
-				maxHits,
-				searchQuery.orElse(""),
+				maxResults,
+				query.orElse(""),
+				minRelevance.orElse(0.0)
 				// Validation for proper comma separated list of classes is done implicitly through parsing the string
-				searchClasses.map(classes -> new HashSet<>(Arrays.asList(classes.split(","))))
-						.orElseGet(HashSet::new)
+//				minRelevance.map(classes -> new HashSet<>(Arrays.asList(classes.split(","))))
+//						.orElseGet(HashSet::new)
 		);
 	}
 }

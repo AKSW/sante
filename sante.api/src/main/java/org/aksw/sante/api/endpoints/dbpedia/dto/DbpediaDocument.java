@@ -32,11 +32,6 @@ public class DbpediaDocument {
 	private List<String> resource;
 
 	/**
-	 * The redirect labels for the document.
-	 */
-	private List<String> redirectLabel;
-
-	/**
 	 * The type names of the document.
 	 */
 	private List<String> typeName;
@@ -78,7 +73,6 @@ public class DbpediaDocument {
 		this.score = builder.score;
 		this.refCount = builder.refCount;
 		this.resource = builder.resource;
-		this.redirectLabel = builder.redirectLabel;
 		this.typeName = builder.typeName;
 		this.comment = builder.comment;
 		this.label = builder.label;
@@ -98,7 +92,7 @@ public class DbpediaDocument {
 		private List<String> score;
 
 		/**
-		 * The ref counts of the document.
+		 * The counts of reference resources of the document.
 		 */
 		private List<String> refCount;
 
@@ -108,12 +102,7 @@ public class DbpediaDocument {
 		private List<String> resource;
 
 		/**
-		 * The redirect labels for the document.
-		 */
-		private List<String> redirectLabel;
-
-		/**
-		 * The type names of the document.
+		 * The short names of the types of the document.
 		 */
 		private List<String> typeName;
 
@@ -183,17 +172,6 @@ public class DbpediaDocument {
 		 */
 		public DbpediaDocumentBuilder addResource(List<String> resource) {
 			this.resource = resource;
-			return this;
-		}
-
-		/**
-		 * Adds redirect labels to a DbpediaDocument.
-		 *
-		 * @param redirectLabel redirectLabel to be added
-		 * @return this DbpediaDocumentBuilder
-		 */
-		public DbpediaDocumentBuilder addRedirectLabel(List<String> redirectLabel) {
-			this.redirectLabel = redirectLabel;
 			return this;
 		}
 

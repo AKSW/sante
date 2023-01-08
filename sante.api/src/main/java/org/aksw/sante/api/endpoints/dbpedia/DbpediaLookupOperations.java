@@ -21,9 +21,9 @@ public interface DbpediaLookupOperations {
 	 * Provides a method for GET calls to the dbpedia-lookup endpoint.
 	 * Calls the corresponding service that performs the actual search.
 	 *
-	 * @param searchQuery   the actual search string. If empty, the search is not reduced to any given search string.
-	 * @param maxHits       limits the amount of search results
-	 * @param searchClasses comma-separated list of classes that are to be searched
+	 * @param maxResults   limits the amount of search results
+	 * @param query        the actual search string. If empty, the search is not reduced to any given search string.
+	 * @param minRelevance comma-separated list of classes that are to be searched
 	 * @return a REST-response of the search results
 	 * @throws SearchSuggestException if any issues arises during search
 	 */
@@ -37,20 +37,20 @@ public interface DbpediaLookupOperations {
 			tags = {"dbpedia-lookup"},
 			parameters = {
 					@Parameter(
-							name = "maxHits",
+							name = "maxResults",
 							description = "Limit the amount of results",
 							in = ParameterIn.QUERY
 					),
 					@Parameter(
-							name = "searchQuery",
+							name = "query",
 							description = "The natural language search query."
 									+ " Can be left empty, which will return all results.",
 							in = ParameterIn.QUERY
 					),
 					@Parameter(
-							name = "searchClasses",
-							description = "Comma separated list of classes which should be taken into consideration."
-									+ " Can be left empty, which will consider all classes",
+							name = "minRelevance",
+							description = "Set the relevance score a document must have to be considered as a result."
+									+ " Can be left empty, which will consider all scores.",
 							in = ParameterIn.QUERY
 					)
 			},
@@ -75,8 +75,8 @@ public interface DbpediaLookupOperations {
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	DbpediaDocumentCollection lookupDbpedia(
-			Integer maxHits,
-			Optional<String> searchQuery,
-			Optional<String> searchClasses
+			Integer maxResults,
+			Optional<String> query,
+			Optional<Double> minRelevance
 	) throws SearchSuggestException;
 }
