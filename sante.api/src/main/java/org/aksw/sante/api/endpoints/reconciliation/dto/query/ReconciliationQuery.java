@@ -64,10 +64,16 @@ public class ReconciliationQuery {
 		query.setQ(this.getQuery());
 		query.setOffset(0); // Reconciliation does not define an offset
 		query.setLimit(this.getLimit());
-		query.setPrefixes(new HashSet<>()); // Reconciliation does not define prefixes
+		query.setPrefixes(null); // Reconciliation does not define prefixes
 		query.setClasses(this.returnTypeNames());
-		query.setFilters(new HashSet<>()); // Reconciliation does not define filters
-		query.setContent(new HashSet<>(Set.of("score", "sort"))); // Reconciliation demands a score and recommends sort
+
+		// Reconciliation demands a score and recommends sorting
+		query.setContent(new HashSet<>(Set.of("score", "sort")));
+
+		// current SANTé search Filters (pattern, triple, URI) can not be used to filter for properties
+		// this needs to be addressed with an appropriate filter in sante.lucene
+		// or during a refactoring of SANTé's search logic
+		query.setFilters(null);
 
 		return query;
 	}
