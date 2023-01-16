@@ -190,9 +190,9 @@ Run ```mvn clean install``` at the ```sante.smile``` base directory:
 ```
 The smile WAR file will be generated at ```sante.smile/target/sante.smile-2.5.3.war```
 
-### APIs
+### Web-Interface backend APIs
 
-SANTé implements the following APIs:
+SANTé implements the following APIs (which are also used by the Web-Interface):
 
 #### API/search
 
@@ -217,6 +217,18 @@ Example 1: looking for all occurrences of the word ```pokemon```:
 Example 1: looking for all occurrences of the word ```pokemon```: 
 
 [http://pokemon.aksw.org/API/reconcile?search={%20%22q%22:%20{%20%22query%22:%20%22pokemon%22%20}}](http://pokemon.aksw.org/API/reconcile?search={%20%22q%22:%20{%20%22query%22:%20%22pokemon%22%20}}) 
+
+### Standalone Spring Boot–implemented API
+
+SANTé also has a standalone Spring Boot API with five different endpoints.
+This Spring Boot application can be run by changing into the `sante.api` directory and executing
+```bash
+$ mvn spring-boot:run
+```
+Once the application is running, by default, the documentation (Swagger) for all the applications endpoints can be accessed via
+```bash
+http://localhost:8080/swagger
+```
 
 ### Known Issues
 
