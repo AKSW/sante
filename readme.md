@@ -151,9 +151,9 @@ java -jar sante.smile-*.war
 
 ### Creating SANTé runnable jar file 
 
-Run ```mvn package``` at the ```sante.main``` base directory:
+Run ```mvn clean install``` at the ```sante.main``` base directory:
 ```
-...\sante.main\mvn package
+...\sante.main\mvn clean install
 ...
 [INFO] org/apache/lucene/analysis/ already added, skipping
 [INFO] org/apache/lucene/analysis/standard/ already added, skipping
