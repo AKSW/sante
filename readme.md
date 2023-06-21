@@ -192,7 +192,7 @@ The smile WAR file will be generated at ```sante.smile/target/sante.smile-2.5.3.
 
 ### Pointing SANTé SMILE to the index directory
 
-You should change the parameter on the file ```config.properties``` located at ```sante.smile/src/main/resources/``` pointing to your index.
+Replace the value ```YOUR_INDEX_PATH_GOES_HERE``` of the parameter ```index.dir``` on the file ```config.properties``` located at ```sante.smile/src/main/resources/``` pointing to your index.
 
 ```
 index.dir=YOUR_INDEX_PATH_GOES_HERE
