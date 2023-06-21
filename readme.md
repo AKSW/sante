@@ -64,7 +64,7 @@ Change your maven ``settings.xml`` adding the following lines:
 
 ### SANTé in 5 minutes 
 
-In this 5 minutes tutorial we will help you to instantiate your first knowledge base search engine over FOAF ontology using KBox [https://github.com/AKSW/KBox](https://github.com/AKSW/KBox).
+In this 5 minutes tutorial, we will help you to instantiate your first knowledge base search engine over FOAF ontology using KBox [https://github.com/AKSW/KBox](https://github.com/AKSW/KBox).
 
 1) Download KBox and instantiate the FOAF knowledge graph.
 
@@ -78,7 +78,7 @@ Publishing service on http://localhost:8080/kbox/query
 Service up and running ;-) ...
 ```
 You can now access and query your knowledge graph at [http://localhost:8080](http://localhost:8080).
-Notice that in the example above we also include RDFS, RDF and OWL ontologies, that's because we need their information for correctly instantiate FOAF ontology.
+Notice that in the example above, we also include RDFS, RDF, and OWL ontologies. That's because we need their information to correctly instantiate FOAF ontology.
 In case the SPARQL endpoint does not contain all necessary information, SANTé will not be capable of retrieving or searching for it and will display the information as ```Unavailable```.
 
 2) Download one of the available SANTé runnable jar files.
@@ -92,7 +92,7 @@ Assuming that you successfully performed step 1,
 java -jar sante-main-*.jar index -endpoint http://localhost:8080/kbox/query -path \foaf_kg
 ```
 
-4) Download one of the available smile WAR files (same version as the step 2).
+4) Download one of the available smile WAR files (same version as step 2).
 
 Download the WAR here [https://github.com/AKSW/sante/releases](https://github.com/AKSW/sante/releases)
 
@@ -127,12 +127,12 @@ java -jar sante.main-*.jar index -endpoint <endpoint> -path <path>
 ```
 where:
   
-    <endpoint> stands for the sparql endpoint.
+    <endpoint> stands for the SPARQL endpoint.
 	 
     <path>     stands for the target index directory.
 
 ### Running SANTé Web App
-1) Download the availabes SANTé war file or [generate one](https://github.com/AKSW/sante#creating-sant%C3%A9-smile-war-file).
+1) Download the available SANTé war file or [generate one](https://github.com/AKSW/sante#creating-sant%C3%A9-smile-war-file).
 
 3) Execute the following command:
 ```
@@ -149,7 +149,7 @@ java -jar sante.smile-*.war
 2022-09-13 09:58:15.846  INFO 21938 --- [           main] org.aksw.sante.SanteWebApp               : No active profile set, falling back to default profiles: default
 ```
 
-### Creating SANTé runnable jar file 
+### Creating SANTé command line runnable jar file 
 
 Run ```mvn clean install``` at the ```sante.main``` base directory:
 ```
@@ -189,6 +189,14 @@ Run ```mvn clean install``` at the ```sante.smile``` base directory:
 [INFO] ------------------------------------------------------------------------
 ```
 The smile WAR file will be generated at ```sante.smile/target/sante.smile-2.5.3.war```
+
+### Pointing SANTé SMILE to the index directory
+
+You should change the parameter on the file ```config.properties``` located at ```sante.smile/src/main/resources/``` pointing to your index.
+
+```
+index.dir=YOUR_INDEX_PATH_GOES_HERE
+```
 
 ### Web-Interface backend APIs
 
