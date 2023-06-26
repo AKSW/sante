@@ -119,7 +119,7 @@ However, SANté uses triple stores to feed data to the index.
 That's useful for performing reasoning over the target knowledge graph.
 To create the index, you will first need to index your data in a triple store of your preference.
 
-1) Download one of the availabes SANTé runnable jar file or [generate one](https://github.com/AKSW/sante#creating-sant%C3%A9-runnable-jar-file).
+1) Download one of the available SANTé runnable jar files or [generate one](https://github.com/AKSW/sante#creating-sant%C3%A9-runnable-jar-file).
 
 2) Execute the following command:
 ```
@@ -151,62 +151,10 @@ java -jar sante.smile-*.war
 
 ### Creating SANTé command line runnable jar file 
 
-Run ```mvn clean install``` at the ```sante.main``` base directory:
+Run ```mvn clean install``` at the ```sante``` base directory:
 ```
-...\sante.main\mvn clean install
+...\sante\mvn clean install
 ...
-[INFO] org/apache/lucene/analysis/ already added, skipping
-[INFO] org/apache/lucene/analysis/standard/ already added, skipping
-[INFO] META-INF/LICENSE.txt already added, skipping
-[INFO] META-INF/NOTICE.txt already added, skipping
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  43.329 s
-[INFO] Finished at: 2020-05-07T23:31:50+02:00
-[INFO] ------------------------------------------------------------------------
-```
-The runnable jar file will be generated at ```sante.main/target/sante.main-0.0.2-SNAPSHOT-jar-with-dependencies.jar```
-
-### Creating SANTé smile WAR file 
-
-Run ```mvn clean install``` at the ```sante.smile``` base directory:
-```
-...\sante.smile\mvn clean install
-...
-[INFO] Packaging webapp
-[INFO] Assembling webapp [sante.smile] in [...\sante.smile\target\sante.smile-2.5.3]
-[INFO] Processing war project
-[INFO] Copying webapp resources [...\sante.smile\src\main\webapp]
-[INFO] Webapp assembled in [356 msecs]
-[INFO] Building war: ...\sante.smile\target\sante.smile-2.5.3.war
-[INFO] WEB-INF\web.xml already added, skipping
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  5.772 s
-[INFO] Finished at: 2020-05-07T23:42:36+02:00
-[INFO] ------------------------------------------------------------------------
-```
-The smile WAR file will be generated at ```sante.smile/target/sante.smile-2.5.3.war```
-
-### Pointing SANTé SMILE to the index directory
-
-Replace the value ```YOUR_INDEX_PATH_GOES_HERE``` of the parameter ```index.dir``` on the file ```config.properties``` located at ```sante.smile/src/main/resources/``` pointing to your index.
-
-```
-index.dir=YOUR_INDEX_PATH_GOES_HERE
-```
-
-### To create Runnable JAR and WAR files at once, simply run this command in the root directory after considering all the previous steps including the creation and pointing of Index Directory:
-
-```
-mvn clean install
-```
-
-Resulting in -->
-
-```
 [INFO] Reactor Summary:
 [INFO] 
 [INFO] parent 0.0.21-SNAPSHOT ............................. SUCCESS [  0.105 s]
@@ -219,9 +167,38 @@ Resulting in -->
 [INFO] Total time:  10.747 s
 [INFO] Finished at: 2023-06-26T16:58:03+05:30
 [INFO] ------------------------------------------------------------------------
+```
+The runnable jar file will be generated at ```sante/sante.main/target/sante.main-0.0.2-SNAPSHOT-jar-with-dependencies.jar```
 
-Process finished with exit code 0
+### Creating SANTé smile WAR file 
 
+Run ```mvn clean install``` at the ```sante``` root directory:
+```
+...\sante\mvn clean install
+...
+[INFO] Reactor Summary:
+[INFO] 
+[INFO] parent 0.0.21-SNAPSHOT ............................. SUCCESS [  0.105 s]
+[INFO] sante.core 0.0.21-SNAPSHOT ......................... SUCCESS [  1.073 s]
+[INFO] sante.smile.2 2.5.3 ................................ SUCCESS [  2.883 s]
+[INFO] sante.main 0.0.21-SNAPSHOT ......................... SUCCESS [  6.563 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  10.747 s
+[INFO] Finished at: 2023-06-26T16:58:03+05:30
+[INFO] ------------------------------------------------------------------------
+```
+The smile WAR file will be generated at ```sante/sante.smile/target/sante.smile-2.5.3.war```
+
+Do not forget to change ``ìndex.dir``` property at ```config.properties``` as follows:
+
+### Pointing SANTé SMILE to the index directory
+
+Replace the value ```YOUR_INDEX_PATH_GOES_HERE``` of the parameter ```index.dir``` on the file ```config.properties``` located at ```sante.smile/src/main/resources/``` pointing to your index.
+
+```
+index.dir=YOUR_INDEX_PATH_GOES_HERE
 ```
 
 ### Web-Interface backend APIs
