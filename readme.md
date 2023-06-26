@@ -198,6 +198,32 @@ Replace the value ```YOUR_INDEX_PATH_GOES_HERE``` of the parameter ```index.dir`
 index.dir=YOUR_INDEX_PATH_GOES_HERE
 ```
 
+### To create Runnable JAR and WAR files at once, simply run this command in the root directory after considering all the previous steps including the creation and pointing of Index Directory:
+
+```
+mvn clean install
+```
+
+Resulting in -->
+
+```
+[INFO] Reactor Summary:
+[INFO] 
+[INFO] parent 0.0.21-SNAPSHOT ............................. SUCCESS [  0.105 s]
+[INFO] sante.core 0.0.21-SNAPSHOT ......................... SUCCESS [  1.073 s]
+[INFO] sante.smile.2 2.5.3 ................................ SUCCESS [  2.883 s]
+[INFO] sante.main 0.0.21-SNAPSHOT ......................... SUCCESS [  6.563 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  10.747 s
+[INFO] Finished at: 2023-06-26T16:58:03+05:30
+[INFO] ------------------------------------------------------------------------
+
+Process finished with exit code 0
+
+```
+
 ### Web-Interface backend APIs
 
 SANTé implements the following APIs (which are also used by the Web-Interface):
