@@ -20,10 +20,10 @@
 ```
 
 SANTé stands for Semantic Search Engine and is designed to simplify RDF data access and exploration. 
-SANTé covers different aspects of search engines such as indexing, ranking as well as interaction.
-You can use SANTé via command line or via SANTé Web Interface (smile).
+SANTé covers different aspects of search engines, such as indexing, ranking as well as interaction.
+You can use SANTé via the command line or via SANTé Web Interface (smile).
 
-Following we discuss some of the basic functionalities to help you to instantiate your own SANTé instance in few steps.
+Following, we discuss some of the basic functionalities to help you to instantiate your own SANTé instance in a few steps.
 
 - [Showcases](https://github.com/AKSW/sante/blob/master/readme.md#showcases)
 - [SANTé in 5 minutes](https://github.com/AKSW/sante/blob/master/readme.md#sant%C3%A9-in-5-minutes)
@@ -35,12 +35,12 @@ Following we discuss some of the basic functionalities to help you to instantiat
 ### Showcases
 
 #### FOAF Ontology: http://foaf.aksw.org
-In this showcase we demonstrate SANTé with basic functionalities (search and data browser) using the foaf ontology. 
+In this showcase, we demonstrate SANTé with basic functionalities (search and data browser) using the foaf ontology. 
 
 [<img src="https://github.com/AKSW/sante/raw/master/sante_simple_foaf.png" width="709" height="275" />](http://foaf.aksw.org)
 
 #### Pokemon dataset: http://pokemon.aksw.org/
-In this showcase we demonstrate SANTé with full functionalities (search, APIs, filters and data browser) using the Pokemon dataset.
+In this showcase, we demonstrate SANTé with full functionalities (search, APIs, filters and data browser) using the Pokemon dataset.
 
 [<img src="https://github.com/AKSW/sante/raw/master/sante_full_pokemon.png"/>](http://pokemon.aksw.org)
 
@@ -79,7 +79,7 @@ Service up and running ;-) ...
 ```
 You can now access and query your knowledge graph at [http://localhost:8080](http://localhost:8080).
 Notice that in the example above, we also include RDFS, RDF, and OWL ontologies. That's because we need their information to correctly instantiate FOAF ontology.
-In case the SPARQL endpoint does not contain all necessary information, SANTé will not be capable of retrieving or searching for it and will display the information as ```Unavailable```.
+If the SPARQL endpoint does not contain all necessary information, SANTé will not be capable of retrieving or searching for it and will display the resource as ```URI```.
 
 2) Download one of the available SANTé runnable jar files.
 
