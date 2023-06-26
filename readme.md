@@ -191,7 +191,7 @@ Run ```mvn clean install``` at the ```sante``` root directory:
 ```
 The smile WAR file will be generated at ```sante/sante.smile/target/sante.smile-2.5.3.war```
 
-Do not forget to change ``ìndex.dir``` property at ```config.properties``` as follows:
+Do not forget to change ```ìndex.dir``` property at ```config.properties``` as follows:
 
 ### Pointing SANTé SMILE to the index directory
 
