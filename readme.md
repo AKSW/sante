@@ -20,10 +20,10 @@
 ```
 
 SANTé stands for Semantic Search Engine and is designed to simplify RDF data access and exploration. 
-SANTé covers different aspects of search engines such as indexing, ranking as well as interaction.
-You can use SANTé via command line or via SANTé Web Interface (smile).
+SANTé covers different aspects of search engines, such as indexing, ranking as well as interaction.
+You can use SANTé via the command line or via SANTé Web Interface (smile).
 
-Following we discuss some of the basic functionalities to help you to instantiate your own SANTé instance in few steps.
+Following, we discuss some of the basic functionalities to help you to instantiate your own SANTé instance in a few steps.
 
 - [Showcases](https://github.com/AKSW/sante/blob/master/readme.md#showcases)
 - [SANTé in 5 minutes](https://github.com/AKSW/sante/blob/master/readme.md#sant%C3%A9-in-5-minutes)
@@ -35,12 +35,12 @@ Following we discuss some of the basic functionalities to help you to instantiat
 ### Showcases
 
 #### FOAF Ontology: http://foaf.aksw.org
-In this showcase we demonstrate SANTé with basic functionalities (search and data browser) using the foaf ontology. 
+In this showcase, we demonstrate SANTé with basic functionalities (search and data browser) using the foaf ontology. 
 
 [<img src="https://github.com/AKSW/sante/raw/master/sante_simple_foaf.png" width="709" height="275" />](http://foaf.aksw.org)
 
 #### Pokemon dataset: http://pokemon.aksw.org/
-In this showcase we demonstrate SANTé with full functionalities (search, APIs, filters and data browser) using the Pokemon dataset.
+In this showcase, we demonstrate SANTé with full functionalities (search, APIs, filters and data browser) using the Pokemon dataset.
 
 [<img src="https://github.com/AKSW/sante/raw/master/sante_full_pokemon.png"/>](http://pokemon.aksw.org)
 
@@ -64,7 +64,7 @@ Change your maven ``settings.xml`` adding the following lines:
 
 ### SANTé in 5 minutes 
 
-In this 5 minutes tutorial we will help you to instantiate your first knowledge base search engine over FOAF ontology using KBox [https://github.com/AKSW/KBox](https://github.com/AKSW/KBox).
+In this 5 minutes tutorial, we will help you to instantiate your first knowledge base search engine over FOAF ontology using KBox [https://github.com/AKSW/KBox](https://github.com/AKSW/KBox).
 
 1) Download KBox and instantiate the FOAF knowledge graph.
 
@@ -78,8 +78,8 @@ Publishing service on http://localhost:8080/kbox/query
 Service up and running ;-) ...
 ```
 You can now access and query your knowledge graph at [http://localhost:8080](http://localhost:8080).
-Notice that in the example above we also include RDFS, RDF and OWL ontologies, that's because we need their information for correctly instantiate FOAF ontology.
-In case the SPARQL endpoint does not contain all necessary information, SANTé will not be capable of retrieving or searching for it and will display the information as ```Unavailable```.
+Notice that in the example above, we also include RDFS, RDF, and OWL ontologies. That's because we need their information to correctly instantiate FOAF ontology.
+If the SPARQL endpoint does not contain all necessary information, SANTé will not be capable of retrieving or searching for it and will display the resource as ```URI```.
 
 2) Download one of the available SANTé runnable jar files.
 
@@ -92,7 +92,7 @@ Assuming that you successfully performed step 1,
 java -jar sante-main-*.jar index -endpoint http://localhost:8080/kbox/query -path \foaf_kg
 ```
 
-4) Download one of the available smile WAR files (same version as the step 2).
+4) Download one of the available smile WAR files (same version as step 2).
 
 Download the WAR here [https://github.com/AKSW/sante/releases](https://github.com/AKSW/sante/releases)
 
@@ -119,7 +119,7 @@ However, SANté uses triple stores to feed data to the index.
 That's useful for performing reasoning over the target knowledge graph.
 To create the index, you will first need to index your data in a triple store of your preference.
 
-1) Download one of the availabes SANTé runnable jar file or [generate one](https://github.com/AKSW/sante#creating-sant%C3%A9-runnable-jar-file).
+1) Download one of the available SANTé runnable jar files or [generate one](https://github.com/AKSW/sante#creating-sant%C3%A9-runnable-jar-file).
 
 2) Execute the following command:
 ```
@@ -127,12 +127,12 @@ java -jar sante.main-*.jar index -endpoint <endpoint> -path <path>
 ```
 where:
   
-    <endpoint> stands for the sparql endpoint.
+    <endpoint> stands for the SPARQL endpoint.
 	 
     <path>     stands for the target index directory.
 
 ### Running SANTé Web App
-1) Download the availabes SANTé war file or [generate one](https://github.com/AKSW/sante#creating-sant%C3%A9-smile-war-file).
+1) Download the available SANTé war file or [generate one](https://github.com/AKSW/sante#creating-sant%C3%A9-smile-war-file).
 
 3) Execute the following command:
 ```
@@ -149,46 +149,57 @@ java -jar sante.smile-*.war
 2022-09-13 09:58:15.846  INFO 21938 --- [           main] org.aksw.sante.SanteWebApp               : No active profile set, falling back to default profiles: default
 ```
 
-### Creating SANTé runnable jar file 
+### Creating SANTé command line runnable jar file 
 
-Run ```mvn package``` at the ```sante.main``` base directory:
+Run ```mvn clean install``` at the ```sante``` base directory:
 ```
-...\sante.main\mvn package
+...\sante\mvn clean install
 ...
-[INFO] org/apache/lucene/analysis/ already added, skipping
-[INFO] org/apache/lucene/analysis/standard/ already added, skipping
-[INFO] META-INF/LICENSE.txt already added, skipping
-[INFO] META-INF/NOTICE.txt already added, skipping
+[INFO] Reactor Summary:
+[INFO] 
+[INFO] parent 0.0.21-SNAPSHOT ............................. SUCCESS [  0.105 s]
+[INFO] sante.core 0.0.21-SNAPSHOT ......................... SUCCESS [  1.073 s]
+[INFO] sante.smile.2 2.5.3 ................................ SUCCESS [  2.883 s]
+[INFO] sante.main 0.0.21-SNAPSHOT ......................... SUCCESS [  6.563 s]
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  43.329 s
-[INFO] Finished at: 2020-05-07T23:31:50+02:00
+[INFO] Total time:  10.747 s
+[INFO] Finished at: 2023-06-26T16:58:03+05:30
 [INFO] ------------------------------------------------------------------------
 ```
-The runnable jar file will be generated at ```sante.main/target/sante.main-0.0.2-SNAPSHOT-jar-with-dependencies.jar```
+The runnable jar file will be generated at ```sante/sante.main/target/sante.main-0.0.2-SNAPSHOT-jar-with-dependencies.jar```
 
 ### Creating SANTé smile WAR file 
 
-Run ```mvn clean install``` at the ```sante.smile``` base directory:
+Run ```mvn clean install``` at the ```sante``` root directory:
 ```
-...\sante.smile\mvn clean install
+...\sante\mvn clean install
 ...
-[INFO] Packaging webapp
-[INFO] Assembling webapp [sante.smile] in [...\sante.smile\target\sante.smile-2.5.3]
-[INFO] Processing war project
-[INFO] Copying webapp resources [...\sante.smile\src\main\webapp]
-[INFO] Webapp assembled in [356 msecs]
-[INFO] Building war: ...\sante.smile\target\sante.smile-2.5.3.war
-[INFO] WEB-INF\web.xml already added, skipping
+[INFO] Reactor Summary:
+[INFO] 
+[INFO] parent 0.0.21-SNAPSHOT ............................. SUCCESS [  0.105 s]
+[INFO] sante.core 0.0.21-SNAPSHOT ......................... SUCCESS [  1.073 s]
+[INFO] sante.smile.2 2.5.3 ................................ SUCCESS [  2.883 s]
+[INFO] sante.main 0.0.21-SNAPSHOT ......................... SUCCESS [  6.563 s]
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  5.772 s
-[INFO] Finished at: 2020-05-07T23:42:36+02:00
+[INFO] Total time:  10.747 s
+[INFO] Finished at: 2023-06-26T16:58:03+05:30
 [INFO] ------------------------------------------------------------------------
 ```
-The smile WAR file will be generated at ```sante.smile/target/sante.smile-2.5.3.war```
+The smile WAR file will be generated at ```sante/sante.smile/target/sante.smile-2.5.3.war```
+
+Do not forget to change ```ìndex.dir``` property at ```config.properties``` as follows:
+
+### Pointing SANTé SMILE to the index directory
+
+Replace the value ```YOUR_INDEX_PATH_GOES_HERE``` of the parameter ```index.dir``` on the file ```config.properties``` located at ```sante.smile/src/main/resources/``` pointing to your index.
+
+```
+index.dir=YOUR_INDEX_PATH_GOES_HERE
+```
 
 ### Web-Interface backend APIs
 
