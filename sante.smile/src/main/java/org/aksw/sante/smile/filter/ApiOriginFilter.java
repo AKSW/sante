@@ -1,4 +1,4 @@
-package org.askw.sante.smile.filter;
+package org.aksw.sante.smile.filter;
 
 import java.io.IOException;
 

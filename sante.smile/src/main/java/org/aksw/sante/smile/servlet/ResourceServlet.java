@@ -22,6 +22,7 @@ import org.apache.jena.rdf.model.RDFWriterI;
 import org.apache.log4j.Logger;
 import org.apache.lucene.index.IndexReader;
 import org.sante.lucene.SearchEngine;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @WebServlet(name = "ResourceServlet", urlPatterns = {"/API/resource"})
 public class ResourceServlet extends AbstractServlet {
@@ -32,6 +33,9 @@ public class ResourceServlet extends AbstractServlet {
 	private static final long serialVersionUID = -434687490902537643L;
 	
 	private final static Logger logger = Logger.getLogger(ResourceServlet.class);
+	
+	@Autowired
+    private SmileParams smileParams;
 	
 	private static final String URI_PARAM = "uri";
 	private static final String FORMAT_PARAM = "format";
@@ -46,7 +50,7 @@ public class ResourceServlet extends AbstractServlet {
 		String uriParam = request.getParameter(URI_PARAM);
 		String formatParam = request.getParameter(FORMAT_PARAM);
 		PrintWriter out = response.getWriter();
-		File index = new File(SmileParams.getInstance().indexPath);
+		File index = new File(smileParams.indexPath);
 		Path indexPath = index.toPath();
         try (IndexReader reader = SearchEngine.newReader(indexPath);) {
         	SearchEngine searchEngine = new SearchEngine(reader);

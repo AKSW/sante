@@ -24,6 +24,7 @@ import org.aksw.sante.smile.core.SmileParams;
 import org.apache.lucene.index.IndexReader;
 import org.sante.lucene.ResultSet;
 import org.sante.lucene.SearchEngine;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -38,6 +39,9 @@ public class DBpediaLookupServlet extends AbstractServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = -434687490902537643L;
+	
+	@Autowired
+    private SmileParams smileParams;
 	
 	private static final String QUERY_PARAM = "QueryString";
 	private static final String LIMIT_PARAM = "MaxHits";
@@ -71,7 +75,7 @@ public class DBpediaLookupServlet extends AbstractServlet {
 		params.put(LIMIT_PARAM, limitParam);
 		Set<String> classList = parseSet(classParam);
         PrintWriter out = response.getWriter();
-        File index = new File(SmileParams.getInstance().indexPath);
+        File index = new File(smileParams.indexPath);
         Path indexPath = index.toPath();
         try (IndexReader reader = SearchEngine.newReader(indexPath);) {
 			SearchEngine searchEngine = new SearchEngine(reader);

@@ -24,6 +24,7 @@ import org.aksw.sante.smile.core.SmileParams;
 import org.aksw.sante.smile.core.UnavailableEntityWrapper;
 import org.apache.lucene.index.IndexReader;
 import org.sante.lucene.SearchEngine;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Named
 @ViewScoped
@@ -36,6 +37,10 @@ public class DetailsViewController implements Serializable {
 
 	private Map<String, AbstractEntityWrapper> resultEntityMap = new HashMap<String, AbstractEntityWrapper>();
 	private Map<String, ResourceWrapper> detailResourceMap = new HashMap<String, ResourceWrapper>();
+	
+	
+	@Autowired
+    public SmileParams smileParams;
 
 	private volatile Set<String> prefixes = new HashSet<String>();
 
@@ -177,14 +182,13 @@ public class DetailsViewController implements Serializable {
 	}
 
 	public void loadProperties() {
-		SmileParams params = SmileParams.getInstance();
-		this.indexDir = params.indexPath;
-		this.hidenProperties = params.hidenProperties;
-		this.imageProperties = params.imageProperties;
-		this.labelingProperties = params.labelingProperties;
-		this.abstractProperties = params.abstractProperties;
-		if(params.prefixes != null) {
-			for(String prefix : params.prefixes) {
+		this.indexDir = smileParams.indexPath;
+		this.hidenProperties = smileParams.hiddenProperties;
+		this.imageProperties = smileParams.imageProperties;
+		this.labelingProperties = smileParams.labelingProperties;
+		this.abstractProperties = smileParams.abstractProperties;
+		if(smileParams.prefixes != null) {
+			for(String prefix : smileParams.prefixes) {
 				prefixes.add(prefix);
 			}
 		}

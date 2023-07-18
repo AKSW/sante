@@ -18,6 +18,7 @@ import org.aksw.sante.smile.core.SmileParams;
 import org.apache.lucene.index.IndexReader;
 import org.sante.lucene.ResultSet;
 import org.sante.lucene.SearchEngine;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @WebServlet(name = "SearchServlet", urlPatterns = {"/API/search"})
 public class SearchServlet extends AbstractServlet {
@@ -27,6 +28,9 @@ public class SearchServlet extends AbstractServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = -434687490902537643L;
+	
+	@Autowired
+    private SmileParams smileParams;
 	
 	private static final String QUERY_PARAM = "q";
 	private static final String OFFSET_PARAM = "offset";
@@ -62,7 +66,7 @@ public class SearchServlet extends AbstractServlet {
 		Set<String> contentList = parseSet(contentParam);
 		boolean score = contentList.contains(SCORE_PARAM);
 		 PrintWriter out = response.getWriter();
-        File index = new File(SmileParams.getInstance().indexPath);
+        File index = new File(smileParams.indexPath);
 		Path indexPath = index.toPath();
 		try (IndexReader reader = SearchEngine.newReader(indexPath);) {
 			SearchEngine searchEngine = new SearchEngine(reader);

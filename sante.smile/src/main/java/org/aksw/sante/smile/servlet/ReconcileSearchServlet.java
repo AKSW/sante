@@ -21,6 +21,7 @@ import org.json.JSONObject;
 import org.sante.lucene.ResultSet;
 import org.sante.lucene.SearchEngine;
 import org.sante.lucene.SortFieldRelecanceFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @WebServlet(name = "ReconcileServlet", urlPatterns = { "/API/reconcile" })
 public class ReconcileSearchServlet extends AbstractServlet {
@@ -29,6 +30,9 @@ public class ReconcileSearchServlet extends AbstractServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = -5127732043154933725L;
+	
+	@Autowired
+    private SmileParams smileParams;
 	
 	private static final String RDFS_LABEL = "http://www.w3.org/2000/01/rdf-schema#label";
 	
@@ -59,7 +63,7 @@ public class ReconcileSearchServlet extends AbstractServlet {
 		if (searchParam != null) {
 			JSONObject searchParams = new JSONObject(searchParam);
 			Set<String> queries = searchParams.keySet();
-			File index = new File(SmileParams.getInstance().indexPath);
+			File index = new File(smileParams.indexPath);
 			Path indexPath = index.toPath();
 			try(IndexReader reader = SearchEngine.newReader(indexPath);) {			
 				SearchEngine searchEngine = new SearchEngine(reader, labelingProperties);

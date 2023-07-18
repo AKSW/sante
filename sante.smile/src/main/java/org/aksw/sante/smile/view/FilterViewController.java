@@ -20,6 +20,8 @@ import org.sante.lucene.Filter;
 import org.sante.lucene.FuzzyQuerySuggester;
 import org.sante.lucene.ResultSet;
 import org.sante.lucene.Suggestion;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 @Named
 @ViewScoped
@@ -29,10 +31,14 @@ public class FilterViewController implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -2173739028408143306L;
+
+	@Autowired
+    public SmileParams smileParams;
 	
 	private String inputTextQuery = "";
 
-	private String indexDir = null;
+	@Value("${sante.index.path:#{null}}")
+	private String indexPath = null;
 	private Map<String, AbstractSuggestionView> selectedTags = new HashMap<String, AbstractSuggestionView>();
 	private String contentFilter = null;
 	private Map<String, AbstractSuggestionView> suggestedTagMap = new HashMap<String, AbstractSuggestionView>();
@@ -46,7 +52,6 @@ public class FilterViewController implements Serializable {
 	}
 
 	public FilterViewController() {
-		loadProperties();
 	}
 
 	public String getInputTextQuery() {
@@ -60,7 +65,7 @@ public class FilterViewController implements Serializable {
 	public Collection<AbstractSuggestionView> getResources() {
 		suggestedTagMap.clear();
 		suggestedTags.clear();
-		File index = new File(indexDir);
+		File index = new File(indexPath);
 		try (FuzzyQuerySuggester suggester = new FuzzyQuerySuggester(index);) {
 			Set<String> classFilters = new HashSet<String>();
 			if (contentFilter != null) {
@@ -151,10 +156,5 @@ public class FilterViewController implements Serializable {
 		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 		String filter = params.get("content");
 		this.contentFilter = classMap.get(filter);
-	}
-
-	public void loadProperties() {
-		SmileParams params = SmileParams.getInstance();
-		this.indexDir = params.indexPath;
 	}
 }

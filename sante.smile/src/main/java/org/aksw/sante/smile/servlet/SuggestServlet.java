@@ -16,6 +16,7 @@ import org.aksw.sante.smile.core.SmileParams;
 import org.sante.lucene.FuzzyQuerySuggester;
 import org.sante.lucene.ResultSet;
 import org.sante.lucene.Suggestion;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @WebServlet(name = "SuggestServlet", urlPatterns = {"/API/suggest"})
 public class SuggestServlet extends AbstractServlet {
@@ -24,6 +25,9 @@ public class SuggestServlet extends AbstractServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = -434687490902537643L;
+	
+	@Autowired
+    private SmileParams smileParams;
 	
 	private static final String QUERY_PARAM = "q";
 	private static final String OFFSET_PARAM = "offset";
@@ -60,7 +64,7 @@ public class SuggestServlet extends AbstractServlet {
 		boolean score = contentList.contains(SCORE_PARAM);
 		boolean highlight = contentList.contains(HIGHLIGHT_PARAM);
 		PrintWriter out = response.getWriter();
-        File index = new File(SmileParams.getInstance().indexPath);
+        File index = new File(smileParams.indexPath);
         try (FuzzyQuerySuggester suggester = new FuzzyQuerySuggester(index);) {
 			ResultSet<Suggestion> rs = suggester.suggest(queryParam, 
 					offsetParam,

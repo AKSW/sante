@@ -6,12 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 import org.aksw.sante.smile.core.SmileParams;
 import org.apache.log4j.Logger;
 import org.sante.lucene.SearchEngine;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Named
 @SessionScoped
@@ -19,14 +21,20 @@ public class UserSessionController {
 	
 	private static Logger logger = Logger.getLogger(UserSessionController.class);
 	
+	@Autowired
+    public SmileParams smileParams;
+	
 	private List<String> langs;
 	private List<String> langOptions;
 	private String lang;
 	
 	public UserSessionController() {
-		SmileParams params = SmileParams.getInstance();
+	}
+	
+	@PostConstruct
+	public void init() {
 		try {
-			this.langs = setToList(SearchEngine.getLangs(new File(params.indexPath)));
+			this.langs = setToList(SearchEngine.getLangs(new File(smileParams.indexPath)));
 		} catch (IOException e) {
 			logger.error("Error loading lanagues.", e);
 		}

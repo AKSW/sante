@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -39,6 +40,7 @@ import org.sante.lucene.FuzzyQuerySuggester;
 import org.sante.lucene.ResultSet;
 import org.sante.lucene.SearchEngine;
 import org.sante.lucene.Suggestion;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import freemarker.template.TemplateException;
 
@@ -52,6 +54,9 @@ public class SearchViewController implements Serializable {
 	private static final long serialVersionUID = -2173739028408143306L;
 	
 	private static Logger logger = Logger.getLogger(SearchViewController.class);
+	
+	@Autowired
+    public SmileParams smileParams;
 	
 	@Inject
 	private SuggestionList suggestionList = null;
@@ -78,7 +83,7 @@ public class SearchViewController implements Serializable {
 	private volatile Set<Filter> filters = new HashSet<Filter>();
 	private volatile Set<String> classes = new HashSet<String>();
 	private volatile Set<String> prefixes = new HashSet<String>();
-
+	
 	private String indexDir = null;
 	private volatile String[] labelingProperties = null;
 	private volatile String[] imageProperties = null;
@@ -98,6 +103,10 @@ public class SearchViewController implements Serializable {
 	}
 
 	public SearchViewController() {
+	}
+	
+	@PostConstruct
+	public void init() {
 		loadProperties();
 	}
 
@@ -433,12 +442,11 @@ public class SearchViewController implements Serializable {
 	}
 
 	public void loadProperties() {
-		SmileParams params = SmileParams.getInstance();
-		this.indexDir = params.indexPath;
-		this.hidenProperties = params.hidenProperties;
-		this.imageProperties = params.imageProperties;
-		this.labelingProperties = params.labelingProperties;
-		this.abstractProperties = params.abstractProperties;
+		this.indexDir = smileParams.indexPath;
+		this.hidenProperties = smileParams.hiddenProperties;
+		this.imageProperties = smileParams.imageProperties;
+		this.labelingProperties = smileParams.labelingProperties;
+		this.abstractProperties = smileParams.abstractProperties;
 		try {
 			Map<String, String> requestParams = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 			inputTextQuery = requestParams.get("query");
@@ -449,8 +457,8 @@ public class SearchViewController implements Serializable {
 		} catch (Exception e) {
 			logger.error("Error while loading properties.", e);
 		}
-		if(params.prefixes != null) {
-			for(String prefix : params.prefixes) {
+		if(smileParams.prefixes != null) {
+			for(String prefix : smileParams.prefixes) {
 				prefixes.add(prefix);
 			}
 		}
