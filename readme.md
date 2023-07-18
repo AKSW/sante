@@ -48,7 +48,7 @@ In this showcase, we demonstrate SANTé with full functionalities (search, APIs,
 
 #### maven setup 
 
-Change your maven ``settings.xml`` adding the following lines:
+Change your maven ``settings.xml`` by adding the following lines:
 
 ```
  <mirrors>
@@ -195,10 +195,10 @@ Do not forget to change ```ìndex.dir``` property at ```config.properties``` as 
 
 ### Pointing SANTé SMILE to the index directory
 
-Replace the value ```YOUR_INDEX_PATH_GOES_HERE``` of the parameter ```index.dir``` on the file ```config.properties``` located at ```sante.smile/src/main/resources/``` pointing to your index.
+Replace the value ```YOUR_INDEX_PATH_GOES_HERE``` of the parameter ```sante.index.path``` on the file ```application.properties``` located at ```sante.smile/src/main/resources/``` pointing to your index.
 
 ```
-index.dir=YOUR_INDEX_PATH_GOES_HERE
+sante.index.path=YOUR_INDEX_PATH_GOES_HERE
 ```
 
 ### Web-Interface backend APIs
