@@ -89,7 +89,7 @@ Download the jar here [https://github.com/AKSW/sante/releases](https://github.co
 
 Assuming that you successfully performed step 1, 
 ```
-java -jar sante-main-*.jar index -endpoint http://localhost:8080/kbox/query -path \foaf_kg
+java -jar sante-main-*.jar -Dsante.index.path=Y index -endpoint http://localhost:8080/kbox/query -path \foaf_kg
 ```
 
 4) Download one of the available smile WAR files (same version as step 2).
@@ -109,6 +109,11 @@ java -jar sante.smile-*.war
 2022-09-13 09:58:15.842  INFO 21938 --- [           main] org.aksw.sante.SanteWebApp               : Starting SanteWebApp v2.5.3 using Java 11.0.10 on ... with PID 21938
 ...
 2022-09-13 09:58:15.846  INFO 21938 --- [           main] org.aksw.sante.SanteWebApp               : No active profile set, falling back to default profiles: default
+```
+
+Alternatively, you can specify the index path using ```-Dsante.index.path=YOUR_INDEX_GOES_HERE```:
+```
+java -jar -Dsante.index.path=YOUR_INDEX_GOES_HERE sante.smile-*.war
 ```
 
 If you correctly executed all the steps above, now you should be able to access SANTé at [http://localhost:9090](http://localhost:9090).
