@@ -154,6 +154,21 @@ java -jar sante.smile-*.war
 2022-09-13 09:58:15.846  INFO 21938 --- [           main] org.aksw.sante.SanteWebApp               : No active profile set, falling back to default profiles: default
 ```
 
+Alternatively, you can specify the index path using ```-Dsante.index.path=YOUR_INDEX_GOES_HERE```:
+```
+java -jar -Dsante.index.path=YOUR_INDEX_GOES_HERE sante.smile-*.war
+____    _    _   _ _____  __   __        _______ ____       _
+ / ___|  / \  | \ | |_   _|/_/_  \ \      / / ____| __ )     / \   _ __  _ __
+ \___ \ / _ \ |  \| | | || ____|  \ \ /\ / /|  _| |  _ \    / _ \ | '_ \| '_ \
+  ___) / ___ \| |\  | | ||  _|_    \ V  V / | |___| |_) |  / ___ \| |_) | |_) |
+ |____/_/   \_\_| \_| |_||_____|    \_/\_/  |_____|____/  /_/   \_\ .__/| .__/
+                                                                  |_|   |_|
+
+2022-09-13 09:58:15.842  INFO 21938 --- [           main] org.aksw.sante.SanteWebApp               : Starting SanteWebApp v2.5.3 using Java 11.0.10 on ... with PID 21938
+...
+2022-09-13 09:58:15.846  INFO 21938 --- [           main] org.aksw.sante.SanteWebApp               : No active profile set, falling back to default profiles: default
+```
+
 ### Creating SANTé command line runnable jar file 
 
 Run ```mvn clean install``` at the ```sante``` base directory:
