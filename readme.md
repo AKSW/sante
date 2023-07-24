@@ -145,7 +145,7 @@ docker build -t sante .
 2) To run the docker image along with the specified ```index```, here is the command:
 
 ```
-docker run -p7070:7070 -e index=/sante/<index-name> sante
+docker run -p7070:7070 -e index=YOUR_INDEX_GOES_HERE sante
 ```
 
 After running the image, the application is exposed at ```http://localhost:7070```
