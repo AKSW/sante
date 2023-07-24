@@ -89,7 +89,7 @@ Download the jar here [https://github.com/AKSW/sante/releases](https://github.co
 
 Assuming that you successfully performed step 1,
 ```
-java -jar sante-main-*.jar -Dsante.index.path=Y index -endpoint http://localhost:8080/kbox/query -path \foaf_kg
+java -jar sante-main-*.jar index -endpoint http://localhost:8080/kbox/query -path \foaf_kg
 ```
 
 4) Download one of the available smile WAR files (same version as step 2).
