@@ -19,7 +19,7 @@
 }
 ```
 
-SANTé stands for Semantic Search Engine and is designed to simplify RDF data access and exploration. 
+SANTé stands for Semantic Search Engine and is designed to simplify RDF data access and exploration.
 SANTé covers different aspects of search engines, such as indexing, ranking as well as interaction.
 You can use SANTé via the command line or via SANTé Web Interface (smile).
 
@@ -35,7 +35,7 @@ Following, we discuss some of the basic functionalities to help you to instantia
 ### Showcases
 
 #### FOAF Ontology: http://foaf.aksw.org
-In this showcase, we demonstrate SANTé with basic functionalities (search and data browser) using the foaf ontology. 
+In this showcase, we demonstrate SANTé with basic functionalities (search and data browser) using the foaf ontology.
 
 [<img src="https://github.com/AKSW/sante/raw/master/sante_simple_foaf.png" width="709" height="275" />](http://foaf.aksw.org)
 
@@ -46,7 +46,7 @@ In this showcase, we demonstrate SANTé with full functionalities (search, APIs,
 
 ### Requirements
 
-#### maven setup 
+#### maven setup
 
 Change your maven ``settings.xml`` by adding the following lines:
 
@@ -62,7 +62,7 @@ Change your maven ``settings.xml`` by adding the following lines:
 ```
 
 
-### SANTé in 5 minutes 
+### SANTé in 5 minutes
 
 In this 5 minutes tutorial, we will help you to instantiate your first knowledge base search engine over FOAF ontology using KBox [https://github.com/AKSW/KBox](https://github.com/AKSW/KBox).
 
@@ -87,7 +87,7 @@ Download the jar here [https://github.com/AKSW/sante/releases](https://github.co
 
 3) Create the index.
 
-Assuming that you successfully performed step 1, 
+Assuming that you successfully performed step 1,
 ```
 java -jar sante-main-*.jar -Dsante.index.path=Y index -endpoint http://localhost:8080/kbox/query -path \foaf_kg
 ```
@@ -131,18 +131,38 @@ To create the index, you will first need to index your data in a triple store of
 java -jar sante.main-*.jar index -endpoint <endpoint> -path <path>
 ```
 where:
-  
+
     <endpoint> stands for the SPARQL endpoint.
 	 
     <path>     stands for the target index directory.
 
 ### Running SANTé Web App
+
+**Fastest way to run SANTé is to build docker image using the given dockerfile**
+
+Make sure you have the index in the project as instructed above.
+
+1) Building the Docker Image:
+```
+docker build -t sante .
+```
+
+2) To run the docker image along with the specified ```index```, here is the command:
+
+```
+docker run -p7070:7070 -e index=/sante/<index-name> sante
+```
+
+After running the image, the application is exposed at ```http://localhost:7070```
+
+**Alternative way to run SANTé**
+
 1) Download the available SANTé war file or [generate one](https://github.com/AKSW/sante#creating-sant%C3%A9-smile-war-file).
 
-3) Execute the following command:
+2) Execute the following command:
 ```
 java -jar sante.smile-*.war
- ____    _    _   _ _____  __   __        _______ ____       _
+  ____    _    _   _ _____  __   __        _______ ____       _
  / ___|  / \  | \ | |_   _|/_/_  \ \      / / ____| __ )     / \   _ __  _ __
  \___ \ / _ \ |  \| | | || ____|  \ \ /\ / /|  _| |  _ \    / _ \ | '_ \| '_ \
   ___) / ___ \| |\  | | ||  _|_    \ V  V / | |___| |_) |  / ___ \| |_) | |_) |
@@ -157,7 +177,7 @@ java -jar sante.smile-*.war
 Alternatively, you can specify the index path using ```-Dsante.index.path=YOUR_INDEX_GOES_HERE```:
 ```
 java -jar -Dsante.index.path=YOUR_INDEX_GOES_HERE sante.smile-*.war
-____    _    _   _ _____  __   __        _______ ____       _
+  ____    _    _   _ _____  __   __        _______ ____       _
  / ___|  / \  | \ | |_   _|/_/_  \ \      / / ____| __ )     / \   _ __  _ __
  \___ \ / _ \ |  \| | | || ____|  \ \ /\ / /|  _| |  _ \    / _ \ | '_ \| '_ \
   ___) / ___ \| |\  | | ||  _|_    \ V  V / | |___| |_) |  / ___ \| |_) | |_) |
@@ -169,7 +189,7 @@ ____    _    _   _ _____  __   __        _______ ____       _
 2022-09-13 09:58:15.846  INFO 21938 --- [           main] org.aksw.sante.SanteWebApp               : No active profile set, falling back to default profiles: default
 ```
 
-### Creating SANTé command line runnable jar file 
+### Creating SANTé command line runnable jar file
 
 Run ```mvn clean install``` at the ```sante``` base directory:
 ```
@@ -190,7 +210,7 @@ Run ```mvn clean install``` at the ```sante``` base directory:
 ```
 The runnable jar file will be generated at ```sante/sante.main/target/sante.main-0.0.2-SNAPSHOT-jar-with-dependencies.jar```
 
-### Creating SANTé smile WAR file 
+### Creating SANTé smile WAR file
 
 Run ```mvn clean install``` at the ```sante``` root directory:
 ```
@@ -229,25 +249,25 @@ SANTé implements the following APIs (which are also used by the Web-Interface):
 
 Example 1: search for all occurrences of the word ```pokemon```:
 
-[http://pokemon.aksw.org/API/search?q=%22pokemon%22](http://pokemon.aksw.org/API/search?q=%22pokemon%22) 
+[http://pokemon.aksw.org/API/search?q=%22pokemon%22](http://pokemon.aksw.org/API/search?q=%22pokemon%22)
 
 #### API/suggest
 
-Example 1: suggest using the word ```pokemon```: 
+Example 1: suggest using the word ```pokemon```:
 
-[http://pokemon.aksw.org/API/suggest?q=%22pokemon%22](http://pokemon.aksw.org/API/suggest?q=%22pokemon%22) 
+[http://pokemon.aksw.org/API/suggest?q=%22pokemon%22](http://pokemon.aksw.org/API/suggest?q=%22pokemon%22)
 
-#### API/dbpedialookup 
+#### API/dbpedialookup
 
-Example 1: looking for all occurrences of the word ```pokemon```: 
+Example 1: looking for all occurrences of the word ```pokemon```:
 
-[http://pokemon.aksw.org/API/dbpedialookup?MaxHits=5&QueryString=pokemon](http://pokemon.aksw.org/API/dbpedialookup?MaxHits=5&QueryString=pokemon) 
+[http://pokemon.aksw.org/API/dbpedialookup?MaxHits=5&QueryString=pokemon](http://pokemon.aksw.org/API/dbpedialookup?MaxHits=5&QueryString=pokemon)
 
-#### API/reconcile 
+#### API/reconcile
 
-Example 1: looking for all occurrences of the word ```pokemon```: 
+Example 1: looking for all occurrences of the word ```pokemon```:
 
-[http://pokemon.aksw.org/API/reconcile?search={%20%22q%22:%20{%20%22query%22:%20%22pokemon%22%20}}](http://pokemon.aksw.org/API/reconcile?search={%20%22q%22:%20{%20%22query%22:%20%22pokemon%22%20}}) 
+[http://pokemon.aksw.org/API/reconcile?search={%20%22q%22:%20{%20%22query%22:%20%22pokemon%22%20}}](http://pokemon.aksw.org/API/reconcile?search={%20%22q%22:%20{%20%22query%22:%20%22pokemon%22%20}})
 
 ### Standalone Spring Boot–implemented API
 
