@@ -140,6 +140,8 @@ where:
 
 **Fastest way to run SANTé is to build docker image using the given dockerfile**
 
+Make sure you have the index in the project as instructed above.
+
 1) Building the Docker Image:
 ```
 docker build -t sante .
@@ -148,7 +150,7 @@ docker build -t sante .
 2) To run the docker image along with the specified ```index```, here is the command:
 
 ```
-docker run -p7070:7070 -e index=/sante/foaf_kg sante
+docker run -p7070:7070 -e index=/sante/<index-name> sante
 ```
 
 After running the image, the application is exposed at ```http://localhost:7070```
