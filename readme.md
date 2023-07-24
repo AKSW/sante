@@ -142,7 +142,7 @@ Make sure you have the index in the project as instructed above.
 docker build -t sante .
 ```
 
-2) To run the docker image along with the specified ```index```, here is the command:
+2) To run the docker image along with the specified ```index``` replacing ```YOUR_INDEX_GOES_HERE``` by your index path, here is the command:
 
 ```
 docker run -p7070:7070 -e index=YOUR_INDEX_GOES_HERE sante
@@ -154,22 +154,7 @@ After running the image, the application is exposed at ```http://localhost:7070`
 
 1) Download the available SANTé war file or [generate one](https://github.com/AKSW/sante#creating-sant%C3%A9-smile-war-file).
 
-2) Execute the following command:
-```
-java -jar sante.smile-*.war
-  ____    _    _   _ _____  __   __        _______ ____       _
- / ___|  / \  | \ | |_   _|/_/_  \ \      / / ____| __ )     / \   _ __  _ __
- \___ \ / _ \ |  \| | | || ____|  \ \ /\ / /|  _| |  _ \    / _ \ | '_ \| '_ \
-  ___) / ___ \| |\  | | ||  _|_    \ V  V / | |___| |_) |  / ___ \| |_) | |_) |
- |____/_/   \_\_| \_| |_||_____|    \_/\_/  |_____|____/  /_/   \_\ .__/| .__/
-                                                                  |_|   |_|
-
-2022-09-13 09:58:15.842  INFO 21938 --- [           main] org.aksw.sante.SanteWebApp               : Starting SanteWebApp v2.5.3 using Java 11.0.10 on ... with PID 21938
-...
-2022-09-13 09:58:15.846  INFO 21938 --- [           main] org.aksw.sante.SanteWebApp               : No active profile set, falling back to default profiles: default
-```
-
-Alternatively, you can specify the index path using ```-Dsante.index.path=YOUR_INDEX_GOES_HERE```:
+2) Execute the following command replacing ```YOUR_INDEX_GOES_HERE``` by your index path:
 ```
 java -jar -Dsante.index.path=YOUR_INDEX_GOES_HERE sante.smile-*.war
   ____    _    _   _ _____  __   __        _______ ____       _
