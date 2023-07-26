@@ -135,20 +135,22 @@ where:
 
 **Fastest way to run SANTé is to build docker image using the given dockerfile**
 
-Make sure you have the index in the project as instructed above.
+Make sure you have created the index in the project as instructed above.
 
 1) Building the Docker Image:
-```
-docker build -t sante .
-```
-
-2) To run the docker image along with the specified ```index``` replacing ```YOUR_INDEX_GOES_HERE``` by your index path, here is the command:
 
 ```
-docker run -p7070:7070 -e index=YOUR_INDEX_GOES_HERE sante
+docker build -t sante/smile -f sante.smile/Dockerfile .   
+```
+
+2) To run the docker image along with the specified ```index```, here is the command:
+
+```
+docker run -p7070:7070 -e index=/sante/<index-name> sante/smile
 ```
 
 After running the image, the application is exposed at ```http://localhost:7070```
+
 
 **Alternative way to run SANTé**
 
