@@ -5,7 +5,7 @@ RUN mkdir -p /sante
 
 WORKDIR /sante
 
-COPY . .
+COPY ../.. .
 
 RUN mvn clean install
 
