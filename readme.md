@@ -256,7 +256,7 @@ Example 1: looking for all occurrences of the word ```pokemon```:
 SANTé also has a standalone Spring Boot API with five different endpoints.
 This Spring Boot application can be run by changing into the `sante.api` directory and executing
 ```bash
-$ mvn spring-boot:run -Dindex.path=YOUR_INDEX_PATH_GOES_HERE
+$ mvn spring-boot:run -Dspring-boot.run.arguments="--index.path=YOUR_INDEX_PATH_GOES_HERE --server.port=YOUR_SERVER_PORT_GOES_HERE"
 ```
 Once the application is running, by default, the documentation (Swagger) for all the applications endpoints can be accessed via
 ```bash
