@@ -258,6 +258,24 @@ This Spring Boot application can be run by changing into the `sante.api` directo
 ```bash
 $ mvn spring-boot:run -Dspring-boot.run.arguments="--index.path=YOUR_INDEX_PATH_GOES_HERE --server.port=YOUR_SERVER_PORT_GOES_HERE"
 ```
+
+**Alternative way to run API is to build docker image using the given dockerfile**
+
+Make sure you have created the index in the project as instructed above.
+
+1) Building the Docker Image:
+
+```
+docker build -t sante/api -f sante.api/Dockerfile .   
+```
+
+2) To run the docker image along with the specified ```index```, here is the command:
+
+```
+docker run -p 7070:7070 -v <YOUR INDEX PATH>:/index -itd sante/api
+```
+
+
 Once the application is running, by default, the documentation (Swagger) for all the applications endpoints can be accessed via
 ```bash
 http://localhost:8080/swagger
