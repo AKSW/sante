@@ -131,6 +131,35 @@ where:
 	 
     <path>     stands for the target index directory.
 
+**Creating Endpoint and Index using Docker**
+
+
+1) Run Kbox docker image on Host Network (which is pulled from DockerHub automatically)
+
+```
+docker run --network=host aksw/kbox -server -kb "http://xmlns.com/foaf/0.1,https://www.w3.org/2000/01/rdf-schema,http://www.w3.org/2002/07/owl,http://www.w3.org/1999/02/22-rdf-syntax-ns,http://purl.org/dc/elements/1.1/,http://purl.org/dc/terms/,http://purl.org/dc/dcam/,http://purl.org/dc/dcmitype/" -install
+```
+
+2) Create a volume named ```index```. This will help to access the index folder from all the docker images we build in the process.
+
+```
+docker volume create index
+```
+
+3) Build SANTê Main :
+
+```
+docker build -t sante/main -f sante.main/Dockerfile .
+```
+
+4) Run SANTê Main on the same Host Network and pass the Environment Variable ```endpoint``` which is exposed by KBox. It accesses the persistent volume ```index``` to store the required changes.
+
+```
+docker run --network=host -v index:/sante/foaf_kg -e endpoint=http://localhost:8080/kbox/query sante/main
+```
+
+Now, we can use ```index``` volume to run API and SMILE.
+
 ### Running SANTé Web App
 
 **Fastest way to run SANTé is to build docker image using the given dockerfile**
@@ -146,7 +175,7 @@ docker build -t sante/smile -f sante.smile/Dockerfile .
 2) To run the docker image along with the specified ```index```, here is the command:
 
 ```
-docker run -p 7070:7070 -v <YOUR INDEX PATH>:/index -itd sante/smile
+docker run -p 7070:7070 -v index:/index -itd sante/smile
 ```
 
 After running the image, the application is exposed at ```http://localhost:7070```
@@ -256,7 +285,7 @@ Example 1: looking for all occurrences of the word ```pokemon```:
 SANTé also has a standalone Spring Boot API with five different endpoints.
 This Spring Boot application can be run by changing into the `sante.api` directory and executing
 ```bash
-$ mvn spring-boot:run -Dspring-boot.run.arguments="--index.path=YOUR_INDEX_PATH_GOES_HERE --server.port=YOUR_SERVER_PORT_GOES_HERE"
+$ mvn spring-boot:run -Dindex.path=YOUR_INDEX_PATH_GOES_HERE
 ```
 
 **Alternative way to run API is to build docker image using the given dockerfile**
@@ -272,7 +301,7 @@ docker build -t sante/api -f sante.api/Dockerfile .
 2) To run the docker image along with the specified ```index```, here is the command:
 
 ```
-docker run -p 7070:7070 -v <YOUR INDEX PATH>:/index -itd sante/api
+docker run -p 7070:7070 -v index:/index -itd sante/api
 ```
 
 
